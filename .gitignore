@@ -1,0 +1,19 @@
+# Obsidian device-specific workspace state
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+
+# Obsidian trash
+.trash/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# Optional: Excalidraw autosave / cache depending on your plugins
+# .obsidian/plugins/*/data.json
