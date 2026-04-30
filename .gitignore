@@ -1,6 +1,8 @@
 # Obsidian device-specific workspace state
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
+.obsidian/community-plugins.json
+.obsidian/plugins/
 
 # Obsidian trash
 .trash/
