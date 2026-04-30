@@ -2,27 +2,34 @@
 
 echo "== Push Obsidian vault =="
 
-lg2 add .
+lg2 add . >/tmp/obsidian_add.log 2>&1
 
-status="$(lg2 status)"
-echo "$status"
+status="$(lg2 status 2>/dev/null)"
 
 case "$status" in
-  *"No changes"*|*"nothing to commit"*|*"working tree clean"*|*"No staged changes"*)
-    echo "== No changes, skip commit and push =="
+  *"No staged changes"*|*"nothing would be in the commit"*|*"nothing to commit"*|*"working tree clean"*)
+    echo "== No changes, skip push =="
     exit 0
     ;;
 esac
 
 msg="update from iphone $(date "+%Y-%m-%d %H:%M:%S")"
 
-lg2 commit -m "$msg"
+lg2 commit -m "$msg" >/tmp/obsidian_commit.log 2>&1
 
-if [ $? -ne 0 ]; then
-  echo "== Commit failed, skip push =="
-  exit 1
+if [ $? -eq 0 ]; then
+  lg2 push origin >/tmp/obsidian_push.log 2>&1
+  if [ $? -eq 0 ]; then
+    echo "== Push done =="
+  else
+    echo "== Push failed =="
+    cat /tmp/obsidian_push.log
+  fi
+else
+  if grep -q "No staged changes" /tmp/obsidian_commit.log 2>/dev/null; then
+    echo "== No changes, skip push =="
+  else
+    echo "== Commit failed =="
+    cat /tmp/obsidian_commit.log
+  fi
 fi
-
-lg2 push origin
-
-echo "== Push done =="
