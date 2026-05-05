@@ -299,6 +299,306 @@ ratio = torch.exp(new_log_prob - old_log_prob)
 ```
 
 ---
+## 5.1 原始目标
+我们想最大化期望回报：
+
+$$
+J(\theta)=\mathbb{E}_{\tau\sim\pi_\theta}[R(\tau)]
+$$
+
+也就是：
+
+```text
+用当前策略 πθ 采样轨迹 τ，
+希望轨迹的 reward 总和 R(τ) 越大越好。
+```
+
+写成积分形式：
+
+$$
+J(\theta)=\int p_\theta(\tau)R(\tau)d\tau
+$$
+
+这里：
+
+```text
+pθ(τ)：当前策略采样到轨迹 τ 的概率
+R(τ)：这条轨迹的总回报
+```
+
+我们要对 $\theta$ 求导：
+
+$$
+\nabla_\theta J(\theta)
+=
+\nabla_\theta \int p_\theta(\tau)R(\tau)d\tau
+$$
+
+因为 reward 本身通常不能直接对 $\theta$ 求导，所以主要能动的是：
+
+$$
+p_\theta(\tau)
+$$
+
+也就是“采样到这条轨迹的概率”。
+
+---
+
+## 5.2. 问题：怎么对采样概率 $p_\theta(\tau)$ 求导？
+
+直接求：
+
+$$
+\nabla_\theta p_\theta(\tau)
+$$
+
+不方便。
+
+所以使用一个恒等式：
+$$
+\nabla_\theta p_\theta(x)=p_\theta(x)\nabla_\theta\log p_\theta(x)
+$$
+这个式子来自：
+
+$$
+\nabla_\theta \log p_\theta(x)
+=
+\frac{1}{p_\theta(x)}\nabla_\theta p_\theta(x)
+$$
+
+所以：
+
+$$
+\nabla_\theta p_\theta(x)
+=
+p_\theta(x)\nabla_\theta \log p_\theta(x)
+$$
+
+这就是 **log-derivative trick**，也叫 **score function trick**。
+
+---
+
+## 5.3. 套回目标函数
+
+原来：
+
+$$
+\nabla_\theta J(\theta)
+=
+\int \nabla_\theta p_\theta(\tau)R(\tau)d\tau
+$$
+
+用 log trick：
+
+$$
+\nabla_\theta p_\theta(\tau)
+=
+p_\theta(\tau)\nabla_\theta \log p_\theta(\tau)
+$$
+
+得到：
+
+$$
+\nabla_\theta J(\theta)
+=
+\int p_\theta(\tau)\nabla_\theta \log p_\theta(\tau)R(\tau)d\tau
+$$
+
+这就可以写成期望：
+
+$$
+\nabla_\theta J(\theta)
+=
+\mathbb{E}_{\tau\sim\pi_\theta}
+[
+\nabla_\theta \log p_\theta(\tau)R(\tau)
+]
+$$
+
+这一步非常关键。
+
+因为它把：
+
+```text
+对整个采样分布求导
+```
+
+变成了：
+
+```text
+从当前策略采样轨迹，然后计算 log probability 的梯度，再乘 reward
+```
+
+这就可以用 Monte Carlo 采样估计了。
+
+---
+
+## 5.4. 为什么最后变成 $\log \pi(a|s)$？
+
+轨迹概率是：
+
+$$
+p_\theta(\tau)
+=
+p(s_0)
+\prod_t
+\pi_\theta(a_t|s_t)
+p(s_{t+1}|s_t,a_t)
+$$
+
+其中：
+
+```text
+p(s0)：初始状态分布
+πθ(a_t|s_t)：策略选择动作的概率
+p(s_{t+1}|s_t,a_t)：环境转移概率
+```
+
+对 $\theta$ 来说，只有策略 $\pi_\theta$ 和 $\theta$ 有关。
+
+环境转移 $p(s_{t+1}|s_t,a_t)$ 不由 actor 参数控制。
+
+所以：
+
+$$
+\log p_\theta(\tau)
+=
+\log p(s_0)
++
+\sum_t \log \pi_\theta(a_t|s_t)
++
+\sum_t \log p(s_{t+1}|s_t,a_t)
+$$
+
+对 $\theta$ 求导后，只剩：
+
+$$
+\nabla_\theta \log p_\theta(\tau)
+=
+\sum_t \nabla_\theta \log \pi_\theta(a_t|s_t)
+$$
+
+所以 policy gradient 里自然出现：
+
+$$
+\nabla_\theta \log \pi_\theta(a_t|s_t)
+$$
+
+---
+
+## 5.5. 直觉：log probability 在干什么？
+
+假设某一步 action 得到了很好的结果，也就是：
+
+```text
+advantage > 0
+```
+
+那么我们希望：
+
+```text
+以后在这个 state 下，更容易采样到这个 action
+```
+
+也就是增大：
+
+$$
+\pi_\theta(a_t|s_t)
+$$
+
+如果这个 action 结果很差：
+
+```text
+advantage < 0
+```
+
+就降低：
+
+$$
+\pi_\theta(a_t|s_t)
+$$
+
+所以 actor 的更新本质是：
+
+$$
+\nabla_\theta \log \pi_\theta(a_t|s_t)\hat A_t
+$$
+
+它表示：
+
+```text
+沿着让这个 action 的 log probability 增大的方向更新；
+更新力度和方向由 advantage 决定。
+```
+
+---
+
+## 5.6. 为什么不用普通 probability？
+
+不是完全不能用，而是 **直接用 probability 的形式很难变成可采样的无偏梯度估计**。
+
+我们想求的是：
+
+$$
+\nabla_\theta \mathbb{E}_{a\sim\pi_\theta}[R(a)]
+$$
+
+展开：
+
+$$
+\nabla_\theta \sum_a \pi_\theta(a)R(a)
+=
+\sum_a \nabla_\theta \pi_\theta(a)R(a)
+$$
+
+如果动作空间很大或连续，你不可能枚举所有 action。
+
+log trick 让它变成：
+
+$$
+\sum_a \pi_\theta(a)\nabla_\theta\log\pi_\theta(a)R(a)
+$$
+
+也就是：
+
+$$
+\mathbb{E}_{a\sim\pi_\theta}
+[
+\nabla_\theta\log\pi_\theta(a)R(a)
+]
+$$
+
+这个就可以通过 sample 来估计：
+
+```python
+action = dist.sample()
+log_prob = dist.log_prob(action)
+loss = -(log_prob * advantage).mean()
+```
+
+所以 log probability 的核心作用是：
+
+```text
+把“对整个分布求和/积分”变成“对采样到的 action 计算 log_prob 梯度”。
+```
+
+理论推导需要 log probability，是因为：
+
+```text
+策略参数 θ 改变的是“采样动作/轨迹的概率”；
+reward 本身通常不可导；
+log trick 可以把 ∇p 转成 p∇logp；
+这样梯度就能写成对当前策略采样的期望；
+于是可以用 sample 出来的 action 的 log_prob 来训练 actor。
+```
+
+一句话：
+
+```text
+log probability 是 policy gradient 能在“采样动作 + 不可导环境 reward”条件下仍然求梯度的关键桥梁。
+```
+---
+
 
 # 6. PPO 的核心 loss：clipped surrogate
 
@@ -1043,6 +1343,827 @@ for each iteration:
 ```text
 PPO = stochastic actor + V critic + GAE advantage + clipped policy ratio + entropy exploration + near-on-policy rollout training。
 ```
+
+## Prompt:
+2026/5/1 17:22:54
+
+1. 为啥 从当前策略采样轨迹，然后计算 log probability 的梯度，再乘 reward 的形式可以用蒙特卡洛采样估计，这样就可以求导了吗？ 没有看懂\nabla_\theta \log \pi_\theta(a_t|s_t)\hat A_t 为什么可以直接求导 2.我们要求的不是当前策略下最高 reward 的 action 吗，为什么变成\nabla_\theta \mathbb{E}_{a\sim\pi_\theta}[R(a)]了？是说按照当前策略选的 action 的 reward 期望？但是当前也只能选一个 action，如何根据这个 action 算出期望？ 是因为我们用采样 action 的概率来参与计算吗？
+
+## Response:
+2026/5/1 17:22:56
+
+这两个问题其实是在问同一件事：
+
+> RL 里我们只看到 sample 出来的 action 和 reward，为什么还能优化整个策略分布？
+
+核心答案是：**我们不是用一次 action 精确算出期望，而是用很多次采样出来的 action，去估计期望梯度。**
+
+---
+
+# 1. 为什么这个形式可以用 Monte Carlo 估计？
+
+先看一个普通期望。
+
+假设有一个随机变量 $x$，它服从分布 $p(x)$。我们想算：
+
+$$
+\mathbb{E}_{x\sim p}[f(x)]
+$$
+
+如果你不能解析求这个期望，可以采样很多次：
+
+```text
+x1, x2, x3, ..., xN
+```
+
+然后用平均值近似：
+
+$$
+\mathbb{E}_{x\sim p}[f(x)]
+\approx
+\frac{1}{N}\sum_{i=1}^{N} f(x_i)
+$$
+
+这就是 Monte Carlo 估计。
+
+---
+
+Policy Gradient 推导后得到的是：
+
+$$
+\nabla_\theta J(\theta)
+=
+\mathbb{E}_{\tau\sim\pi_\theta}
+[
+\nabla_\theta \log p_\theta(\tau)R(\tau)
+]
+$$
+
+这也是一个期望。
+
+所以同样可以采样很多条轨迹：
+
+```text
+τ1, τ2, τ3, ..., τN
+```
+
+然后估计：
+
+$$
+\nabla_\theta J(\theta)
+\approx
+\frac{1}{N}
+\sum_{i=1}^{N}
+\nabla_\theta \log p_\theta(\tau_i)R(\tau_i)
+$$
+
+进一步展开到每一步 action，就是：
+
+$$
+\nabla_\theta J(\theta)
+\approx
+\frac{1}{N}
+\sum_{i,t}
+\nabla_\theta \log \pi_\theta(a_{i,t}|s_{i,t})\hat A_{i,t}
+$$
+
+所以它可以 Monte Carlo 估计的原因是：
+
+```text
+推导以后，它变成了一个“对当前策略采样轨迹的期望”。
+期望就可以用样本平均近似。
+```
+
+---
+
+# 2. $\nabla_\theta \log \pi_\theta(a_t|s_t)\hat A_t$ 为什么可以直接求导？
+
+因为这里真正需要反传的是：
+
+$$
+\log \pi_\theta(a_t|s_t)
+$$
+
+这个东西是 actor 网络直接输出的分布概率，所以在 PyTorch 计算图里。
+
+例如离散动作：
+
+```python
+logits = actor(obs)
+dist = Categorical(logits=logits)
+
+action = dist.sample()
+log_prob = dist.log_prob(action)
+
+loss = -(log_prob * advantage.detach()).mean()
+loss.backward()
+```
+
+这里：
+
+```text
+logits = actor(obs)
+log_prob = log πθ(action | obs)
+```
+
+`log_prob` 是由 actor 网络参数 $\theta$ 计算出来的，因此可以对 $\theta$ 求导。
+
+但注意：
+
+```text
+action 本身不需要可导
+reward / advantage 也不需要可导
+```
+
+它们在 loss 里只是权重。
+
+也就是说：
+
+$$
+\hat A_t
+$$
+
+被当成一个常数，类似监督学习里的 label 或 sample weight。
+
+所以：
+
+$$
+\nabla_\theta[
+\log \pi_\theta(a_t|s_t)\hat A_t]
+=
+\hat A_t
+\nabla_\theta
+\log \pi_\theta(a_t|s_t)
+$$
+
+只要 $\log \pi_\theta(a_t|s_t)$ 可导，就能反传。
+
+---
+
+## 一个很具体的离散例子
+
+假设 actor 对某个状态输出：
+
+```text
+π(left | s) = 0.7
+π(right | s) = 0.3
+```
+
+这次 sample 出来：
+
+```text
+action = left
+```
+
+环境返回结果不错：
+
+```text
+advantage = +2
+```
+
+那么 loss 是：
+
+$$
+L=-\log \pi_\theta(left|s)\cdot 2
+$$
+
+优化器最小化这个 loss。
+
+为了让 loss 变小，需要让：
+
+$$
+\log \pi_\theta(left|s)
+$$
+
+变大。
+
+所以：
+
+```text
+left 这个动作的概率会被提高。
+```
+
+如果 advantage 是负的：
+
+$$
+L=-\log \pi_\theta(left|s)\cdot (-2)
+=
+2\log \pi_\theta(left|s)
+$$
+
+最小化它，就会让：
+
+$$
+\log \pi_\theta(left|s)
+$$
+
+变小。
+
+所以：
+
+```text
+left 这个动作的概率会被降低。
+```
+
+这就是为什么它能工作。
+
+---
+
+# 3. 我们要求的不是最高 reward 的 action 吗？
+
+最终目标确实是：
+
+```text
+学到一个策略，让它倾向于选择高回报 action。
+```
+
+但训练目标不能直接写成：
+
+$$
+\arg\max_a R(a)
+$$
+
+原因有几个。
+
+第一，RL 不知道每个 action 的 reward。你通常只执行了一个 action，只看到了这个 action 的结果。
+
+第二，很多任务不是一步 reward，而是长期回报。一个 action 当下 reward 低，但可能带来后续高 reward。
+
+第三，策略是概率分布，训练时需要探索。如果一开始就只选当前看起来最好的 action，很容易陷入局部最优。
+
+所以 policy gradient 优化的是：
+
+$$
+J(\theta)=\mathbb{E}_{a\sim\pi_\theta}[R(a)]
+$$
+
+更完整是轨迹版本：
+
+$$
+J(\theta)=\mathbb{E}_{\tau\sim\pi_\theta}[R(\tau)]
+$$
+
+它的意思是：
+
+```text
+如果我按照当前策略不断采样 action，
+平均能拿到多少 reward？
+```
+
+我们希望这个平均值变大。
+
+---
+
+# 4. 当前只能选一个 action，怎么得到期望？
+
+单次确实得不到精确期望。
+
+一次交互只能得到：
+
+```text
+在状态 s 下，sample 了 action a，得到一个 reward/advantage。
+```
+
+这只是一个样本。
+
+但训练会进行很多次：
+
+```text
+第 1 次：s1 采样 a1，得到 A1
+第 2 次：s2 采样 a2，得到 A2
+第 3 次：s3 采样 a3，得到 A3
+...
+```
+
+用这些样本平均，就近似期望。
+
+这就是 Monte Carlo。
+
+PPO 里的 rollout buffer 正是用来收集很多这样的样本：
+
+```text
+obs_t, action_t, reward_t, value_t, log_prob_t, done_t
+```
+
+然后用一个 batch 来估计期望梯度：
+
+$$
+\frac{1}{B}
+\sum_t
+\nabla_\theta
+\log\pi_\theta(a_t|s_t)
+\hat A_t
+$$
+
+所以不是用一个 action 算出完整期望，而是：
+
+```text
+一个 action 提供一个无偏/近似无偏的梯度样本；
+很多 action 的平均近似真实期望梯度。
+```
+
+---
+
+# 5. 为什么不是直接找当前最高 reward 的 action？
+
+因为很多时候你不知道“最高 reward 的 action”是什么。
+
+比如状态 $s$ 下有四个动作：
+
+```text
+left
+right
+forward
+brake
+```
+
+当前策略可能采样到了 `left`，得到了不错的结果。
+
+但你不知道：
+
+```text
+right 会不会更好？
+forward 会不会更好？
+brake 会不会更好？
+```
+
+你只能逐步探索。
+
+PPO 的做法不是立刻断言：
+
+```text
+left 就是最优动作
+```
+
+而是温和地更新：
+
+```text
+left 这次表现比预期好 → left 概率提高一点
+left 这次表现比预期差 → left 概率降低一点
+```
+
+随着采样越来越多，好的 action 会越来越常被提高概率，差的 action 会越来越常被降低概率。
+
+最终策略会逐渐集中到高回报动作附近。
+
+---
+
+# 6. 用采样概率参与计算是什么意思？
+
+是的，关键就在这里。
+
+action 是从策略分布里 sample 出来的：
+
+$$
+a\sim\pi_\theta(a|s)
+$$
+
+所以这个 action 出现的概率本身受 $\theta$ 控制。
+
+如果某个 action 经常带来正 advantage，那么 policy gradient 会不断提高它的 log probability。
+
+如果某个 action 经常带来负 advantage，就会降低它的 log probability。
+
+于是整体期望 reward 变大。
+
+直觉上：
+
+```text
+reward/advantage 告诉我们：这次 action 好不好。
+log_prob 告诉优化器：怎么调整网络参数，才能让这个 action 以后更常/更少出现。
+```
+
+这两个乘起来，就是 actor 的学习信号。
+
+---
+
+# 7. 一个最小例子
+
+假设只有一个状态，两个动作：
+
+```text
+A 和 B
+```
+
+真实 reward 是：
+
+```text
+R(A)=10
+R(B)=0
+```
+
+当前策略：
+
+```text
+π(A)=0.5
+π(B)=0.5
+```
+
+期望 reward 是：
+
+$$
+J=0.5\times10+0.5\times0=5
+$$
+
+训练时每次只能 sample 一个动作。
+
+如果 sample 到 A：
+
+```text
+reward = 10
+```
+
+更新会提高：
+
+$$
+\log\pi(A)
+$$
+
+于是 $\pi(A)$ 变大。
+
+如果 sample 到 B：
+
+```text
+reward = 0
+```
+
+更新对 B 的提高较少，或者如果用 baseline/advantage，B 可能是负 advantage，$\pi(B)$ 会下降。
+
+多次采样后：
+
+```text
+π(A) 越来越大
+π(B) 越来越小
+```
+
+期望 reward 从 5 提高到接近 10。
+
+所以我们没有直接知道所有 action 的 reward，但通过采样和概率更新，逐渐逼近高 reward action。
+
+---
+
+# 8. 总结一句话
+
+$$
+\nabla_\theta \log \pi_\theta(a_t|s_t)\hat A_t
+$$
+
+能求导，是因为：
+
+```text
+log πθ(a|s) 是 actor 网络输出的可导量；
+action/reward/advantage 不需要可导，只作为样本和权重。
+```
+
+它能优化期望 reward，是因为：
+
+```text
+这个形式是 ∇θ E[R] 经过 log trick 推出来的；
+每次采样给出一个梯度估计；
+很多采样平均就是 Monte Carlo 估计；
+最终会提高高 advantage action 的概率，降低低 advantage action 的概率。
+```
+
+## Prompt:
+2026/5/1 17:48:14
+
+为什么
+$$
+\nabla_\theta J(\theta)
+=
+\int \nabla_\theta p_\theta(\tau)R(\tau)d\tau 
+$$这样不能采样很多条轨迹同样算平均求期望？
+
+## Response:
+2026/5/1 17:51:48
+
+这个问题问得非常关键。答案是：
+
+**不能直接对**
+
+$$
+\int \nabla_\theta p_\theta(\tau)R(\tau)d\tau
+$$
+
+**用从 $p_\theta(\tau)$ 采样出来的轨迹做普通平均，因为它还不是一个“关于 $p_\theta$ 的期望形式”。**
+
+---
+
+# 1. Monte Carlo 采样估计要求什么形式？
+
+如果你有：
+
+$$
+\mathbb{E}_{x\sim p(x)}[f(x)]
+=
+\int p(x)f(x)dx
+$$
+
+那么你可以从 $p(x)$ 采样：
+
+```text
+x1, x2, ..., xN
+```
+
+然后估计：
+
+$$
+\mathbb{E}_{x\sim p}[f(x)]
+\approx
+\frac{1}{N}\sum_{i=1}^N f(x_i)
+$$
+
+关键是积分里必须是：
+
+$$
+p(x)f(x)
+$$
+
+也就是说，采样分布 $p(x)$ 必须显式作为权重出现在积分里。
+
+---
+
+# 2. 但原式不是这个形式
+
+原式是：
+
+$$
+\nabla_\theta J(\theta)
+=
+\int \nabla_\theta p_\theta(\tau)R(\tau)d\tau
+$$
+
+这里积分里是：
+
+$$
+\nabla_\theta p_\theta(\tau)R(\tau)
+$$
+
+不是：
+
+$$
+p_\theta(\tau) f(\tau)
+$$
+
+所以你不能直接说：
+
+```text
+从 pθ(τ) 采样很多轨迹，然后平均 ∇pθ(τ)R(τ)
+```
+
+因为那样估计的是：
+
+$$
+\mathbb{E}_{\tau\sim p_\theta}
+[
+\nabla_\theta p_\theta(\tau)R(\tau)
+]
+$$
+
+也就是：
+
+$$
+\int p_\theta(\tau)\nabla_\theta p_\theta(\tau)R(\tau)d\tau
+$$
+
+注意多了一个：
+
+$$
+p_\theta(\tau)
+$$
+
+这就不是原来的东西了。
+
+---
+
+# 3. log trick 正是在补这个问题
+
+我们希望把：
+
+$$
+\int \nabla_\theta p_\theta(\tau)R(\tau)d\tau
+$$
+
+改写成：
+
+$$
+\int p_\theta(\tau) f(\tau)d\tau
+$$
+
+这样才能从 $p_\theta$ 采样。
+
+使用恒等式：
+
+$$
+\nabla_\theta p_\theta(\tau)
+=
+p_\theta(\tau)\nabla_\theta \log p_\theta(\tau)
+$$
+
+于是：
+
+$$
+\int \nabla_\theta p_\theta(\tau)R(\tau)d\tau
+=
+\int p_\theta(\tau)
+\nabla_\theta \log p_\theta(\tau)
+R(\tau)d\tau
+$$
+
+这就变成了：
+
+$$
+\mathbb{E}_{\tau\sim p_\theta}
+[
+\nabla_\theta \log p_\theta(\tau)R(\tau)
+]
+$$
+
+现在才能用采样平均：
+
+$$
+\nabla_\theta J(\theta)
+\approx
+\frac{1}{N}\sum_i
+\nabla_\theta \log p_\theta(\tau_i)R(\tau_i)
+$$
+
+---
+
+# 4. 一个离散小例子
+
+假设只有两条轨迹：
+
+```text
+τ1, τ2
+```
+
+概率分别是：
+
+$$
+p_\theta(\tau_1)=0.8
+$$
+
+$$
+p_\theta(\tau_2)=0.2
+$$
+
+目标梯度原式是：
+
+$$
+\nabla J
+=
+\nabla p(\tau_1)R(\tau_1)
++
+\nabla p(\tau_2)R(\tau_2)
+$$
+
+如果你从 $p$ 采样轨迹，然后直接平均：
+
+$$
+\nabla p(\tau)R(\tau)
+$$
+
+那么期望是：
+
+$$
+0.8\nabla p(\tau_1)R(\tau_1)
++
+0.2\nabla p(\tau_2)R(\tau_2)
+$$
+
+这和原式：
+
+$$
+\nabla p(\tau_1)R(\tau_1)
++
+\nabla p(\tau_2)R(\tau_2)
+$$
+
+不一样。
+
+你看，多出来了采样概率权重。
+
+---
+
+# 5. 用 log trick 后就对了
+
+因为：
+
+$$
+\nabla p(\tau)
+=
+p(\tau)\nabla \log p(\tau)
+$$
+
+所以原式变成：
+
+$$
+\nabla J
+=
+p(\tau_1)\nabla\log p(\tau_1)R(\tau_1)
++
+p(\tau_2)\nabla\log p(\tau_2)R(\tau_2)
+$$
+
+也就是：
+
+$$
+\mathbb{E}_{\tau\sim p}
+[
+\nabla\log p(\tau)R(\tau)
+]
+$$
+
+这时从 $p$ 采样再平均：
+
+$$
+\nabla\log p(\tau_i)R(\tau_i)
+$$
+
+才是对的。
+
+---
+
+# 6. 还有一个更实际的问题：$\nabla p_\theta(\tau)$ 很难算
+
+轨迹概率是：
+
+$$
+p_\theta(\tau)
+=
+p(s_0)
+\prod_t
+\pi_\theta(a_t|s_t)
+p(s_{t+1}|s_t,a_t)
+$$
+
+如果你直接算：
+
+$$
+\nabla_\theta p_\theta(\tau)
+$$
+
+要对一长串连乘求导，数值会很小，也不稳定。
+
+但 log 后：
+
+$$
+\log p_\theta(\tau)
+=
+\log p(s_0)
++
+\sum_t \log \pi_\theta(a_t|s_t)
++
+\sum_t \log p(s_{t+1}|s_t,a_t)
+$$
+
+对 $\theta$ 求导时，环境项消失：
+
+$$
+\nabla_\theta \log p_\theta(\tau)
+=
+\sum_t
+\nabla_\theta \log \pi_\theta(a_t|s_t)
+$$
+
+所以最后只需要 actor 的：
+
+$$
+\log \pi_\theta(a_t|s_t)
+$$
+
+这就是 PyTorch 里能直接算的 `log_prob`。
+
+---
+
+# 7. 最核心一句话
+
+你不能直接采样估计：
+
+$$
+\int \nabla p_\theta(\tau)R(\tau)d\tau
+$$
+
+因为它不是：
+
+$$
+\int p_\theta(\tau)f(\tau)d\tau
+$$
+
+这种期望形式。
+
+log trick 的作用就是把它改写成：
+
+$$
+\int p_\theta(\tau)
+[
+\nabla \log p_\theta(\tau)R(\tau)
+]
+d\tau
+$$
+
+这样才能从当前策略采样轨迹，然后用样本平均估计梯度。
 
 
 
