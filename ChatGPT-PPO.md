@@ -1102,7 +1102,26 @@ loss = policy_loss + vf_coef * value_loss - ent_coef * entropy
 这里是 entropy，不是 cross entropy。
 
 Entropy 衡量策略分布有多分散。
+如果策略是离散分布：
 
+```
+π(a|s) = [p1, p2, p3, ..., pn]
+```
+
+那么 entropy 是：
+$$
+H(π)=−a∑​π(a∣s)logπ(a∣s)
+$$
+比如动作有 4 个：
+
+```
+直行: 0.7左转: 0.1右转: 0.1刹车: 0.1
+```
+
+entropy 是：
+$$
+H=−(0.7log⁡0.7+0.1log⁡0.1+0.1log⁡0.1+0.1log⁡0.1)
+$$
 离散动作下，如果策略是：
 
 ```text
