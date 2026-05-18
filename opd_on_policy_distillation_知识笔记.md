@@ -69,9 +69,9 @@ teacher 在 student 实际走到的地方指导它。
 
 KL 散度定义为：
 
-```math
+$$
 D_{KL}(P \| Q) = \sum_i P(i) \log \frac{P(i)}{Q(i)}
-```
+$$```
 
 其中：
 
@@ -86,29 +86,29 @@ KL 的直觉是：
 
 单个事件 i 的 surprise 是：
 
-```math
+$$
 -\log Q(i)
-```
+$$
 
 如果 Q 认为某个 token 概率很高，那么这个 token 真的出现时，模型不惊讶；如果 Q 认为概率很低，但它真的出现了，模型就很惊讶。
 
 用 Q 解释 P 的平均 surprise 是 cross entropy：
 
-```math
+$$
 H(P, Q) = -\sum_i P(i)\log Q(i)
-```
+$$
 
 用 P 自己解释 P 的平均 surprise 是 entropy：
 
-```math
+$$
 H(P) = -\sum_i P(i)\log P(i)
-```
+$$
 
 二者相减就是 KL：
 
-```math
+$$
 D_{KL}(P\|Q) = H(P,Q) - H(P)
-```
+$$
 
 所以 KL 表示：
 
@@ -120,9 +120,9 @@ D_{KL}(P\|Q) = H(P,Q) - H(P)
 
 注意：KL 不是严格意义上的距离，因为它有方向：
 
-```math
+$$
 D_{KL}(P\|Q) \neq D_{KL}(Q\|P)
-```
+$$
 
 ---
 
@@ -132,9 +132,9 @@ D_{KL}(P\|Q) \neq D_{KL}(Q\|P)
 
 Forward KL 通常指：
 
-```math
+$$
 D_{KL}(\pi_T \| \pi_\theta)
-```
+$$
 
 其中：
 
@@ -145,10 +145,10 @@ D_{KL}(\pi_T \| \pi_\theta)
 
 展开是：
 
-```math
+$$
 D_{KL}(\pi_T \| \pi_\theta)
 = \sum_a \pi_T(a|s) \log \frac{\pi_T(a|s)}{\pi_\theta(a|s)}
-```
+$$
 
 它的权重来自 teacher。
 
@@ -166,16 +166,16 @@ teacher 认为重要的 token，student 要覆盖。
 
 Reverse KL 是：
 
-```math
+$$
 D_{KL}(\pi_\theta \| \pi_T)
-```
+$$
 
 展开是：
 
-```math
+$$
 D_{KL}(\pi_\theta \| \pi_T)
 = \sum_a \pi_\theta(a|s) \log \frac{\pi_\theta(a|s)}{\pi_T(a|s)}
-```
+$$
 
 它的权重来自 student。
 
@@ -189,13 +189,13 @@ student 自己想选的 token，teacher 是否认可。
 
 可以写成期望形式：
 
-```math
+$$
 D_{KL}(\pi_\theta \| \pi_T)
 = \mathbb{E}_{a \sim \pi_\theta(\cdot|s)}
 \left[
 \log \pi_\theta(a|s) - \log \pi_T(a|s)
 \right]
-```
+$$
 
 这个形式很重要，因为 sampled-token reverse KL 就来自这里。
 
@@ -301,13 +301,13 @@ Full-KL OPD 的做法是：
 
 Forward KL loss：
 
-```math
+$$
 D_{KL}(\pi_T(\cdot|s_t) \| \pi_\theta(\cdot|s_t))
 = \sum_{v \in V}
 \pi_T(v|s_t)
 \log
 \frac{\pi_T(v|s_t)}{\pi_\theta(v|s_t)}
-```
+$$
 
 伪代码：
 
@@ -364,13 +364,13 @@ optimizer.step()
 
 Reverse KL 是：
 
-```math
+$$
 D_{KL}(\pi_\theta \| \pi_T)
 = \mathbb{E}_{a \sim \pi_\theta(\cdot|s)}
 \left[
 \log \pi_\theta(a|s) - \log \pi_T(a|s)
 \right]
-```
+$$
 
 因为它是对 student 分布取期望，所以可以从 student 里 sample token 来估计。
 
@@ -398,9 +398,9 @@ teacher 不认可 -> 降低这个 token 概率。
 
 Reverse KL 的数学形式本身是：
 
-```math
+$$
 a \sim \pi_\theta(\cdot|s)
-```
+$$
 
 也就是从 student 分布里采样。
 
@@ -490,9 +490,9 @@ top_k=50
 
 从 reverse KL 的单样本形式看：
 
-```math
+$$
 \log \pi_\theta(a|s) - \log \pi_T(a|s)
-```
+$$
 
 但如果直接把它当普通 loss 反传，会有问题。
 
@@ -506,15 +506,15 @@ student_logp - teacher_logp.detach()
 
 所以实际更合理的 PG-style 写法是把 teacher signal 放进 reward：
 
-```math
+$$
 r(s,a) = \log \pi_T(a|s) - \log \pi_{old}(a|s)
-```
+$$
 
 然后：
 
-```math
+$$
 \mathcal{L} = -r(s,a) \log \pi_\theta(a|s)
-```
+$$
 
 伪代码：
 
@@ -627,9 +627,9 @@ current_student_chosen_logp: has grad
 
 loss 是：
 
-```math
+$$
 \mathcal{L} = -r \log \pi_\theta(a|s)
-```
+$$
 
 其中：
 
@@ -646,9 +646,9 @@ reward r 可以是正，也可以是负。
 
 最小化：
 
-```math
+$$
 -r \log \pi_\theta(a|s)
-```
+$$
 
 会让：
 
@@ -713,9 +713,9 @@ OPD sampled reverse KL：
 
 PPO 有：
 
-```math
+$$
 ratio = \frac{\pi_{new}(a|s)}{\pi_{old}(a|s)}
-```
+$$
 
 并使用 clipped objective。
 
