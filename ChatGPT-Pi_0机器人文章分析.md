@@ -1,3 +1,6 @@
+---
+github_repo: Colorfu1|obsidian-vault
+---
 # Pi_0机器人文章分析
 
 **User:** Anonymous  
