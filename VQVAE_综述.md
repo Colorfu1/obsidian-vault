@@ -281,8 +281,59 @@ W.grad = ∂L/∂W_logit_head + ∂L/∂W_image_embedding
 | 效果 | 灵活 | 参数更少，通常效果相当甚至更好 |
 
 ---
+## 6. txt 和 image的vocabulary问题
+### 方案一：两个独立的 logit head（职责分离）
 
-## 6. 整体流程总结
+```
+hidden state → logit_head_text:  Linear(d_model, vocab_size_text)   → text logits
+hidden state → logit_head_image: Linear(d_model, codebook_size)     → image logits
+```
+
+推理时根据当前生成阶段**手动切换**用哪个 head：
+
+python
+
+```python
+if current_position < text_length:
+    logits = logit_head_text(h)    # 从文本词表采样
+else:
+    logits = logit_head_image(h)   # 从 codebook 采样
+```
+
+- 优点：两个空间完全隔离，互不干扰。
+- 缺点：模型本身不能"自己决定"什么时候切换，需要外部控制。
+
+---
+
+### 方案二：单一 logit head，vocabulary 合并（DALL·E 1 的做法）
+
+```
+unified vocab = [text tokens (0 ~ vocab_text-1)] + [image tokens (vocab_text ~ vocab_text+codebook_size-1)]
+```
+
+只有一个 logit head：
+
+```
+hidden state → Linear(d_model, vocab_text + codebook_size) → unified logits
+```
+
+推理时从统一的分布里采样，模型**自己学会**在合适位置生成 `<image_start>` token，之后自然切换到 image token 区间。
+
+- 优点：更像真正的统一自回归模型，`<image_start>` 也是可学习的边界。
+- 缺点：text 和 image token 在同一个概率分布里竞争，训练时需要仔细处理。
+
+---
+
+### 两种方案的本质区别
+
+||方案一|方案二|
+|---|---|---|
+|logit head 数量|2 个|1 个|
+|vocab 大小|各自独立|`vocab_text + codebook_size`|
+|切换时机|外部硬控制|模型自己学|
+|weight tying|image head ↔ image embedding|统一 head ↔ 统一 embedding|
+|代表模型|很多定制实现|DALL·E 1|
+## 7. 整体流程总结
 
 ```
 训练阶段：
@@ -309,7 +360,7 @@ W.grad = ∂L/∂W_logit_head + ∂L/∂W_image_embedding
 
 ---
 
-## 7. 参考概念索引
+## 8. 参考概念索引
 
 | 概念 | 说明 |
 |---|---|
