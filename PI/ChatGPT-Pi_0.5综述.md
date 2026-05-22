@@ -1,5 +1,5 @@
 ---
-github_repo: Colorfu1|obsidian-vault
+github_repo: 
 ---
 # Pi_0.5文章综述请求
 
