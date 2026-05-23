@@ -376,6 +376,40 @@ $$
 这个积分算不了，那就从 pθ 里 sample 一些 τ，用样本平均近似期望。
 ```
 
+**监督学习的数据分布通常不依赖模型参数 θ，而 RL 的轨迹分布依赖策略参数 θ**
+监督学习：
+$$
+L(θ)=E_{(x,y)∼p_{data}}[ℓ_θ(x,y)]
+$$
+这里 $$p_{data}$$​ 不依赖 θ
+
+所以梯度是：
+
+∇θL(θ)=E(x,y)∼pdata[∇θℓθ(x,y)]\nabla_\theta L(\theta) = \mathbb{E}_{(x,y)\sim p_{data}} [ \nabla_\theta \ell_\theta(x,y) ]∇θ​L(θ)=E(x,y)∼pdata​​[∇θ​ℓθ​(x,y)]
+
+你可以直接对 loss 求导。
+
+---
+
+RL：
+
+J(θ)=Eτ∼pθ(τ)[R(τ)]J(\theta)=\mathbb{E}_{\tau\sim p_\theta(\tau)}[R(\tau)]J(θ)=Eτ∼pθ​(τ)​[R(τ)]
+
+这里 pθ(τ)p_\theta(\tau)pθ​(τ) 依赖 θ\thetaθ。
+
+因为策略变了，采样到的 action 变了，轨迹分布也变了。
+
+所以梯度是：
+
+∇θJ(θ)=∇θ∫pθ(τ)R(τ)dτ\nabla_\theta J(\theta) = \nabla_\theta \int p_\theta(\tau)R(\tau)d\tau∇θ​J(θ)=∇θ​∫pθ​(τ)R(τ)dτ
+
+变成：
+
+∇θJ(θ)=∫∇θpθ(τ)R(τ)dτ\nabla_\theta J(\theta) = \int \nabla_\theta p_\theta(\tau)R(\tau)d\tau∇θ​J(θ)=∫∇θ​pθ​(τ)R(τ)dτ
+
+问题就在这里：**梯度作用在分布 pθp_\thetapθ​ 上，而不是直接作用在一个普通 supervised loss 上。**
+
+这就是 RL 比监督学习麻烦的地方。
 ---
 
 ## 5.2. 问题：怎么对采样概率 $p_\theta(\tau)$ 求导？
