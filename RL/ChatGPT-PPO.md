@@ -395,21 +395,20 @@ RL：
 $$
 J(θ)=E_{τ∼p_θ(τ)}[R(τ)]
 $$
-这里 pθ(τ)p_\theta(\tau)pθ​(τ) 依赖 θ\thetaθ。
+这里 pθ(τ) 依赖 θ。
 
 因为策略变了，采样到的 action 变了，轨迹分布也变了。
 
 所以梯度是：
-
-∇θJ(θ)=∇θ∫pθ(τ)R(τ)dτ\nabla_\theta J(\theta) = \nabla_\theta \int p_\theta(\tau)R(\tau)d\tau∇θ​J(θ)=∇θ​∫pθ​(τ)R(τ)dτ
-
+$$
+∇_θJ(θ)=∇_θ∫p_θ(τ)R(τ)dτ
+$$
 变成：
+$$
+∇_θJ(θ)=∫∇_θp_θ(τ)R(τ)dτ
+$$
+问题就在这里：**梯度作用在分布 pθ​ 上，而不是直接作用在一个普通 supervised loss 上**
 
-∇θJ(θ)=∫∇θpθ(τ)R(τ)dτ\nabla_\theta J(\theta) = \int \nabla_\theta p_\theta(\tau)R(\tau)d\tau∇θ​J(θ)=∫∇θ​pθ​(τ)R(τ)dτ
-
-问题就在这里：**梯度作用在分布 pθp_\thetapθ​ 上，而不是直接作用在一个普通 supervised loss 上。**
-
-这就是 RL 比监督学习麻烦的地方。
 ---
 
 ## 5.2. 问题：怎么对采样概率 $p_\theta(\tau)$ 求导？
