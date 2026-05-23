@@ -384,17 +384,17 @@ $$
 这里 $$p_{data}$$​ 不依赖 θ
 
 所以梯度是：
-
-∇θL(θ)=E(x,y)∼pdata[∇θℓθ(x,y)]\nabla_\theta L(\theta) = \mathbb{E}_{(x,y)\sim p_{data}} [ \nabla_\theta \ell_\theta(x,y) ]∇θ​L(θ)=E(x,y)∼pdata​​[∇θ​ℓθ​(x,y)]
-
+$$
+∇_θL(θ)=E_{(x,y)∼p_{data}}[∇_θℓ_θ(x,y)]
+$$
 你可以直接对 loss 求导。
 
 ---
 
 RL：
-
-J(θ)=Eτ∼pθ(τ)[R(τ)]J(\theta)=\mathbb{E}_{\tau\sim p_\theta(\tau)}[R(\tau)]J(θ)=Eτ∼pθ​(τ)​[R(τ)]
-
+$$
+J(θ)=E_{τ∼p_θ(τ)}[R(τ)]
+$$
 这里 pθ(τ)p_\theta(\tau)pθ​(τ) 依赖 θ\thetaθ。
 
 因为策略变了，采样到的 action 变了，轨迹分布也变了。
