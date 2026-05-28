@@ -440,6 +440,253 @@ $$
 $$
 就可以用当前策略 rollout 出来的轨迹平均估计。
 
+轨迹的优劣可以用总回报表示：
+
+$$
+R(\tau)
+$$
+
+例如：
+
+```text
+这条轨迹成功到达目标，R(τ) 很高；
+这条轨迹撞了，R(τ) 很低；
+这条轨迹什么也没完成，R(τ) 可能是 0。
+```
+评估这个轨迹的优劣对应数学上的：
+
+$$
+f(\tau)=R(\tau)
+$$
+
+或者更细一点，在 PPO 里不是直接用整条轨迹的 $R(\tau)$，而是用每一步的 advantage：
+
+$$
+f(s_t,a_t)=\hat A_t
+$$
+
+但本质都是：
+
+```text
+给采样出来的轨迹/动作一个好坏分数。
+```
+
+如果我们有一个目标：
+
+$$
+\mathbb{E}_{\tau\sim p_\theta}[f(\tau)]
+$$
+
+它的意思是：
+
+```text
+按照当前策略可能产生很多轨迹，
+每条轨迹都有一个分数 f(τ)，
+我们关心这些分数的平均值。
+```
+
+这就是“当前策略的平均表现”。
+
+但我们不可能枚举所有轨迹，所以只能采样一些轨迹：
+
+$$
+\tau_1,\tau_2,\dots,\tau_N
+$$
+
+然后用样本平均近似期望：
+
+$$
+\mathbb{E}_{\tau\sim p_\theta}[f(\tau)]
+\approx
+\frac{1}{N}\sum_{i=1}^N f(\tau_i)
+$$
+
+这就是它和 rollout 的联系：
+
+```text
+rollout 出来的轨迹 = 从 pθ(τ) 里采样出来的样本；
+轨迹的 reward/advantage = f(τ)；
+对这些 f(τ) 求平均 = 估计当前策略的期望表现。
+```
+你说得对，我们不是只想知道：
+
+$$
+\mathbb{E}_{\tau\sim p_\theta}[R(\tau)]
+$$
+
+有多大，而是想更新 $\theta$，让它变大。
+
+也就是最大化：
+
+$$
+J(\theta)=\mathbb{E}_{\tau\sim p_\theta}[R(\tau)]
+$$
+
+这时关键是求：
+
+$$
+\nabla_\theta J(\theta)
+$$
+
+也就是：
+
+```text
+参数 θ 怎么改，才能让当前策略采样到更高 reward 轨迹的概率变大？
+```
+
+问题来了。
+
+如果只是评估当前策略表现：
+
+$$
+J(\theta)=\mathbb{E}_{\tau\sim p_\theta}[R(\tau)]
+$$
+
+可以直接 rollout 很多轨迹，然后平均 reward。
+
+但如果要优化：
+
+$$
+\nabla_\theta J(\theta)
+$$
+
+就需要知道：
+
+```text
+哪些轨迹/action 好；
+以及怎么调 θ 才能让这些轨迹/action 更容易出现。
+```
+
+这就是 log probability 出现的地方。
+
+我们有：
+
+$$
+J(\theta)=\int p_\theta(\tau)R(\tau)d\tau
+$$
+
+求导：
+
+$$
+\nabla_\theta J(\theta)
+=
+\int \nabla_\theta p_\theta(\tau)R(\tau)d\tau
+$$
+
+这个式子直觉上是：
+
+```text
+如果某条轨迹 reward 高，就希望提高它的概率 pθ(τ)；
+如果某条轨迹 reward 低，就不提高甚至降低它的概率。
+```
+
+也就是：
+
+```text
+更新 pθ(τ)，让高 reward 轨迹更容易被采样到。
+```
+
+但是我们不能直接操作 $p_\theta(\tau)$，因为它是整个轨迹概率。
+
+现在的问题可以这样理解：
+
+> 我已经有 $\int \nabla p R$，为什么我要想办法写成 $\int p f$？
+
+因为我们手上唯一能做的事情是：
+
+```text
+用当前策略采样轨迹 τ ~ pθ(τ)
+```
+
+也就是说，我们能采样的是 $p_\theta(\tau)$，不是 $\nabla_\theta p_\theta(\tau)$。
+
+Monte Carlo 需要的是：
+
+$$
+\int p_\theta(\tau)f(\tau)d\tau
+$$
+
+然后用：
+
+$$
+\frac{1}{N}\sum_i f(\tau_i)
+$$
+
+估计。
+
+所以当看到：
+
+$$
+\int \nabla_\theta p_\theta(\tau)R(\tau)d\tau
+$$
+
+自然会问：
+
+```text
+我能不能把它改写成 current policy 分布 pθ 下的期望？
+```
+
+也就是：
+
+$$
+\int p_\theta(\tau) f(\tau)d\tau
+$$
+
+这样才可以用 rollout 采样。
+
+更抽象地说,你想算
+
+$$
+\int g(\tau)d\tau
+$$
+
+但你不能直接从“均匀的 $d\tau$”里面采样轨迹。
+
+你能采样的是：
+
+$$
+\tau\sim p_\theta(\tau)
+$$
+
+那么可以写：
+
+$$
+\int g(\tau)d\tau
+=
+\int p_\theta(\tau)\frac{g(\tau)}{p_\theta(\tau)}d\tau
+=
+\mathbb{E}_{\tau\sim p_\theta}
+\left[
+\frac{g(\tau)}{p_\theta(\tau)}
+\right]
+$$
+
+在这里：
+
+$$
+g(\tau)=\nabla p_\theta(\tau)R(\tau)
+$$
+
+所以：
+
+$$
+\frac{g(\tau)}{p_\theta(\tau)}
+=
+\frac{\nabla p_\theta(\tau)}{p_\theta(\tau)}R(\tau)
+=
+\nabla\log p_\theta(\tau)R(\tau)
+$$
+
+所以这不是拍脑袋，而是：
+
+```text
+我想算一个积分；
+但我只能从 pθ 采样；
+所以我把积分改写成 pθ 下的期望；
+改写时自然出现 ∇p / p；
+∇p / p 正好等于 ∇logp。
+```
+
 ---
 
 ## 5.2. 问题：怎么对采样概率 $p_\theta(\tau)$ 求导？
