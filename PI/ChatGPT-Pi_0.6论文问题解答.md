@@ -365,7 +365,7 @@ $$
 
 也就是说，π\*0.6 是在 π0.6 的 **subtask-conditioned action generation** 结构上，再加了一层 **advantage-conditioned action generation**。
 
-
+注意在π0.6 之后, VLM不再接受flow matching部分回传的梯度.
 
 ---
 Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)
