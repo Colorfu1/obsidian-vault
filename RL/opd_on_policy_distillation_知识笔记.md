@@ -1,3 +1,18 @@
+---
+title: OPD On-Policy Distillation 知识笔记
+type: concept_note
+topic: llm_training
+status: mature
+importance: high
+updated: 2026-06-10
+tags:
+  - opd
+  - on-policy-distillation
+  - kl
+  - reverse-kl
+  - llm-training
+---
+
 # OPD（On-Policy Distillation）知识笔记
 
 ## 0. 一句话理解 OPD
@@ -1028,4 +1043,3 @@ current_student_logp 回传。
 teacher 被带偏：
 用 SFT warmup、受限采样、top-k KL、drift detection、rollout truncation 缓解。
 ```
-

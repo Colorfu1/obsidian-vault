@@ -1,3 +1,19 @@
+---
+title: FAST 核心知识总结
+type: paper_note
+topic: action_tokenization
+status: mature
+importance: high
+updated: 2026-06-10
+tags:
+  - fast
+  - action-tokenization
+  - vla
+  - dct
+  - bpe
+  - robotics
+---
+
 # FAST 核心知识总结（校订版）
 
 > 基于论文：*FAST: Efficient Action Tokenization for Vision-Language-Action Models*

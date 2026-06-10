@@ -1,3 +1,19 @@
+---
+title: PPO 与 SAC 对比笔记
+type: concept_note
+topic: reinforcement_learning
+status: mature
+importance: high
+updated: 2026-06-10
+tags:
+  - ppo
+  - sac
+  - reinforcement-learning
+  - actor-critic
+  - on-policy
+  - off-policy
+---
+
 # SAC与PPO比较
 
 **User:** Anonymous  

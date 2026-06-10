@@ -1,3 +1,19 @@
+---
+title: pi*0.6 RECAP 论文问题解答
+type: paper_note
+topic: robotics_foundation_model
+status: mature
+importance: high
+updated: 2026-06-10
+tags:
+  - pi-star-0.6
+  - recap
+  - vla
+  - advantage-conditioned-policy
+  - offline-rl
+  - robotics
+---
+
 # Pi_!0.6论文问题解答
 
 **User:** Anonymous  

@@ -1,3 +1,18 @@
+---
+title: PPO 强化学习算法综述
+type: concept_note
+topic: reinforcement_learning
+status: mature
+importance: high
+updated: 2026-06-10
+tags:
+  - ppo
+  - reinforcement-learning
+  - actor-critic
+  - policy-gradient
+  - gae
+---
+
 # PPO
 
 **User:** Anonymous  

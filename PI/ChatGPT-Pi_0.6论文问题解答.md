@@ -1,3 +1,19 @@
+---
+title: pi0.6 论文问题解答
+type: paper_note
+topic: robotics_foundation_model
+status: mature
+importance: high
+updated: 2026-06-10
+tags:
+  - pi0.6
+  - vla
+  - fast
+  - flow-matching
+  - knowledge-insulation
+  - robotics
+---
+
 # Pi_!0.6论文问题解答
 
 **User:** Anonymous  

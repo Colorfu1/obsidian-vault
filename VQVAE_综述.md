@@ -1,3 +1,18 @@
+---
+title: VQ-VAE 与自回归先验模型综述
+type: concept_note
+topic: generative_model
+status: mature
+importance: high
+updated: 2026-06-10
+tags:
+  - vqvae
+  - autoregressive
+  - codebook
+  - quantizer
+  - generative-model
+---
+
 # VQ-VAE 与自回归先验模型综述
 
 > 整理自 ChatGPT 讲解 + 问答讨论，覆盖 VQ-VAE 基础、自回归先验结构、训练细节、Weight Tying 等核心知识点。

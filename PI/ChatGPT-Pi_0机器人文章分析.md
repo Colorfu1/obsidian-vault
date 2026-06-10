@@ -1,5 +1,17 @@
 ---
 github_repo: Colorfu1|obsidian-vault
+title: pi0 机器人文章分析
+type: paper_note
+topic: robotics_foundation_model
+status: mature
+importance: high
+updated: 2026-06-10
+tags:
+  - pi0
+  - openpi
+  - vla
+  - flow-matching
+  - robotics
 ---
 # Pi_0机器人文章分析
 

@@ -1,3 +1,19 @@
+---
+title: MEM 文章分析
+type: paper_note
+topic: robot_memory_model
+status: mature
+importance: high
+updated: 2026-06-10
+tags:
+  - mem
+  - vla
+  - robot-memory
+  - long-horizon
+  - pi0.6
+  - robotics
+---
+
 # MEM 文章分析
 
 **User:** Anonymous  

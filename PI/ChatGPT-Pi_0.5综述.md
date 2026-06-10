@@ -1,5 +1,17 @@
 ---
 github_repo: 
+title: pi0.5 文章综述
+type: paper_note
+topic: robotics_foundation_model
+status: mature
+importance: high
+updated: 2026-06-10
+tags:
+  - pi0.5
+  - vla
+  - flow-matching
+  - adaptive-rmsnorm
+  - robotics
 ---
 # Pi_0.5文章综述请求
 
