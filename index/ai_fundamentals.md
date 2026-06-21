@@ -28,12 +28,12 @@ Use this index for generative models, reinforcement learning, LLM training, KL o
 
 ## Cross-Topic Links
 
-- `PI/ChatGPT-Pi_star0.6论文问题解答.md`
+- `Robot/PI/ChatGPT-Pi_star0.6论文问题解答.md`
   - Topic: regularized RL, advantage-conditioned policy, value model, offline RL, RECAP.
   - Importance: high
   - Notes: Robotics paper note, but useful for RL-style policy improvement and advantage reweighting.
 
-- `PI/FAST_知识总结.md`
+- `Robot/PI/FAST_知识总结.md`
   - Topic: action tokenization, quantile normalization, DCT, scale-and-round quantization, BPE compression.
   - Importance: high
   - Notes: Robotics paper note, but useful for tokenization and compression concepts.

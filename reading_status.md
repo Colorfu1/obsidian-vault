@@ -1,21 +1,23 @@
 # Reading Status
 
-Updated: 2026-06-10
+Updated: 2026-06-21
 
 ## Finished
 
 - Physical Intelligence pi0
-  - `PI/ChatGPT-Pi_0机器人文章分析.md`
+  - `Robot/PI/ChatGPT-Pi_0机器人文章分析.md`
 - Physical Intelligence pi0.5
-  - `PI/ChatGPT-Pi_0.5综述.md`
+  - `Robot/PI/ChatGPT-Pi_0.5综述.md`
 - Physical Intelligence pi0.6
-  - `PI/ChatGPT-Pi_0.6论文问题解答.md`
+  - `Robot/PI/ChatGPT-Pi_0.6论文问题解答.md`
 - Physical Intelligence pi*0.6 / RECAP
-  - `PI/ChatGPT-Pi_star0.6论文问题解答.md`
+  - `Robot/PI/ChatGPT-Pi_star0.6论文问题解答.md`
 - FAST
-  - `PI/FAST_知识总结.md`
+  - `Robot/PI/FAST_知识总结.md`
 - MEM
-  - `PI/ChatGPT-MEM 文章分析.md`
+  - `Robot/PI/ChatGPT-MEM 文章分析.md`
+- ALOHA / ACT
+  - `Robot/ChatGPT-ALOHA硬件与ACT算法.md`
 - VQ-VAE
   - `VQVAE_综述.md`
 - PPO

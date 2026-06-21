@@ -8,6 +8,7 @@ It contains technical notes, paper reading notes, and structured explanations co
 
 - AI fundamentals: VQ-VAE, autoregressive priors, reinforcement learning, PPO, SAC, OPD, KL, normalization, action/token modeling.
 - Robotics: Physical Intelligence PI series, VLA, FAST, MEM, robot foundation models, flow matching action policies.
+- Robot imitation learning and hardware: ALOHA low-cost bimanual teleoperation, ACT action chunking, CVAE imitation learning.
 - Autonomous driving: LiDAR perception, TensorRT deployment, BEV visualization. This topic is planned, but there are no dedicated notes in the current index yet.
 - Personal planning: life documents and planning notes. Keep private or explicitly indexed only when safe to expose.
 
@@ -15,8 +16,10 @@ It contains technical notes, paper reading notes, and structured explanations co
 
 - `index/`
   - Navigation layer for GPT. Start here before reading topic notes.
-- `PI/`
-  - Robotics and Physical Intelligence paper notes, including pi0, pi0.5, pi0.6, pi*0.6, FAST, and MEM.
+- `Robot/`
+  - Robotics paper notes and embodied AI notes.
+  - `Robot/PI/` contains Physical Intelligence paper notes, including pi0, pi0.5, pi0.6, pi*0.6 / RECAP, FAST, and MEM.
+  - Root-level `Robot/*.md` files contain non-PI robotics notes such as ALOHA hardware and ACT.
 - `RL/`
   - Reinforcement learning and LLM-training related notes, including PPO, SAC/PPO comparison, and OPD.
 - Repository root
@@ -29,7 +32,7 @@ It contains technical notes, paper reading notes, and structured explanations co
 - `index/ai_fundamentals.md`
   - AI fundamentals, generative models, RL, and LLM training notes.
 - `index/robotics_papers.md`
-  - Robotics foundation model and Physical Intelligence paper notes.
+  - Robotics foundation model, Physical Intelligence, robot memory, action tokenization, ALOHA hardware, and ACT notes.
 - `reading_status.md`
   - Reading progress and next reading candidates.
 - `VQVAE_综述.md`

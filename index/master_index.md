@@ -26,6 +26,8 @@ Topics covered now:
 - MEM robotic memory model
 - VLA / robot foundation models
 - Flow matching action policies
+- ALOHA low-cost bimanual hardware
+- ACT / Action Chunking with Transformers
 
 ## Autonomous Driving
 
