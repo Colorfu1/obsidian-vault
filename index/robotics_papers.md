@@ -1,6 +1,6 @@
 # Robotics Papers Index
 
-Use this index for robotics foundation models, Vision-Language-Action models, Physical Intelligence papers, action tokenization, flow matching policies, and memory models.
+Use this index for robotics foundation models, Vision-Language-Action models, Physical Intelligence papers, action tokenization, diffusion policies, flow matching policies, and memory models.
 
 ## Physical Intelligence PI Series
 
@@ -35,6 +35,13 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Topic: FAST, action chunk tokenization, quantile normalization, DCT, sparse frequency-domain integer matrix, low-frequency-first flattening, BPE, FSQ.
   - Importance: high
   - Notes: Start here for action tokenization and FAST vs diffusion/VLA action output questions.
+
+## Action Diffusion Policies
+
+- `Robot/ChatGPT-Diffusion Policy 概述.md`
+  - Topic: Diffusion Policy, conditional diffusion model for action chunks, denoising future action sequences, multimodal behavior cloning, receding horizon control, CNN/Transformer policy variants.
+  - Importance: high
+  - Notes: Start here for diffusion-based robot policy learning, comparisons with BC/IBC/BET, and links between Diffusion Policy and later diffusion/flow action heads in robot foundation models.
 
 ## Robot Memory Models
 

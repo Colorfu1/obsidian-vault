@@ -19,9 +19,9 @@ Updated: 2026-06-26
 - MEM
   - [[Robot/PI/ChatGPT-MEM 文章分析|MEM]]
 - ALOHA / ACT
-  - [[Robot/ChatGPT-ALOHA硬件与ACT算法|ALOHA / ACT]]
-- RDT-1B
-  - [[Robot/ChatGPT-RDT-1B|RDT-1B]]
+  - `Robot/ChatGPT-ALOHA硬件与ACT算法.md`
+- Diffusion Policy
+  - `Robot/ChatGPT-Diffusion Policy 概述.md`
 - VQ-VAE
   - [[VQVAE_综述|VQ-VAE]]
 - PPO
@@ -37,7 +37,6 @@ Updated: 2026-06-26
 - RT-1 / RT-2 / RT-X
 - OpenVLA
 - Octo
-- Diffusion Policy standalone foundations
 - Flow Matching standalone foundations
 - Diffusion model foundations
 

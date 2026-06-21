@@ -27,7 +27,7 @@ Topics covered now:
 - RDT-1B diffusion foundation policy for bimanual manipulation
 - VLA / robot foundation models
 - Flow matching action policies
-- Continuous action chunks and unified action spaces
+- Diffusion Policy action diffusion and receding-horizon control
 - ALOHA low-cost bimanual hardware
 - ACT / Action Chunking with Transformers
 
