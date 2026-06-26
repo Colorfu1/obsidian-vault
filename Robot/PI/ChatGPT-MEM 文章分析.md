@@ -927,6 +927,13 @@ $$
 
 MEM 是给 π0.6 这类 VLA 增加多尺度记忆的系统：它用 high-level VLM 维护长期 language memory 并生成 subtask，用 low-level VLA + video encoder 处理短期 dense observation 并输出 action chunk；训练时用外部 off-the-shelf LLM 根据 subtask annotations 和 success/failure indicators 离线生成 language memory GT，用 video encoder 学短期视觉记忆；推理时不再调用外部 LLM，也没有显式 success/failure indicator，而是由 high-level policy 自己更新 memory，由 low-level policy 根据短期视频记忆执行动作。它的实验说明，长任务需要 language memory，短期失败修正和遮挡处理需要 video memory，两者结合才能稳定完成 15 分钟级别的复杂机器人任务。
 
+## 相关笔记
+
+- [[Robot/PI/ChatGPT-Pi_0.6论文问题解答|pi0.6]]：MEM 主要增强的底层 VLA/action policy。
+- [[Robot/PI/Pi0_7_technical_report|pi0.7]]：后续 rich context、subtask、subgoal 机制。
+- [[Robot/ChatGPT-RDT-1B|RDT-1B]]：不显式建模 memory 的 continuous diffusion action policy 对照。
+- [[Robot/PI/ChatGPT-Pi_0.5综述|pi0.5]]：长程任务中的 high-level language decomposition。
+
 
 
 ---

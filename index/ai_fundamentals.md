@@ -4,41 +4,41 @@ Use this index for generative models, reinforcement learning, LLM training, KL o
 
 ## Generative Models
 
-- `VQVAE_综述.md`
+- [[VQVAE_综述|VQ-VAE]]
   - Topic: VQ-VAE, codebook, quantizer, autoregressive prior, teacher forcing, loss mask, weight tying, text/image vocabulary design.
   - Importance: high
   - Notes: Core concept note. Start here for VQ-VAE, codebook loss, commitment loss, and autoregressive prior questions.
 
 ## Reinforcement Learning
 
-- `RL/ChatGPT-PPO.md`
+- [[RL/ChatGPT-PPO|PPO]]
   - Topic: PPO, policy gradient, reward backpropagation, advantage, actor, critic, log probability, clipped surrogate, GAE, value estimation.
   - Importance: high
   - Notes: Long-form PPO concept note.
 
-- `RL/ChatGPT-SAC_PPO_compare.md`
+- [[RL/ChatGPT-SAC_PPO_compare|SAC vs PPO]]
   - Topic: PPO vs SAC, V/Q/A relationship, rollout buffer, replay buffer, on-policy vs off-policy, actor-critic gradient paths.
   - Importance: high
   - Notes: Use when comparing algorithm design choices between PPO and SAC.
 
-- `RL/opd_on_policy_distillation_知识笔记.md`
+- [[RL/opd_on_policy_distillation_知识笔记|OPD / On-Policy Distillation]]
   - Topic: OPD, on-policy distillation, teacher/student rollout, KL, forward KL, reverse KL, sampled-token reverse KL, PG-style loss.
   - Importance: high
   - Notes: Use for LLM distillation, token-level KL, and student on-policy training questions.
 
 ## Cross-Topic Links
 
-- `Robot/PI/ChatGPT-Pi_star0.6论文问题解答.md`
+- [[Robot/PI/ChatGPT-Pi_star0.6论文问题解答|pi*0.6 / RECAP]]
   - Topic: regularized RL, advantage-conditioned policy, value model, offline RL, RECAP.
   - Importance: high
   - Notes: Robotics paper note, but useful for RL-style policy improvement and advantage reweighting.
 
-- `Robot/PI/FAST_知识总结.md`
+- [[Robot/PI/FAST_知识总结|FAST]]
   - Topic: action tokenization, quantile normalization, DCT, scale-and-round quantization, BPE compression.
   - Importance: high
   - Notes: Robotics paper note, but useful for tokenization and compression concepts.
 
-- `Robot/ChatGPT-RDT-1B.md`
+- [[Robot/ChatGPT-RDT-1B|RDT-1B]]
   - Topic: action diffusion, clean-action prediction, DiT denoising, continuous action chunks, unified action space.
   - Importance: high
   - Notes: Robotics paper note, but useful for diffusion policy, action distribution modeling, and x0/clean-action prediction questions.

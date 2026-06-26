@@ -1,3 +1,22 @@
+---
+title: π0.7 技术报告
+type: paper_note
+topic: steerable_vla
+status: mature
+importance: high
+updated: 2026-06-26
+tags:
+  - pi0-7
+  - physical-intelligence
+  - vla
+  - robot-foundation-model
+  - steerable-policy
+  - subgoal
+  - subtask
+  - action-chunking
+  - robotics
+---
+
 # π0.7 技术报告：Steerable Generalist VLA 的模型结构、训练机制与推理系统
 
 > 论文：**π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities**  
@@ -1236,3 +1255,11 @@ $$
 因此，π0.7 的技术本质可以概括为：
 
 > **用 rich prompt/context 将异构机器人经验变成可被 steering 的条件行为模型；用 subtask 和 subgoal 解决长任务阶段控制；用 metadata 解决 mixed-quality data；用 KI 稳定 VLM-action 训练；用 RTC 和 CFG 改善实时推理和高质量行为控制。**
+
+## 相关笔记
+
+- [[Robot/PI/ChatGPT-Pi_star0.6论文问题解答|pi*0.6 / RECAP]]：pi0.7 吸收 specialist/RL 数据的上游来源之一。
+- [[Robot/PI/ChatGPT-MEM 文章分析|MEM]]：长程任务中的 language/video memory 机制。
+- [[Robot/PI/ChatGPT-Pi_0.6论文问题解答|pi0.6]]：Knowledge Insulation、continuous action chunk 与 subtask-conditioned action generation。
+- [[Robot/PI/ChatGPT-Pi_0.5综述|pi0.5]]：high-level language intermediate outputs 和长程任务分解。
+- [[Robot/ChatGPT-RDT-1B|RDT-1B]]：另一条 large-scale continuous action policy 路线。

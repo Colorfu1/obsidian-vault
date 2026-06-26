@@ -1154,6 +1154,13 @@ $$
 
 这条技术链路对后续机器人基础模型、VLA、Diffusion Policy 以及低成本机器人数据采集系统都有很强参考价值。
 
+## 相关笔记
+
+- [[Robot/ChatGPT-RDT-1B|RDT-1B]]：把 diffusion action chunk 扩展到双臂 foundation policy。
+- [[Robot/PI/FAST_知识总结|FAST]]：另一条 action chunk 表示路线，离散 tokenization 而不是连续动作生成。
+- [[Robot/PI/ChatGPT-Pi_0机器人文章分析|pi0]]：VLA + continuous action expert 的后续路线。
+- [[Robot/PI/Pi0_7_technical_report|pi0.7]]：更大规模的双臂/通用机器人行为建模。
+
 
 
 ---

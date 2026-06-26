@@ -4,7 +4,7 @@ Start here when navigating the vault.
 
 ## AI Fundamentals
 
-See: `index/ai_fundamentals.md`
+See: [[index/ai_fundamentals|AI Fundamentals Index]]
 
 Topics covered now:
 
@@ -17,11 +17,11 @@ Topics covered now:
 
 ## Robotics
 
-See: `index/robotics_papers.md`
+See: [[index/robotics_papers|Robotics Papers Index]]
 
 Topics covered now:
 
-- Physical Intelligence pi0, pi0.5, pi0.6, pi*0.6 / RECAP
+- Physical Intelligence pi0, pi0.5, pi0.6, pi*0.6 / RECAP, pi0.7
 - FAST action tokenization
 - MEM robotic memory model
 - RDT-1B diffusion foundation policy for bimanual manipulation
@@ -33,16 +33,16 @@ Topics covered now:
 
 ## Autonomous Driving
 
-See: `index/autonomous_driving.md`
+See: [[index/autonomous_driving|Autonomous Driving Index]]
 
 Current status: no dedicated autonomous-driving notes are indexed yet.
 
 ## Personal Notes
 
-See: `index/personal_notes.md`
+See: [[index/personal_notes|Personal Notes Index]]
 
 Current status: no personal planning notes are indexed yet. Sensitive notes should remain unindexed unless explicitly approved.
 
 ## Reading Status
 
-See: `reading_status.md`
+See: [[reading_status|Reading Status]]

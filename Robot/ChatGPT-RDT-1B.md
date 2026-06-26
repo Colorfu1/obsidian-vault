@@ -735,6 +735,15 @@ $$
 
 **RDT 是把 Diffusion Policy 扩展成双臂机器人基础模型的一次大规模系统验证；它对 AWM/WAM 的直接贡献有限，但对连续动作建模、双臂多模态动作生成、跨机器人 action representation 很有参考价值。**
 
+## 相关笔记
+
+- [[Robot/ChatGPT-ALOHA硬件与ACT算法|ALOHA / ACT]]：双臂硬件、连续 action chunk、ACT baseline。
+- [[Robot/PI/FAST_知识总结|FAST]]：离散 action tokenization 路线，可与 RDT 的 continuous diffusion action 对比。
+- [[Robot/PI/ChatGPT-Pi_0机器人文章分析|pi0]]：flow matching action expert 路线。
+- [[Robot/PI/ChatGPT-Pi_0.6论文问题解答|pi0.6]]：continuous action chunk 与 FAST joint likelihood。
+- [[Robot/PI/Pi0_7_technical_report|pi0.7]]：steerable generalist VLA 与 rich context conditioning。
+- [[Robot/PI/ChatGPT-MEM 文章分析|MEM]]：长程记忆与 action policy 的关系。
+
 
 
 ---

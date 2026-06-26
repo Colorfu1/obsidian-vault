@@ -383,5 +383,14 @@ $$
 
 注意在π0.6 之后, VLM不再接受flow matching部分回传的梯度.
 
+## 相关笔记
+
+- [[Robot/PI/ChatGPT-Pi_0.5综述|pi0.5]]：pi0.6 继承的 high-level language/action decomposition。
+- [[Robot/PI/ChatGPT-Pi_star0.6论文问题解答|pi*0.6 / RECAP]]：在 pi0.6 上加入 advantage-conditioned policy improvement。
+- [[Robot/PI/FAST_知识总结|FAST]]：pi0.6 中 discrete action token 路线的关键基础。
+- [[Robot/PI/ChatGPT-MEM 文章分析|MEM]]：pi0.6-MEM 长程记忆扩展。
+- [[Robot/PI/Pi0_7_technical_report|pi0.7]]：后续 steerable generalist VLA。
+- [[Robot/ChatGPT-RDT-1B|RDT-1B]]：continuous action chunk 的 diffusion 路线对照。
+
 ---
 Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)

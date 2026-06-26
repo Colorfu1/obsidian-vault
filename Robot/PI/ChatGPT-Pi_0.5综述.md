@@ -922,6 +922,13 @@ WAM 不是天然没有这个困扰，
 
 **π0.5 是在 π0 的 flow-based VLA 基础上，通过 high-level subtask prediction 和大规模异构共训练，把低层动作模仿扩展到更开放、更长程的家庭机器人任务；它的泛化主要来自语义分解和数据多样性，但本质上仍然是 BC/chunked action policy，缺少真正的在线世界反馈和实时纠错机制。**
 
+## 相关笔记
+
+- [[Robot/PI/ChatGPT-Pi_0机器人文章分析|pi0]]：pi0.5 的基础 VLA/action expert 路线。
+- [[Robot/PI/ChatGPT-Pi_0.6论文问题解答|pi0.6]]：后续 high-level text 与 action likelihood 结合方式。
+- [[Robot/PI/ChatGPT-MEM 文章分析|MEM]]：长程任务中的 memory 机制。
+- [[Robot/PI/Pi0_7_technical_report|pi0.7]]：rich context 和 steerable generalist VLA 的后续发展。
+
 
 
 ---

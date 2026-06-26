@@ -2544,6 +2544,12 @@ $$
 
 这样才能从当前策略采样轨迹，然后用样本平均估计梯度。
 
+## 相关笔记
+
+- [[RL/ChatGPT-SAC_PPO_compare|SAC vs PPO]]：PPO 与 off-policy actor-critic 的对比。
+- [[RL/opd_on_policy_distillation_知识笔记|OPD / On-Policy Distillation]]：PG-style token loss 与 KL distillation。
+- [[Robot/PI/ChatGPT-Pi_star0.6论文问题解答|pi*0.6 / RECAP]]：为什么机器人 VLA policy improvement 没有直接使用 PPO-style gradient。
+
 
 
 ---

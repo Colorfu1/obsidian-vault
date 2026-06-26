@@ -387,3 +387,10 @@ hidden state → Linear(d_model, vocab_text + codebook_size) → unified logits
 | Weight Tying | 输入 embedding table 与输出 logit head 共享同一份权重 |
 | Loss Mask | 训练时只在 image token 位置计算 loss，忽略 text token |
 | Sparse Gradient | Embedding lookup 时只有被查到的行有梯度更新 |
+
+## 相关笔记
+
+- [[Robot/PI/FAST_知识总结|FAST]]：把连续 robot action chunk 转成离散 action tokens。
+- [[Robot/PI/ChatGPT-Pi_0机器人文章分析|pi0]]：pi0-FAST 中的 discrete action token prediction。
+- [[Robot/ChatGPT-RDT-1B|RDT-1B]]：与离散 token 路线相对的 continuous diffusion action modeling。
+- [[index/ai_fundamentals|AI Fundamentals Index]]：AI 基础概念导航。

@@ -616,7 +616,7 @@ MSE(v_t, noise - actions)
 `make_attn_mask()` 的注释非常关键。它说 `mask_ar` 可以构造 prefix-LM attention，例如：
 
 ```text
-[[0 0 0 1 1 1]]
+[0 0 0 1 1 1]
 ```
 
 前 3 个 token 可以互相 attend，后 3 个 token 是 causal attention，并可以看前面的 prefix。`pi0.py`
@@ -1328,6 +1328,13 @@ flow velocity prediction
         ↓
     continuous action chunk
 ```
+
+## 相关笔记
+
+- [[Robot/PI/FAST_知识总结|FAST]]：pi0-FAST 的 action tokenization 基础。
+- [[Robot/PI/ChatGPT-Pi_0.5综述|pi0.5]]：在 pi0 基础上加入长程任务和 high-level language intermediate outputs。
+- [[Robot/PI/ChatGPT-Pi_0.6论文问题解答|pi0.6]]：进一步组合 continuous action chunk、intermediate text 和 FAST tokens。
+- [[Robot/ChatGPT-RDT-1B|RDT-1B]]：continuous action generation 的 diffusion policy 对照路线。
 
 
 

@@ -27,15 +27,15 @@ It contains technical notes, paper reading notes, and structured explanations co
 
 ## Important Files
 
-- `index/master_index.md`
+- [[index/master_index|Master Index]]
   - Top-level map of the vault.
-- `index/ai_fundamentals.md`
+- [[index/ai_fundamentals|AI Fundamentals Index]]
   - AI fundamentals, generative models, RL, and LLM training notes.
-- `index/robotics_papers.md`
+- [[index/robotics_papers|Robotics Papers Index]]
   - Robotics foundation model, Physical Intelligence, robot memory, action tokenization, diffusion policy, ALOHA hardware, and ACT notes.
-- `reading_status.md`
+- [[reading_status|Reading Status]]
   - Reading progress and next reading candidates.
-- `VQVAE_综述.md`
+- [[VQVAE_综述|VQ-VAE]]
   - Core VQ-VAE, codebook, autoregressive prior, and weight tying note.
 
 ## How to Use This Vault
@@ -43,7 +43,7 @@ It contains technical notes, paper reading notes, and structured explanations co
 When answering my questions:
 
 1. Search this repository first if the topic relates to my notes.
-2. Start from `README_for_GPT.md`, then `index/master_index.md`, then the most relevant topic index.
+2. Start from [[README_for_GPT]], then [[index/master_index|Master Index]], then the most relevant topic index.
 3. Prefer newer notes over older notes when multiple notes overlap.
 4. Prefer files with `importance: high` for core explanations.
 5. If a note is my interpretation rather than a paper claim, say so explicitly.
