@@ -24,8 +24,10 @@ Topics covered now:
 - Physical Intelligence pi0, pi0.5, pi0.6, pi*0.6 / RECAP
 - FAST action tokenization
 - MEM robotic memory model
+- RDT-1B diffusion foundation policy for bimanual manipulation
 - VLA / robot foundation models
 - Flow matching action policies
+- Continuous action chunks and unified action spaces
 - ALOHA low-cost bimanual hardware
 - ACT / Action Chunking with Transformers
 

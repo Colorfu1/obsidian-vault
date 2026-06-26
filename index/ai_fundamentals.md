@@ -38,8 +38,13 @@ Use this index for generative models, reinforcement learning, LLM training, KL o
   - Importance: high
   - Notes: Robotics paper note, but useful for tokenization and compression concepts.
 
+- `Robot/ChatGPT-RDT-1B.md`
+  - Topic: action diffusion, clean-action prediction, DiT denoising, continuous action chunks, unified action space.
+  - Importance: high
+  - Notes: Robotics paper note, but useful for diffusion policy, action distribution modeling, and x0/clean-action prediction questions.
+
 ## Not Yet Indexed
 
-- Diffusion standalone notes: not found yet.
+- Diffusion standalone notes: not found yet. Action diffusion appears in the RDT-1B robotics note.
 - Flow matching standalone notes: not found yet. Flow matching appears inside the PI robotics notes.
 - Normalization standalone notes: not found yet. Related normalization appears in FAST and pi0.5 notes.

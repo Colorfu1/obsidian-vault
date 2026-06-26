@@ -1,6 +1,6 @@
 # Reading Status
 
-Updated: 2026-06-21
+Updated: 2026-06-26
 
 ## Finished
 
@@ -18,6 +18,8 @@ Updated: 2026-06-21
   - `Robot/PI/ChatGPT-MEM 文章分析.md`
 - ALOHA / ACT
   - `Robot/ChatGPT-ALOHA硬件与ACT算法.md`
+- RDT-1B
+  - `Robot/ChatGPT-RDT-1B.md`
 - VQ-VAE
   - `VQVAE_综述.md`
 - PPO
@@ -33,7 +35,7 @@ Updated: 2026-06-21
 - RT-1 / RT-2 / RT-X
 - OpenVLA
 - Octo
-- Diffusion Policy
+- Diffusion Policy standalone foundations
 - Flow Matching standalone foundations
 - Diffusion model foundations
 

@@ -38,6 +38,13 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Importance: high
   - Notes: Start here for memory-augmented VLA and long-horizon robotic manipulation questions.
 
+## Diffusion and Continuous-Action Policies
+
+- `Robot/ChatGPT-RDT-1B.md`
+  - Topic: RDT-1B, diffusion foundation policy, DiT denoising, clean-action prediction, continuous action chunks, physically interpretable unified action space, multi-robot pretraining, bimanual manipulation, ACI cross-attention conditioning.
+  - Importance: high
+  - Notes: Start here for RDT-1B, diffusion-based robot foundation policies, continuous action modeling, unified action/proprioception representation, and comparisons with OpenVLA, Octo, ACT, and pi-series flow-matching policies.
+
 ## Robot Hardware and Imitation Learning
 
 - `Robot/ChatGPT-ALOHA硬件与ACT算法.md`
