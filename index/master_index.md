@@ -26,6 +26,7 @@ Topics covered now:
 - FAST action tokenization
 - MEM robotic memory model
 - RDT-1B diffusion foundation policy for bimanual manipulation
+- RT-1 / RT-2 robot transformer and web-scale VLA
 - VLA / robot foundation models
 - Flow matching action policies
 - Diffusion Policy action diffusion and receding-horizon control

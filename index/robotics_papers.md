@@ -29,6 +29,17 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Importance: high
   - Notes: Use for π0.7 architecture, prompt/context steering, mixed-quality data handling, and links between π0.6, π*0.6/RECAP, MEM, and generalist robot foundation models.
 
+## RT Series and Web-Scale VLA
+
+- [[Robot/ChatGPT-RT-1 论文综述|RT-1 论文综述]]
+  - Topic: RT-1, Robotics Transformer, large-scale real-world robot behavior cloning, language-conditioned EfficientNet, TokenLearner, Transformer policy, discrete action bins, multi-task robot data scaling.
+  - Importance: high
+  - Notes: Start here for early large-scale robot transformer policies, RT-1 architecture, action discretization, and the data-scaling lineage leading to RT-2 and later VLA models.
+
+- [[Robot/ChatGPT-RT-2 论文综述|RT-2 论文综述]]
+  - Topic: RT-2, Vision-Language-Action model, PaLI-X/PaLM-E co-fine-tuning, web knowledge transfer to robot control, VQA-style action prompting, action tokens, semantic generalization.
+  - Importance: high
+  - Notes: Use for RT-2's VLM-to-action-token formulation, semantic generalization, web-scale co-training, and comparisons with RT-1, FAST, OpenVLA/Octo, and pi-series VLA models.
 ## Action Tokenization
 
 - [[Robot/PI/FAST_知识总结|FAST 知识总结]]

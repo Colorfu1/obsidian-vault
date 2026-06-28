@@ -1,6 +1,6 @@
 # Reading Status
 
-Updated: 2026-06-26
+Updated: 2026-06-28
 
 ## Finished
 
@@ -22,6 +22,10 @@ Updated: 2026-06-26
   - [[Robot/ChatGPT-ALOHA硬件与ACT算法|ALOHA 硬件与 ACT 算法]]
 - Diffusion Policy
   - [[Robot/ChatGPT-Diffusion Policy 概述|Diffusion Policy 概述]]
+- RT-1
+  - [[Robot/ChatGPT-RT-1 论文综述|RT-1 论文综述]]
+- RT-2
+  - [[Robot/ChatGPT-RT-2 论文综述|RT-2 论文综述]]
 - RDT-1B
   - [[Robot/ChatGPT-RDT-1B|RDT-1B]]
 - VQ-VAE
@@ -36,7 +40,7 @@ Updated: 2026-06-26
 ## Reading Next
 
 - Dreamer series
-- RT-1 / RT-2 / RT-X
+- RT-X
 - OpenVLA
 - Octo
 - Flow Matching standalone foundations

@@ -1341,3 +1341,5 @@ flow velocity prediction
 
 ---
 Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)
+- [[Robot/ChatGPT-RT-1 论文综述|RT-1 论文综述]]
+- [[Robot/ChatGPT-RT-2 论文综述|RT-2 论文综述]]

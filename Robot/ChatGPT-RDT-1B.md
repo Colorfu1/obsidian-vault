@@ -4,7 +4,7 @@ type: paper_note
 topic: diffusion_robot_policy
 status: mature
 importance: high
-updated: 2026-06-25
+updated: 2026-06-28
 tags:
   - rdt-1b
   - diffusion-policy
@@ -17,143 +17,189 @@ tags:
   - robotics
 ---
 
-# RDT-1B
+# RDT-1B 技术报告：Diffusion Policy 如何扩展为双臂机器人基础模型
 
-**User:** Anonymous  
-**Created:** 6/25/2026 20:00:19  
-**Updated:** 6/25/2026 21:10:01  
-**Exported:** 6/26/2026 13:48:20  
-**Link:** [https://chatgpt.com/c/6a3d184f-ca14-83ec-b8e5-e067232a58a4?mweb_fallback=1](https://chatgpt.com/c/6a3d184f-ca14-83ec-b8e5-e067232a58a4?mweb_fallback=1)  
+## 1. 论文定位
 
-# RDT-1B 论文综述：Diffusion Policy 如何 scale 到双臂机器人基础模型
+RDT-1B，全称 **Robotics Diffusion Transformer**，是一篇面向双臂机器人操作的 diffusion-based foundation policy 论文。
 
-论文：**RDT-1B: A Diffusion Foundation Model for Bimanual Manipulation**。核心目标是做一个面向双臂操作的 **language-conditioned visuomotor policy**，即输入语言、图像、机器人状态，输出双臂机器人未来一段连续动作。论文声称 RDT-1B 是一个 1.2B 参数规模的 diffusion-based 双臂机器人基础模型，先在 46 个多机器人数据集、1M+ trajectories 上预训练，再在作者自采的 6K+ 双臂数据上微调。`RDT-1b.pdf`
-
----
-
-# 1. 这篇文章的核心定位
-
-这篇文章不是一个 World Model / Action-World Model，也不是那种显式预测未来 observation、显式做 planning rollout 的模型。它本质上还是一个 **policy model / action generator**：
+它的核心目标不是做显式 world model，也不是预测未来图像或环境状态，而是学习一个语言条件下的视觉运动策略：
 
 $$
 p(a_{t:t+T_a} \mid \ell, o_t)
 $$
 
-也就是给定语言指令 $\ell$、当前观测 $o_t$，生成未来一段 action chunk。
-
-所以它在 VLA/AWM 脉络里的位置可以这样理解：
-
-> RDT 是一条 **continuous-action diffusion VLA / visuomotor policy** 路线，而不是 WAM/AWM 路线。  
-> 它的重点在 action-side：如何生成高维、连续、多模态、双臂动作。
-
-它真正想证明的是：**Diffusion Policy 不只是小规模 imitation learning trick，也可以 scale 成一个大模型、多机器人预训练、真实双臂部署的 foundation policy。**
-
----
-
-# 2. 论文要解决的问题
-
-作者认为双臂 manipulation foundation model 面临两个主要挑战。
-
-## 2.1 双臂动作分布更强多模态
-
-单臂操作中，同一个任务通常也可能有多种执行方式，但双臂会更明显。比如抓一个物体，可以左手先动、右手先动、双手同时夹取、从不同方向接近目标。对于同一个语言和视觉观测，demo 里可能出现多个合理 action mode。
-
-如果直接做确定性回归：
-
-$$
-(\ell, o_t) \rightarrow a_t
-$$
-
-模型容易学到多个 action mode 的“平均动作”。而多个成功动作的平均值不一定是成功动作，甚至可能是完全不可执行的 out-of-distribution action。论文正是用这个理由说明为什么需要 diffusion 来建模连续条件动作分布。`RDT-1b.pdf`
-
-## 2.2 双臂数据稀缺，需要多机器人预训练
-
-双臂机器人贵，遥操作采集也贵，所以特定双臂机器人的数据很少。论文里明确说，目标双臂机器人的可用数据通常远不到 foundation model 所需规模，因此采用：
-
-$$
-\text{multi-robot pre-training}
-\rightarrow
-\text{target bimanual fine-tuning}
-$$
-
-也就是先用大量其他机器人数据学 transferable physical priors，再用目标双臂机器人数据适配部署。论文也强调，它的目标不是做一个可以直接跨 embodiment 部署到所有机器人的模型，而是利用多机器人数据提升目标双臂机器人的泛化能力。`RDT-1b.pdf`
-
-## 2.3 多机器人 action space 异构
-
-不同机器人动作空间差异很大：
-
-- 有的输出 joint position；
-- 有的输出 EEF pose；
-- 有的有 gripper；
-- 有的有 mobile base；
-- 有的是单臂；
-- 有的是双臂；
-- 控制频率也不一样。
-
-如果只保留所有机器人共有的 action 维度，会丢很多信息；如果直接拼起来训练，又会造成语义混乱。这就是 RDT 提出 **Physically Interpretable Unified Action Space** 的动机。`RDT-1b.pdf`
-
----
-
-# 3. RDT 的整体框架
-
-RDT 的输入可以分成三类。
-
-第一类是 **denoising inputs**：
-
-$$
-z_t,\ \tilde a_{t:t+T_a},\ c,\ k
-$$
-
 其中：
-
-- $z_t$：当前 proprioception；
-- $\tilde a_{t:t+T_a}$：当前 diffusion step 下的 noisy action chunk；
-- $c$：control frequency；
-- $k$：diffusion timestep。
-
-第二类是 **image condition**：
-
-$$
-X_{t-1:t}
-$$
-
-论文默认使用 2 帧图像历史，每帧有 3 个相机视角：exterior camera、right-wrist camera、left-wrist camera。
-
-第三类是 **language condition**：
 
 $$
 \ell
 $$
 
-模型输出是 denoised action chunk：
+是语言指令，
 
 $$
-\hat a_{t:t+T_a}
+o_t
 $$
 
-论文图 3 里画得比较清楚：低维输入进入 DiT 主干，语言和图像作为 condition 通过 cross-attention 注入，最后输出 denoised action chunk。`RDT-1b.pdf`
+是当前观测，
+
+$$
+a_{t:t+T_a}
+$$
+
+是未来一段 action chunk。
+
+因此，RDT 更准确的定位是：
+
+> **一个大规模 diffusion action generator / continuous-action VLA policy，而不是 AWM/WAM。**
+
+它的主要贡献是把原本偏 task-level 的 Diffusion Policy 思路扩展到：
+
+- 1.2B 参数规模；
+- 多机器人数据预训练；
+- 双臂机器人微调；
+- 语言 + 图像 + 本体状态输入；
+- 连续动作 chunk 生成；
+- 真实机器人部署。
 
 ---
 
-# 4. Diffusion 建模：它输出的是 clean action，不是 noise
+## 2. 论文要解决的问题
 
-这是我们前面讨论过的重点。
+### 2.1 双臂动作更强多模态
 
-经典 DDPM 里最常见的是预测 noise：
+双臂机器人执行同一个任务时，可能有多种合理动作模式。
+
+例如抓取一个物体时，可能：
+
+- 左手先动；
+- 右手先动；
+- 双手同时接近目标；
+- 两只手从不同方向接近目标。
+
+如果用确定性回归：
 
 $$
-\epsilon_\theta(x_k, k)
+(\ell, o_t) \rightarrow a_t
 $$
 
-但 RDT 这里采用的是 **x0 prediction / clean-action prediction**。它不是让模型预测噪声，而是让模型从 noisy action chunk 直接预测 clean action chunk：
+模型容易学到多个动作模式的平均值。但多个成功动作的平均值不一定是成功动作，甚至可能是不可执行的动作。
+
+因此，RDT 选择建模条件动作分布：
 
 $$
-\hat a^0_{t:t+T_a}
-=
-f_\theta(\ell, o_t, \tilde a_{t:t+T_a}, k)
+p(a_{t:t+T_a} \mid \ell, o_t)
 $$
 
-训练时，先对真实 action chunk 加噪：
+而不是只预测一个确定性动作。
+
+---
+
+### 2.2 双臂数据稀缺
+
+双臂机器人硬件昂贵，遥操作采集成本高，所以单一双臂机器人上的数据通常不足以训练 foundation model。
+
+RDT 采用两阶段路线：
+
+$$
+\text{multi-robot pretraining}
+\rightarrow
+\text{target bimanual fine-tuning}
+$$
+
+即先用大量多机器人数据学习可迁移的物理先验，再用目标双臂机器人的数据进行微调。
+
+---
+
+### 2.3 多机器人 action space 异构
+
+不同机器人动作空间不同：
+
+- 有的输出 joint position；
+- 有的输出 end-effector pose；
+- 有的有 gripper；
+- 有的有 mobile base；
+- 有的是单臂；
+- 有的是双臂；
+- 控制频率也不同。
+
+如果直接混合训练，会造成 action 语义混乱。
+
+RDT 因此设计了 **Physically Interpretable Unified Action Space**，把不同机器人的动作按物理含义映射到统一空间。
+
+---
+
+## 3. RDT 整体模型 Pipeline
+
+RDT 的完整 pipeline 可以拆成以下几个阶段。
+
+---
+
+### Stage 1：输入数据准备
+
+每个训练样本包括：
+
+$$
+(\ell, o_t, a_{t:t+T_a})
+$$
+
+其中：
+
+- 语言指令：
+
+$$
+\ell
+$$
+
+- 图像历史：
+
+$$
+X_{t-1:t}
+$$
+
+默认使用 2 帧，每帧 3 个相机视角：
+
+- exterior camera；
+- right-wrist camera；
+- left-wrist camera。
+
+- 当前 proprioception：
+
+$$
+z_t
+$$
+
+表示机器人当前本体状态。
+
+- action chunk：
+
+$$
+a_{t:t+T_a}
+$$
+
+论文中：
+
+$$
+T_a = 64
+$$
+
+也就是一次预测未来 64 个动作。
+
+- control frequency：
+
+$$
+c
+$$
+
+用于告诉模型当前数据来自什么控制频率的机器人系统。
+
+---
+
+### Stage 2：动作加噪，构造 diffusion 输入
+
+训练时，RDT 不直接输入真实 action，而是先对真实 action chunk 加噪。
+
+前向加噪过程是：
 
 $$
 \tilde a_{t:t+T_a}
@@ -163,7 +209,47 @@ $$
 \sqrt{1-\bar\alpha_k}\epsilon
 $$
 
-然后用 MSE 让模型预测原始 clean action：
+其中：
+
+$$
+\epsilon \sim \mathcal N(0, I)
+$$
+
+$$
+k \sim \text{Uniform}(\{1,\ldots,K\})
+$$
+
+这里的：
+
+$$
+\tilde a_{t:t+T_a}
+$$
+
+就是 noisy action chunk。
+
+模型训练目标是从 noisy action chunk 中恢复 clean action chunk：
+
+$$
+f_\theta(\ell, o_t, \tilde a_{t:t+T_a}, k)
+\approx
+a_{t:t+T_a}
+$$
+
+需要注意的是，RDT 采用的是 **x0 prediction / clean-action prediction**，而不是经典 DDPM 中常见的 noise prediction。
+
+也就是说，模型直接输出：
+
+$$
+\hat a^0_{t:t+T_a}
+$$
+
+而不是：
+
+$$
+\hat\epsilon
+$$
+
+训练 loss 是：
 
 $$
 \mathcal L(\theta)
@@ -175,53 +261,91 @@ f_\theta(\ell, o_t, \tilde a_{t:t+T_a}, k)
 \right)
 $$
 
-这和传统 noise prediction 并不矛盾。因为给定 $x_k$、$\bar\alpha_k$，预测 noise 和预测 $x_0$ 是可以互相换算的不同 parameterization：
+---
+
+### Stage 3：Unified Action Space 映射
+
+RDT 需要同时处理不同机器人数据，所以它定义了一个 128 维的 physically interpretable unified action space。
+
+这个空间中的不同维度对应明确物理含义，例如：
+
+- 右臂 joint positions；
+- 右 gripper joint positions；
+- 右臂 joint velocities；
+- 右 end-effector position；
+- 右 end-effector 6D pose；
+- 左臂 joint positions；
+- 左 gripper joint positions；
+- 左 end-effector pose；
+- base linear velocity；
+- base angular velocity；
+- reserved dimensions。
+
+对于单臂机器人，默认映射到右臂部分。
+
+对于缺失的维度，使用 padding。但 padding 不能简单填 0，因为 0 可能表示真实物理值，例如速度为 0 表示静止。
+
+为了解决这个歧义，RDT 会额外拼接一个 availability mask：
 
 $$
-\hat x_0 =
-\frac{x_k - \sqrt{1-\bar\alpha_k}\hat\epsilon}{\sqrt{\bar\alpha_k}}
+[u, m]
 $$
 
+其中：
+
+- $u$：128 维统一物理向量；
+- $m$：128 维 0/1 mask，表示每个维度是否真实存在。
+
+因此，进入低维 MLP encoder 的输入实际类似：
+
 $$
-\hat\epsilon =
-\frac{x_k - \sqrt{\bar\alpha_k}\hat x_0}{\sqrt{1-\bar\alpha_k}}
+[u, m] \in \mathbb R^{256}
 $$
 
-RDT 选择直接预测 clean action，直觉上更符合机器人策略：最终真正要执行的是 action，而不是 noise。论文的反向采样公式里也直接使用了 clean action estimate 来得到上一步 noisy action。`RDT-1b.pdf`
+这个设计的核心意义是：
+
+> **跨机器人训练时，不只是把动作 padding 到同一维度，而是按物理语义对齐。**
 
 ---
 
-# 5. 为什么要 action chunk？
+### Stage 4：低维输入 tokenization
 
-RDT 不是每次只预测一个动作，而是一次预测一段未来动作：
-
-$$
-a_{t:t+T_a}
-=
-(a_t, a_{t+1}, \ldots, a_{t+T_a-1})
-$$
-
-论文中：
+低维输入包括：
 
 $$
-T_a = 64
+z_t,\ \tilde a_{t:t+T_a},\ c,\ k
 $$
 
-action chunk 的作用主要有两个。
+其中：
 
-第一，减少决策次数。如果每一步都重新决策，策略误差会不断累积，机器人可能逐渐走出训练分布。一次预测多个动作，可以降低这种 compounding error。
+- 当前 proprioception $z_t$；
+- noisy action chunk $\tilde a_{t:t+T_a}$；
+- control frequency $c$；
+- diffusion timestep $k$。
 
-第二，提高动作时间连续性。diffusion 一次生成整段 action，模型可以同时考虑前后动作之间的协调关系，而不是单步贪心输出。
+RDT 会先把 $z_t$ 和 $\tilde a_{t:t+T_a}$ 映射到 unified action space，然后用 shared MLP 编码到 token space。
 
-这和 ACT、Diffusion Policy 里的 action chunking 思想是一致的。RDT 的区别是把 action chunk diffusion scale 到了 1.2B 参数、多机器人预训练和双臂部署。
+注意，这里不是把 proprioception 和 noisy action 直接拼成一个大向量，而是分别编码成 token：
 
----
+$$
+z_t \rightarrow h_z
+$$
 
-# 6. 低维输入如何融合：proprioception 和 noisy action 不是简单拼成一个大向量
+$$
+\tilde a_t \rightarrow h_{\tilde a_t}
+$$
 
-这是你前面问得很关键的一点。
+$$
+\tilde a_{t+1} \rightarrow h_{\tilde a_{t+1}}
+$$
 
-RDT 里 $z_t$ 和 $\tilde a_{t:t+T_a}$ 都属于 low-dimensional inputs。它们会先进入 unified action space，再用 shared MLP 编码到 token space。之后不是在数值维度上直接拼接，而是在 **sequence length 方向**拼成 token sequence：
+一直到：
+
+$$
+\tilde a_{t+T_a-1} \rightarrow h_{\tilde a_{t+T_a-1}}
+$$
+
+然后在 sequence length 方向拼接：
 
 $$
 H_0 =
@@ -236,107 +360,113 @@ h_k
 ]
 $$
 
-如果 $T_a=64$，那么主序列长度大致是：
+如果：
+
+$$
+T_a = 64
+$$
+
+那么主序列长度是：
 
 $$
 1 + 64 + 1 + 1 = 67
 $$
 
-这些 token 进入 DiT 主干后，通过 self-attention 融合。也就是说，当前 proprioception 对未来 noisy action 的影响不是手工规则，而是通过 Transformer attention 学出来的。论文附录明确说，proprioception 和 noisy action chunk 会先嵌入 unified action space，再用 shared MLP 编码；随后和 control frequency、diffusion timestep 在长度方向 concat。`RDT-1b.pdf`
-
-这个设计可以理解成：
-
-> $z_t$ 告诉模型“机器人现在在哪里”；  
-> $\tilde a_{t:t+T_a}$ 是当前 diffusion step 下“待去噪的未来动作草稿”；  
-> DiT 通过 self-attention 让未来动作 token 读取当前状态 token，再结合视觉和语言条件去 denoise。
+这些 token 构成 DiT 主干真正要更新的 denoising stream。
 
 ---
 
-# 7. 统一动作空间：这篇论文最值得关注的设计之一
+### Stage 5：语言和图像编码
 
-RDT 提出的 **Physically Interpretable Unified Action Space** 是 128 维。它不是无意义的 128 维 latent，而是每段维度都有物理含义，例如：
+语言和图像不是直接拼进主序列，而是作为 condition tokens 通过 cross-attention 注入。
 
-- 右臂 joint positions；
-- 右 gripper joint positions；
-- 右臂 joint velocities；
-- 右 EEF position；
-- 右 EEF 6D pose；
-- 左臂对应的一套量；
-- base linear velocity；
-- base angular velocity；
-- reserved dimensions。
+#### 语言编码
 
-单臂机器人默认映射到“右臂”部分；缺失维度 padding。论文表 4 给出了这 128 维的详细物理含义。`RDT-1b.pdf`
-
-这个设计背后的核心思想是：
-
-> 跨机器人预训练时，不要把 action 当成没有语义的 vector，而应该把相同物理含义的量对齐到相同槽位。
-
-例如，一个机器人输出 7-DoF joint positions，另一个机器人输出 6-DoF joint positions，只要它们都是“右臂 joint position”，就填到同一段物理槽位的前几维。
-
-还有一个非常重要的工程细节：padding 不能简单填 0。因为 0 本身也有物理意义，比如速度为 0 表示静止。为了避免模型分不清“真实 0”和“padding 0”，RDT 给 action/proprioception 额外拼接一个 0/1 availability vector，表示每一维是否真实存在，所以编码前会从 128 维变成类似 256 维。`RDT-1b.pdf`
-
-我认为这是 RDT 最值得记住的贡献之一。它不一定是跨 embodiment 的最终答案，但它非常清楚地指出了一个关键问题：**action representation 的物理语义对齐是跨机器人预训练的核心难点。**
-
----
-
-# 8. 多模态编码方式
-
-RDT 的编码器大致如下。
-
-## 8.1 低维物理量编码
-
-低维输入包括：
+语言指令：
 
 $$
-z_t,\ \tilde a_{t:t+T_a},\ c,\ k
+\ell
 $$
 
-其中 $z_t$ 和 $\tilde a$ 通过 unified action space 对齐，再通过 shared MLP 编成 token。control frequency 和 diffusion timestep 分别用 MLP 编码。
-
-论文提到这些 MLP 使用 Fourier features。这个意思是：不是直接把原始标量/向量输入 MLP，而是先做类似正弦余弦的频率映射：
+经过 frozen T5-XXL 编码，再通过 MLP adaptor 投影到 RDT token space：
 
 $$
-\gamma(x)
+C_{\text{text}}
 =
+\mathrm{MLP}(\mathrm{T5}(\ell))
+$$
+
+#### 图像编码
+
+图像历史：
+
+$$
+X_{t-1:t}
+$$
+
+经过 frozen SigLIP 编码，再通过 MLP adaptor 投影：
+
+$$
+C_{\text{img}}
+=
+\mathrm{MLP}(\mathrm{SigLIP}(X_{t-1:t}))
+$$
+
+图像 token 还会加入多维位置编码，用于区分：
+
+- 时间；
+- 相机视角；
+- 图像 patch 位置。
+
+T5 和 SigLIP 都被冻结，主要训练 adaptor 和 RDT 主体。
+
+---
+
+### Stage 6：DiT 主干融合信息
+
+RDT 主干是 Diffusion Transformer。它处理的是低维 denoising token sequence：
+
+$$
+H_0 =
 [
-x,\ 
-\sin(2\pi Bx),\ 
-\cos(2\pi Bx)
+h_z,\ 
+h_{\tilde a_t},\ldots,
+h_{\tilde a_{t+T_a-1}},
+h_c,
+h_k
 ]
 $$
 
-然后：
+在每个 DiT block 中，主序列先通过 self-attention 进行内部融合。
+
+这样 noisy action token 可以读取：
+
+- proprioception token；
+- diffusion timestep token；
+- control frequency token；
+- 其他 action chunk token。
+
+例如，每个 noisy action token 都可以通过 self-attention 获取当前机器人状态：
 
 $$
-h = \mathrm{MLP}(\gamma(x))
+h_{\tilde a_i}
+\leftarrow
+\mathrm{SelfAttn}
+(
+h_{\tilde a_i},
+[h_z, h_{\tilde a_t}, \ldots, h_c, h_k]
+)
 $$
 
-这样做的动机是机器人低维物理量可能有高频变化，比如接触、碰撞、夹爪闭合、摇杆推动等。Fourier features 可以帮助 MLP 更容易表示高频函数。
-
-但从 VLA/AWM 主流方法角度看，**MLP 常见，Fourier-feature MLP 不是主流标配**。这更像一个合理的工程 encoding trick，而不是这篇论文最核心的方法贡献。
-
-## 8.2 图像编码
-
-图像使用 frozen SigLIP 编码，然后接 MLP adaptor 投影到 RDT token space。RDT 使用固定的三视角格式：
-
-$$
-\text{exterior},\ \text{right-wrist},\ \text{left-wrist}
-$$
-
-单臂数据或者缺失相机的数据会用 background color padding。图像还使用多维 positional embedding，以区分时间、相机视角和 patch 位置。`RDT-1b.pdf`
-
-## 8.3 语言编码
-
-语言使用 frozen T5-XXL 编码，再通过 MLP adaptor 投影到 token space。T5 和 SigLIP 都被冻结，主要训练 adaptor 和 RDT 主干。这能降低训练显存压力，同时利用已有视觉语言表征能力。`RDT-1b.pdf`
+这一步实现了 proprioception 和 noisy action chunk 的融合。
 
 ---
 
-# 9. Cross-attention condition injection：不是 adaptive RMSNorm
+### Stage 7：Cross-attention 注入图像和语言条件
 
-RDT 的 image/language 条件不是通过 adaptive LayerNorm / adaptive RMSNorm 注入的，而是通过 DiT block 里的 cross-attention 注入。
+RDT 的 image/language condition injection 不是通过 adaptive RMSNorm / adaptive LayerNorm，而是通过 cross-attention。
 
-在某一层里，主序列 hidden state 是：
+在某一层中，主序列 hidden state 是：
 
 $$
 H^{(l)}
@@ -345,12 +475,12 @@ $$
 condition tokens 是：
 
 $$
-C_{\text{img}}
-\quad \text{或} \quad
-C_{\text{text}}
+C
 $$
 
-cross-attention 大致是：
+其中 $C$ 可以是 image tokens，也可以是 text tokens。
+
+cross-attention 计算形式是：
 
 $$
 Q = H^{(l)}W_Q
@@ -373,19 +503,24 @@ $$
 \right)V
 $$
 
-所以更准确地说：
+也就是说：
 
 - action/proprio/noisy-action tokens 作为 Query；
 - image 或 language tokens 作为 Key 和 Value；
-- 通过 attention 把 condition 信息读入主序列。
+- 主序列通过 attention 读取外部条件信息。
 
-这和 adaptive norm 的区别很大。adaptive norm 通常把 condition 压成一个向量，然后生成 scale/shift/gate 去调制 hidden state。而 RDT 认为图像和语言都是高维、变长 token sequence，压缩成一个 token 会丢信息，因此采用 cross-attention。论文也明确说，image/language 条件高维且长度可变，原始 DiT 的 adaptive layer norm approach 不适合，因此用 cross-attention。`RDT-1b.pdf`
+这和 adaptive norm 的区别在于：
+
+- adaptive norm 通常把 condition 压成一个向量，然后生成 scale/shift/gate；
+- RDT 的图像和语言条件是变长 token sequence，直接压成一个向量会损失信息，所以用 cross-attention。
 
 ---
 
-# 10. ACI：Alternating Condition Injection
+### Stage 8：Alternating Condition Injection
 
-RDT 没有每一层都同时注入 image 和 language，而是交替注入：
+RDT 没有每层同时注入 image 和 language，而是交替注入。
+
+例如可以理解为：
 
 $$
 C^{(l)}
@@ -396,85 +531,235 @@ C_{\text{text}}, & l \text{ 为另一些层}
 \end{cases}
 $$
 
-动机是：image tokens 通常远多于 language tokens。如果每层把 image tokens 和 language tokens 拼在一起 cross-attend，语言信息可能被图像 token 淹没，导致 instruction following 变差。
+这个设计叫 **Alternating Condition Injection**，简称 **ACI**。
 
-所以 RDT 让连续层交替读图像和语言。这个设计叫 **Alternating Condition Injection, ACI**。论文的 ablation 显示，不使用 ACI 时，倒水到指定水位这类 instruction-following 任务会明显变差。`RDT-1b.pdf`
+动机是：image tokens 通常远多于 language tokens。如果把 image tokens 和 text tokens 每层都拼在一起做 cross-attention，语言信息可能被图像信息淹没，从而影响 instruction following。
 
-我的评价是：ACI 是一个有意思的局部设计，但不一定是未来 VLA/AWM 的标准范式。它更多是针对 RDT 这种 “DiT denoising tokens + image/text cross-attention” 结构的 token imbalance 问题。
+交替注入可以让模型在一部分层专门读取图像，在另一部分层专门读取语言，从而缓解 image-token dominance。
 
 ---
 
-# 11. DiT 主干的几个结构改造
+### Stage 9：输出 clean action chunk
 
-RDT 基于 Diffusion Transformer，但作者认为机器人动作数据和图像数据不同：低维物理量有非线性动力学、高频变化、数值范围不稳定。因此做了几处改造。`RDT-1b.pdf`
-
-## 11.1 QKNorm + RMSNorm
-
-QKNorm 用于稳定 attention 的 $QK^\top$ 计算，避免大模型训练时数值不稳定。
-
-RMSNorm 替代 LayerNorm。作者的理由是，LayerNorm 的 centering 操作可能引入 token shift / attention shift，不适合时间序列预测；RMSNorm 不做均值中心化，更适合保留时间序列结构。
-
-论文图 4 显示，不使用 QKNorm 和 RMSNorm 时，训练 loss 会不稳定甚至爆炸。`RDT-1b.pdf`
-
-## 11.2 Nonlinear MLP decoder
-
-标准 DiT 常用 final linear decoder：
+经过多层 DiT 后，得到最终 hidden states：
 
 $$
-a = Wh + b
+H_L =
+[
+h_z^L,\ 
+h_{\tilde a_t}^L,\ldots,
+h_{\tilde a_{t+T_a-1}}^L,
+h_c^L,
+h_k^L
+]
 $$
 
-RDT 改成 nonlinear MLP decoder：
+模型主要取 action token 对应的 hidden states，通过 nonlinear MLP decoder 投影回 action space：
+
+$$
+\hat a_{t:t+T_a}
+=
+\mathrm{MLPDecoder}
+(
+h_{\tilde a_t}^L,\ldots,h_{\tilde a_{t+T_a-1}}^L
+)
+$$
+
+这里的 nonlinear MLP decoder 指的是：
 
 $$
 a = W_2\sigma(W_1h+b_1)+b_2
 $$
 
-这里“nonlinear”的关键就是中间有激活函数。如果没有激活函数，多层 linear 可以合并成一层 linear，本质没有区别。
-
-需要注意：即使 action 只有 2 维，MLP decoder 和 linear decoder 也不一样。因为 decoder 的输入不是 2 维 action，而是高维 latent：
+而不是简单 linear decoder：
 
 $$
-h \in \mathbb{R}^{2048}
+a = Wh+b
 $$
 
-输出才是：
+真正让它 nonlinear 的是中间激活函数 $\sigma$。如果 MLP 没有激活函数，多层 linear 仍然可以合并成一层 linear。
 
-$$
-a \in \mathbb{R}^{2}
-$$
-
-linear decoder 只能做高维 latent 到 action 的线性读出，而 MLP decoder 可以对 latent features 做非线性组合。论文认为这对非线性机器人动作和 dexterous task 有帮助。`RDT-1b.pdf`
-
-不过这也不是特别新的方法。MLP decoder 是常见增强表达能力的工程手段。RDT 里的核心贡献不应该被理解成“提出 MLP decoder”。
+即使 action 只有 2 维，MLP decoder 和 linear decoder 也不一样，因为 decoder 的输入是高维 latent，而不是 2 维 action 本身。MLP decoder 可以对高维 latent 做非线性组合，再输出动作。
 
 ---
 
-# 12. 数据和训练规模
+### Stage 10：推理时 iterative denoising
 
-RDT 的预训练数据包括 46 个机器人数据集，总规模 1M+ trajectories、21TB。主要包括 RT-1、DROID、RH20T、Mobile ALOHA、BridgeData V2、RoboSet、Open X-Embodiment 相关数据等。论文还对不同数据集设置 sampling weights，大体思路是避免大数据集过度主导，同时保证小数据集也有足够采样。`RDT-1b.pdf`
+推理时，模型从纯噪声 action chunk 开始：
 
-微调数据是作者自采的 Mobile ALOHA 双臂数据：
+$$
+a^K_{t:t+T_a} \sim \mathcal N(0, I)
+$$
+
+然后经过多步 denoising：
+
+$$
+a^K
+\rightarrow
+a^{K-1}
+\rightarrow
+\cdots
+\rightarrow
+a^0
+$$
+
+每一步都调用 RDT denoiser：
+
+$$
+\hat a^0
+=
+f_\theta(\ell, o_t, a^k, k)
+$$
+
+再根据 diffusion scheduler 更新到下一步。
+
+论文部署时使用 DPM-Solver++ 把采样步数从 100 步降到 5 步，使得 action chunk 生成可以实时运行。
+
+最终得到：
+
+$$
+\hat a_{t:t+T_a}
+$$
+
+机器人再执行这个 action chunk 中的动作。
+
+论文没有特别详细展开 chunk 执行策略，但可以理解为：模型以一定频率生成未来动作序列，控制器按时间顺序执行，并在后续观测更新后再次生成新的 action chunk。
+
+---
+
+## 4. RDT 的关键结构设计
+
+### 4.1 MLP with Fourier Features
+
+RDT 低维物理量编码中使用 MLP with Fourier features。
+
+普通 MLP 是：
+
+$$
+y = \mathrm{MLP}(x)
+$$
+
+Fourier-feature MLP 是：
+
+$$
+y = \mathrm{MLP}(\gamma(x))
+$$
+
+其中：
+
+$$
+\gamma(x)
+=
+[
+x,
+\sin(2\pi Bx),
+\cos(2\pi Bx)
+]
+$$
+
+它的作用是帮助 MLP 更容易表达高频变化。
+
+机器人低维物理量中可能存在高频变化，例如接触、碰撞、夹爪闭合、摇杆推动等。因此 RDT 用 Fourier features 增强低维输入表达能力。
+
+不过，这个设计不是当前 VLA/AWM 的主流标准模块。它更像是一个合理的工程 trick，而不是论文最核心贡献。
+
+---
+
+### 4.2 QKNorm + RMSNorm
+
+RDT 使用 QKNorm 稳定 attention 计算，避免大模型训练时：
+
+$$
+QK^\top
+$$
+
+数值不稳定。
+
+同时使用 RMSNorm 替代 LayerNorm。理由是 LayerNorm 的均值中心化可能引入 token shift / attention shift，对时间序列建模不利；RMSNorm 不做 centering，更适合保留时间序列结构。
+
+这些设计主要服务于训练稳定性。
+
+---
+
+### 4.3 Nonlinear MLP Decoder
+
+RDT 将 final linear decoder 替换为 nonlinear MLP decoder，用于增强从 Transformer latent 到物理动作空间的非线性映射能力。
+
+这个设计对 dexterous manipulation 有帮助，但它不是特别新的方法，更像常见的表达能力增强手段。
+
+---
+
+### 4.4 Alternating Condition Injection
+
+ACI 是 RDT 中相对有意思的结构设计。它通过交替注入 image/text tokens，缓解图像 token 过多导致语言信息被淹没的问题。
+
+但它也不是通用 VLA/AWM 标配，更多是针对 RDT 这种 DiT + cross-attention condition injection 架构的局部优化。
+
+---
+
+## 5. 数据和训练
+
+### 5.1 预训练数据
+
+RDT 使用 46 个机器人数据集进行预训练，总规模约：
+
+- 1M+ trajectories；
+- 21TB；
+- 多机器人；
+- 多任务；
+- 多动作空间。
+
+其中包括：
+
+- RT-1；
+- DROID；
+- RH20T；
+- Mobile ALOHA；
+- BridgeData V2；
+- RoboSet；
+- Open X-Embodiment 等数据。
+
+---
+
+### 5.2 微调数据
+
+作者自采了一个 Mobile ALOHA 双臂数据集，包括：
 
 - 300+ tasks；
 - 6K+ trajectories；
 - 3M+ frames；
 - 100+ objects；
 - 15+ scenes；
-- 三视角 RGB、双臂 joint 信息、人工语言标注；
-- 使用 GPT-4-Turbo 扩写和简化指令，提升语言多样性。`RDT-1b.pdf`
-
-训练规模很重：RDT-1B 是 1.2B 参数，论文称预训练使用 48 张 H100 80GB 训练一个月，共 1M steps；微调同样使用 48 张 H100，训练 130K steps，大约 3 天。推理时使用 DPM-Solver++，把 action chunk 采样从 100 steps 降到 5 steps，在 onboard RTX 4090 上达到 action chunk 6Hz、平均 action 381Hz。`RDT-1b.pdf`
-
-这也意味着它是一个非常重的系统工程，训练门槛很高。
+- 三视角 RGB；
+- 双臂 joint positions / velocities；
+- 人工语言标注；
+- 使用 GPT-4-Turbo 对指令进行扩写和简化。
 
 ---
 
-# 13. 实验设计和结论
+### 5.3 训练规模
 
-论文设计了 7 类真实机器人任务：
+RDT-1B 规模为：
 
-| 任务 | 测试维度 |
+- 28 层；
+- hidden size 2048；
+- 32 attention heads；
+- 1.2B 参数。
+
+训练代价很高：
+
+- 预训练：48 张 H100 80GB，约 1 个月；
+- 微调：同样 48 张 H100，约 3 天。
+
+这说明 RDT 是一个典型的大规模系统工程，而不是轻量方法。
+
+---
+
+## 6. 实验和结论
+
+论文测试了 7 类真实机器人任务：
+
+| 任务 | 测试能力 |
 |---|---|
 | Wash Cup | unseen object |
 | Pour Water | unseen scene |
@@ -484,131 +769,116 @@ RDT 的预训练数据包括 46 个机器人数据集，总规模 1M+ trajectori
 | Fold Shorts | 1-shot learning |
 | Robot Dog | dexterity |
 
-baselines 包括 ACT、OpenVLA、Octo、RDT scratch。ACT 是双臂领域强 baseline，使用 VAE 建模动作分布；OpenVLA 是 discretized action token 路线；Octo 是 diffusion-based generalist policy，但规模较小。`RDT-1b.pdf`
+对比方法包括：
 
-实验结果总体显示：
+- ACT；
+- OpenVLA；
+- Octo；
+- RDT scratch；
+- RDT ours。
 
-- RDT 在 unseen cups / unseen rooms 上明显优于 baseline；
-- 在 Pour Water-L-1/3 / R-2/3 中，RDT 能 follow 左/右手和指定水位；
-- Handover 只用 5 demos，Fold Shorts 只用 1 demo，RDT 仍有一定成功率；
-- Robot Dog 任务要求精细推摇杆角度，RDT 比其他方法更稳。`RDT-1b.pdf`
+实验结论是 RDT 在多数任务上显著优于 baseline。尤其在：
 
-论文的 ablation 更能说明主线：
+- unseen object；
+- unseen scene；
+- instruction following；
+- few-shot skill；
+- dexterous control；
 
-| 变体 | 含义 |
-|---|---|
-| RDT ours | large model + pretraining + diffusion |
-| RDT regress | 不用 diffusion，做 deterministic regression |
-| RDT small | 小模型，166M |
-| RDT scratch | 不做预训练 |
+这些方面表现更好。
 
-结果显示，没有 diffusion、没有大模型、没有预训练都会造成性能下降。尤其 RDT scratch 在 unseen object / scene 上明显变差，说明大规模多机器人预训练对泛化很重要。`RDT-1b.pdf`
+Ablation 也说明：
 
-所以论文真正想证明的是：
+- 去掉 diffusion，变成 regression，性能下降；
+- 模型变小，性能下降；
+- 不做预训练，泛化性能下降；
+- diffusion + large model + large-scale pretraining 三者都重要。
+
+因此，论文真正想证明的是：
 
 $$
-\text{bimanual generalization}
-\approx
+\text{strong bimanual policy}
+=
 \text{diffusion action modeling}
 +
 \text{large model}
 +
-\text{large multi-robot pretraining}
+\text{multi-robot pretraining}
 +
-\text{target robot fine-tuning}
+\text{target bimanual fine-tuning}
 $$
-
-而不是某个单点 trick 决定了一切。
 
 ---
 
-# 14. 这篇文章的主要贡献
+## 7. 主要贡献
 
-结合我们上面的讨论，我认为 RDT 的贡献分成四层。
+### 7.1 将 Diffusion Policy 扩展为 foundation-scale policy
 
-## 14.1 第一贡献：把 Diffusion Policy scale 到 foundation model 级别
+RDT 最大的贡献是证明 diffusion action model 可以 scale 到 foundation model 级别。
 
-这是最核心的贡献。
-
-Diffusion Policy 原本更多是 task-level policy。RDT 证明了 diffusion action model 可以变成：
-
-- 1.2B 参数；
-- Transformer/DiT 主干；
-- 多模态输入；
-- 多机器人预训练；
-- 目标双臂机器人微调；
-- 真实机器人部署。
-
-这在 VLA 发展脉络中很重要，因为它提供了一条不同于 “VLM + discrete action token” 的路线：
+它不是只在单任务小数据上训练 diffusion policy，而是构建了：
 
 $$
-\text{language/image/state}
-\rightarrow
-\text{diffusion denoiser}
-\rightarrow
-\text{continuous action chunk}
+\text{Diffusion Policy}
++
+\text{DiT}
++
+\text{large-scale pretraining}
++
+\text{bimanual fine-tuning}
 $$
 
-对于双臂、高精度、接触丰富、动作多模态的场景，continuous diffusion action modeling 比离散 action token 更自然。
-
-## 14.2 第二贡献：Physically Interpretable Unified Action Space
-
-这是方法上最值得关注的地方。
-
-跨机器人训练最大难点之一就是 action/proprioception 表示不统一。RDT 的统一动作空间虽然是人工设计的，但它明确保留物理语义：
-
-$$
-\text{raw action}
-\rightarrow
-\text{physical slots}
-$$
-
-这比简单归一化成无意义 vector 更合理。对于后续 AWM/WAM 或跨 embodiment 模型来说，action representation 仍然是核心问题。RDT 在这点上提供了一个非常清晰的工程方案。
-
-## 14.3 第三贡献：双臂 manipulation foundation policy 的系统验证
-
-RDT 的实验聚焦双臂任务，而不是简单单臂 pick-and-place。它强调 bimanual coordination、多模态 action、few-shot skill、dexterity、instruction following。对于双臂机器人学习来说，这篇论文的系统意义大于单点结构创新。
-
-## 14.4 第四贡献：证明 diffusion + scale + data 都重要
-
-Ablation 表明：
-
-- deterministic regression 不够；
-- 小模型不够；
-- 不预训练泛化差；
-- diffusion 更适合多模态动作分布。
-
-这比 Fourier features、MLP decoder、ACI 等 trick 更重要。
+的完整系统。
 
 ---
 
-# 15. 哪些部分不要过度解读
+### 7.2 提出物理可解释 Unified Action Space
 
-我们前面也讨论过，这篇文章里很多设计不是当前 VLA/AWM 的“主流核心模块”。
+这是方法上最值得关注的贡献。
 
-## 15.1 Fourier-feature MLP 不是主流 VLA 标配
-
-它合理，但不是核心贡献。论文也没有单独 ablate 它，所以不能证明它对最终效果有决定性作用。
-
-## 15.2 Nonlinear MLP decoder 是常见工程增强
-
-它有用，但本质是把最后 linear projection 换成带激活的 MLP。这个思路很常见，不是新范式。
-
-## 15.3 QKNorm / RMSNorm 是训练稳定性配置
-
-这对 RDT 训练很重要，但也不是机器人 foundation model 独有创新。
-
-## 15.4 ACI 有趣，但结构依赖强
-
-ACI 针对的是 RDT 这种 image/text cross-attention 注入方式里的 token imbalance 问题。它不一定会成为所有 VLA/AWM 的标准设计。
+它解决了多机器人预训练中的 action/proprioception 异构问题，让不同机器人的物理量可以按语义对齐，而不是变成无意义的统一 vector。
 
 ---
 
-# 16. 和 OpenVLA、Octo、π 系列的关系
+### 7.3 系统验证双臂机器人 foundation policy
 
-## 16.1 和 OpenVLA
+RDT 聚焦双臂操作，覆盖：
 
-OpenVLA 是典型的：
+- unseen object；
+- unseen scene；
+- few-shot；
+- dexterity；
+- instruction following。
+
+它的价值很大程度来自真实机器人系统验证。
+
+---
+
+### 7.4 证明 diffusion + scale + data 的组合有效
+
+论文不是证明某个小 trick 决定性能，而是证明大模型、大数据、diffusion action modeling 的组合对双臂操作泛化很重要。
+
+---
+
+## 8. 局限性
+
+第一，RDT 不是显式 world model。它不预测未来 observation，也不做 world rollout，因此它不是 AWM/WAM。
+
+第二，它不是真正 zero-shot cross-embodiment policy。它需要在目标双臂机器人上 fine-tune。
+
+第三，训练成本极高。48 张 H100 训练一个月，这对大多数团队都不现实。
+
+第四，baseline 对比需要谨慎。OpenVLA 和 Octo 原本不一定针对双臂高精度连续控制优化，它们在 RDT 任务中失败，不完全说明路线本身弱。
+
+第五，很多结构 trick 没有充分独立 ablation。例如 Fourier features 没有单独消融，无法判断其关键性。
+
+第六，Unified Action Space 是人工设计的物理槽位，适合 gripper-arm 类机器人，但对 dexterous hand、soft robot、legged manipulation 等更复杂 embodiment 是否适用，还需要进一步验证。
+
+---
+
+## 9. 和 VLA/AWM 的关系
+
+RDT 和典型 VLA 的区别在于，很多 VLA 走的是：
 
 $$
 \text{VLM}
@@ -616,124 +886,50 @@ $$
 \text{discrete action tokens}
 $$
 
-它的优势是继承 LLM/VLM 的语义能力，路线更接近大语言模型范式。RDT 则是：
+而 RDT 走的是：
 
 $$
+\text{language/image/state}
+\rightarrow
 \text{DiT denoiser}
 \rightarrow
 \text{continuous action chunk}
 $$
 
-它更适合连续高精度动作生成，尤其是双臂动作多模态场景。
+所以它更适合高精度、连续控制、多模态动作分布强的任务。
 
-## 16.2 和 Octo
-
-Octo 也是 diffusion-based generalist robot policy，但模型规模更小，论文里提到 Octo 最大版本约 93M 参数。RDT 的差异在于：规模更大、双臂 fine-tuning 数据更多、统一动作空间设计更强、目标任务更聚焦双臂真实部署。`RDT-1b.pdf`
-
-## 16.3 和 π₀ / π₀.₅
-
-π 系列更接近新的 VLA/action expert 路线，尤其 π₀ 使用 flow matching 做连续动作生成，并和 VLM backbone 结合得更紧。RDT 则更像一个 DiT-based diffusion policy foundation model。
-
-可以粗略理解为：
-
-$$
-\text{RDT}
-=
-\text{Diffusion Policy}
-+
-\text{DiT scale-up}
-+
-\text{Unified Action Space}
-+
-\text{Bimanual finetuning}
-$$
-
-$$
-\pi_0
-=
-\text{VLM}
-+
-\text{Action Expert}
-+
-\text{Flow Matching}
-$$
-
-如果你关注下一代 VLA/AWM 主线，π 系列可能更接近当前趋势；但如果你关注连续 action chunk、多模态动作分布、双臂操作，RDT 仍然非常值得读。
-
----
-
-# 17. 和 AWM / WAM 的关系
-
-RDT 对 AWM/WAM 的直接贡献有限，因为它没有显式 world model。
-
-它没有建模：
+但 RDT 和 AWM/WAM 的关系较弱。它没有显式建模：
 
 $$
 p(o_{t+1} \mid o_t, a_t)
 $$
 
-也没有显式预测未来图像、未来 object state、contact state、success/failure、scene dynamics。
+也没有显式 object-centric world state、planning rollout、memory 或 future prediction。
 
-它学的是：
+因此，RDT 对 AWM/WAM 的启发主要在 action-side：
 
-$$
-p(a_{t:t+T_a} \mid \ell, o_t)
-$$
-
-所以 RDT 更像一个强 low-level action generator，而不是 world-action model。
-
-但它对 AWM/WAM 有 action-side 启发：
-
-1. action representation 需要物理语义对齐；
-2. continuous action 可能比离散 action token 更适合双臂精细控制；
-3. action chunk 可以作为低层控制接口；
-4. diffusion/flow 类模型适合表达多模态动作分布；
-5. 多机器人预训练需要认真处理 embodiment/action heterogeneity。
+- 如何表示连续动作；
+- 如何处理多模态动作分布；
+- 如何做 action chunk；
+- 如何进行跨机器人 action space 对齐；
+- 如何利用多机器人数据预训练 action generator。
 
 ---
 
-# 18. 主要局限
+## 10. 总结
 
-第一，RDT 不是真正的 zero-shot cross-embodiment policy。它最终还是需要在目标双臂机器人上 fine-tune。论文也明确说，目标是用多机器人数据提升目标双臂机器人的泛化能力，而不是训练一个直接适配所有机器人的跨 embodiment 模型。`RDT-1b.pdf`
+RDT-1B 不是未来 VLA/AWM 的完整答案，但它是 continuous-action diffusion foundation policy 这条路线中的重要系统论文。
 
-第二，训练成本非常高。48 张 H100 80GB 训练一个月，这使得它更像大团队系统工程，而不是普通实验室容易复现的方法。
+它的核心不是 Fourier features、MLP decoder、ACI 这些局部 trick，而是证明了：
 
-第三，baseline 对比需要谨慎。OpenVLA、Octo 原本不一定针对双臂高精度连续控制优化，它们在 RDT 的任务设定里失败，不一定完全说明模型路线本身弱，也可能是 action representation、fine-tuning recipe、deployment setup 不匹配。
+> **Diffusion Policy 可以通过 DiT、大规模多机器人预训练、物理可解释统一动作空间和目标双臂微调，扩展成一个真实可部署的双臂机器人基础策略模型。**
 
-第四，实验 trial 数不大。很多 real-robot 任务是 8 次或 25 次测试，能证明方向和趋势，但具体成功率数字不要过度解读。`RDT-1b.pdf`
+最值得记住的四点是：
 
-第五，很多结构 trick 没有充分独立 ablation。比如 Fourier features 没有单独实验，不能判断其关键性。
-
-第六，unified action space 是人工设计的物理槽位，适合 gripper-arm 类机器人，但对 dexterous hand、soft robot、legged manipulation、tool-use heavy setting 是否足够，还不清楚。
-
----
-
-# 19. 最终评价
-
-我会把这篇论文总结为：
-
-> **RDT-1B 不是未来 VLA/AWM 的完整答案，但它是 continuous-action diffusion foundation policy 这条路线里非常重要的一篇系统论文。**
-
-它的价值不在于提出了很多新的小模块，而在于系统性证明：
-
-$$
-\text{Diffusion Policy}
-\quad
-\text{可以被 scale 到}
-\quad
-\text{large model + large data + bimanual real robot deployment}
-$$
-
-这篇文章你需要重点记住四个东西：
-
-1. **为什么双臂动作更适合 diffusion**：动作多模态强，回归会平均多个模式。
-2. **RDT 如何做 action diffusion**：输入 noisy action chunk，直接预测 clean action chunk。
-3. **Unified Action Space 为什么重要**：跨机器人训练必须对齐 action/proprioception 的物理语义。
-4. **真正贡献是系统 scale-up，而不是 Fourier features / MLP decoder / ACI 这些 trick**。
-
-一句话版：
-
-**RDT 是把 Diffusion Policy 扩展成双臂机器人基础模型的一次大规模系统验证；它对 AWM/WAM 的直接贡献有限，但对连续动作建模、双臂多模态动作生成、跨机器人 action representation 很有参考价值。**
+1. 双臂动作多模态更强，所以 diffusion 比 deterministic regression 更自然。
+2. RDT 输入 noisy action chunk，输出 clean action chunk，采用的是 x0 prediction。
+3. Unified Action Space 是跨机器人预训练中最有价值的设计之一。
+4. RDT 是 action generator，不是 world model；它对 AWM/WAM 的直接贡献有限，但对连续动作建模非常有参考价值。
 
 ## 相关笔记
 
@@ -748,3 +944,6 @@ $$
 
 ---
 Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)
+- [[Robot/ChatGPT-Diffusion Policy 概述|Diffusion Policy 概述]]
+- [[Robot/ChatGPT-RT-1 论文综述|RT-1 论文综述]]
+- [[Robot/ChatGPT-RT-2 论文综述|RT-2 论文综述]]
