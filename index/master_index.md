@@ -21,7 +21,8 @@ See: [[index/robotics_papers|Robotics Papers Index]]
 
 Topics covered now:
 
-- Physical Intelligence pi0, pi0.5, pi0.6, pi*0.6 / RECAP, pi0.7
+- Physical Intelligence pi0, pi0.5, pi0.6, pi*0.6 / RECAP
+- π0.7 steerable generalist VLA
 - FAST action tokenization
 - MEM robotic memory model
 - RDT-1B diffusion foundation policy for bimanual manipulation

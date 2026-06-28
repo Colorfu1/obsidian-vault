@@ -4,7 +4,7 @@ Use this index for generative models, reinforcement learning, LLM training, KL o
 
 ## Generative Models
 
-- [[VQVAE_综述|VQ-VAE]]
+- [[VQVAE_综述|VQ-VAE 综述]]
   - Topic: VQ-VAE, codebook, quantizer, autoregressive prior, teacher forcing, loss mask, weight tying, text/image vocabulary design.
   - Importance: high
   - Notes: Core concept note. Start here for VQ-VAE, codebook loss, commitment loss, and autoregressive prior questions.
@@ -28,23 +28,27 @@ Use this index for generative models, reinforcement learning, LLM training, KL o
 
 ## Cross-Topic Links
 
-- [[Robot/PI/ChatGPT-Pi_star0.6论文问题解答|pi*0.6 / RECAP]]
+- [[Robot/PI/ChatGPT-Pi_star0.6论文问题解答|pi*0.6 / RECAP 论文问题解答]]
   - Topic: regularized RL, advantage-conditioned policy, value model, offline RL, RECAP.
   - Importance: high
   - Notes: Robotics paper note, but useful for RL-style policy improvement and advantage reweighting.
 
-- [[Robot/PI/FAST_知识总结|FAST]]
+- [[Robot/PI/FAST_知识总结|FAST 知识总结]]
   - Topic: action tokenization, quantile normalization, DCT, scale-and-round quantization, BPE compression.
   - Importance: high
   - Notes: Robotics paper note, but useful for tokenization and compression concepts.
 
+- [[Robot/ChatGPT-Diffusion Policy 概述|Diffusion Policy 概述]]
+  - Topic: diffusion action policy, conditional diffusion, action chunks, receding-horizon control.
+  - Importance: high
+  - Notes: Robotics paper note, but useful for diffusion policy, multimodal action distributions, and action sequence generation questions.
+
 - [[Robot/ChatGPT-RDT-1B|RDT-1B]]
   - Topic: action diffusion, clean-action prediction, DiT denoising, continuous action chunks, unified action space.
   - Importance: high
-  - Notes: Robotics paper note, but useful for diffusion policy, action distribution modeling, and x0/clean-action prediction questions.
+  - Notes: Robotics paper note, but useful for foundation-scale diffusion policy, action distribution modeling, and x0/clean-action prediction questions.
 
 ## Not Yet Indexed
 
-- Diffusion standalone notes: not found yet. Action diffusion appears in the RDT-1B robotics note.
 - Flow matching standalone notes: not found yet. Flow matching appears inside the PI robotics notes.
 - Normalization standalone notes: not found yet. Related normalization appears in FAST and pi0.5 notes.

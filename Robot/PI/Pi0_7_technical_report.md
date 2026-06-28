@@ -1,12 +1,12 @@
 ---
 title: π0.7 技术报告
 type: paper_note
-topic: steerable_vla
+topic: robotics_foundation_model
 status: mature
 importance: high
 updated: 2026-06-26
 tags:
-  - pi0-7
+  - pi0.7
   - physical-intelligence
   - vla
   - robot-foundation-model
@@ -14,9 +14,11 @@ tags:
   - subgoal
   - subtask
   - action-chunking
+  - flow-matching
+  - mem
+  - recap
   - robotics
 ---
-
 # π0.7 技术报告：Steerable Generalist VLA 的模型结构、训练机制与推理系统
 
 > 论文：**π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities**  
@@ -1263,3 +1265,5 @@ $$
 - [[Robot/PI/ChatGPT-Pi_0.6论文问题解答|pi0.6]]：Knowledge Insulation、continuous action chunk 与 subtask-conditioned action generation。
 - [[Robot/PI/ChatGPT-Pi_0.5综述|pi0.5]]：high-level language intermediate outputs 和长程任务分解。
 - [[Robot/ChatGPT-RDT-1B|RDT-1B]]：另一条 large-scale continuous action policy 路线。
+- [[Robot/PI/FAST_知识总结|FAST]]：离散 action tokenization 路线。
+- [[Robot/ChatGPT-Diffusion Policy 概述|Diffusion Policy]]：diffusion action chunk 与 receding-horizon control 路线。

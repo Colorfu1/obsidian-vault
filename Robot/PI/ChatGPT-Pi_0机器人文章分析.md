@@ -1335,6 +1335,7 @@ flow velocity prediction
 - [[Robot/PI/ChatGPT-Pi_0.5综述|pi0.5]]：在 pi0 基础上加入长程任务和 high-level language intermediate outputs。
 - [[Robot/PI/ChatGPT-Pi_0.6论文问题解答|pi0.6]]：进一步组合 continuous action chunk、intermediate text 和 FAST tokens。
 - [[Robot/ChatGPT-RDT-1B|RDT-1B]]：continuous action generation 的 diffusion policy 对照路线。
+- [[Robot/ChatGPT-Diffusion Policy 概述|Diffusion Policy]]：低层 action chunk diffusion 路线。
 
 
 

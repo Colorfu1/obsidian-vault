@@ -41,3 +41,9 @@ $$
 
 ---
 Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)
+## 相关笔记
+
+- [[Robot/PI/FAST_知识总结|FAST 知识总结]]
+- [[Robot/ChatGPT-ALOHA硬件与ACT算法|ALOHA 硬件与 ACT 算法]]
+- [[Robot/PI/ChatGPT-Pi_0机器人文章分析|pi0 机器人文章分析]]
+- [[Robot/PI/ChatGPT-Pi_0.6论文问题解答|pi0.6 论文问题解答]]
