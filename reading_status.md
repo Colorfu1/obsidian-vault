@@ -1,6 +1,6 @@
 # Reading Status
 
-Updated: 2026-06-28
+Updated: 2026-07-02
 
 ## Finished
 
@@ -28,6 +28,8 @@ Updated: 2026-06-28
   - [[Robot/ChatGPT-RT-2 论文综述|RT-2 论文综述]]
 - RDT-1B
   - [[Robot/ChatGPT-RDT-1B|RDT-1B]]
+- GR00T N1
+  - [[Robot/ChatGPT-GR00T N1 综述|GR00T N1 综述]]
 - VQ-VAE
   - [[VQVAE_综述|VQ-VAE 综述]]
 - PPO

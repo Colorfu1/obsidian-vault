@@ -7,7 +7,7 @@ It contains technical notes, paper reading notes, and structured explanations co
 ## Main Topics
 
 - AI fundamentals: VQ-VAE, autoregressive priors, reinforcement learning, PPO, SAC, OPD, KL, normalization, action/token modeling.
-- Robotics: Physical Intelligence PI series, RT-1/RT-2, VLA, pi0.7, FAST, MEM, RDT-1B, robot foundation models, flow matching action policies, diffusion action policies.
+- Robotics: Physical Intelligence PI series, RT-1/RT-2, VLA, pi0.7, FAST, MEM, RDT-1B, GR00T N1, robot foundation models, flow matching action policies, diffusion action policies.
 - Robot imitation learning and hardware: ALOHA low-cost bimanual teleoperation, ACT action chunking, CVAE imitation learning, Diffusion Policy.
 - Autonomous driving: LiDAR perception, TensorRT deployment, BEV visualization. This topic is planned, but there are no dedicated notes in the current index yet.
 - Personal planning: life documents and planning notes. Keep private or explicitly indexed only when safe to expose.
@@ -19,7 +19,7 @@ It contains technical notes, paper reading notes, and structured explanations co
 - `Robot/`
   - Robotics paper notes and embodied AI notes.
   - `Robot/PI/` contains Physical Intelligence paper notes, including pi0, pi0.5, pi0.6, pi*0.6 / RECAP, pi0.7, FAST, and MEM.
-  - Root-level `Robot/*.md` files contain non-PI robotics notes such as ALOHA hardware, ACT, RT-1/RT-2, Diffusion Policy, and RDT-1B.
+  - Root-level `Robot/*.md` files contain non-PI robotics notes such as ALOHA hardware, ACT, RT-1/RT-2, Diffusion Policy, RDT-1B, and GR00T N1.
 - `RL/`
   - Reinforcement learning and LLM-training related notes, including PPO, SAC/PPO comparison, and OPD.
 - Repository root
@@ -32,7 +32,7 @@ It contains technical notes, paper reading notes, and structured explanations co
 - [[index/ai_fundamentals|AI Fundamentals Index]]
   - AI fundamentals, generative models, RL, and LLM training notes.
 - [[index/robotics_papers|Robotics Papers Index]]
-  - Robotics foundation model, Physical Intelligence, robot memory, action tokenization, diffusion policies, RT-series VLA notes, ALOHA hardware, and ACT notes.
+  - Robotics foundation model, Physical Intelligence, robot memory, action tokenization, diffusion policies, RT-series VLA notes, humanoid foundation model notes, ALOHA hardware, and ACT notes.
 - [[reading_status|Reading Status]]
   - Reading progress and next reading candidates.
 - [[VQVAE_综述|VQ-VAE 综述]]

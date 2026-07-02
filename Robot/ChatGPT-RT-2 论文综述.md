@@ -1074,3 +1074,4 @@ Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)
 - [[Robot/PI/ChatGPT-Pi_0机器人文章分析|pi0 机器人文章分析]]
 - [[Robot/PI/Pi0_7_technical_report|π0.7 技术报告]]
 - [[Robot/ChatGPT-RDT-1B|RDT-1B]]
+- [[Robot/ChatGPT-GR00T N1 综述|GR00T N1 综述]]

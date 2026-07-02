@@ -947,3 +947,4 @@ Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)
 - [[Robot/ChatGPT-Diffusion Policy 概述|Diffusion Policy 概述]]
 - [[Robot/ChatGPT-RT-1 论文综述|RT-1 论文综述]]
 - [[Robot/ChatGPT-RT-2 论文综述|RT-2 论文综述]]
+- [[Robot/ChatGPT-GR00T N1 综述|GR00T N1 综述]]

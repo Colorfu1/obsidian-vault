@@ -59,6 +59,13 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Importance: high
   - Notes: Start here for RDT-1B, diffusion-based robot foundation policies, continuous action modeling, unified action/proprioception representation, and comparisons with OpenVLA, Octo, ACT, and pi-series flow-matching policies.
 
+## Humanoid and Generalist Robot Foundation Models
+
+- [[Robot/ChatGPT-GR00T N1 综述|GR00T N1 综述]]
+  - Topic: GR00T N1, open foundation model for generalist humanoid robots, dual-system VLA architecture, Eagle-2 VLM System 2, DiT / flow-matching System 1, embodiment-specific state/action adapters, data pyramid with real data, simulation trajectories, and neural trajectories.
+  - Importance: high
+  - Notes: Start here for humanoid robot foundation models, GR00T N1 architecture, VLM-conditioned action diffusion/flow matching, multi-source data mixture, rapid embodiment adaptation, and comparisons with RDT-1B, π0.7, RT-2, and Diffusion Policy.
+
 ## Robot Memory Models
 
 - [[Robot/PI/ChatGPT-MEM 文章分析|MEM 文章分析]]

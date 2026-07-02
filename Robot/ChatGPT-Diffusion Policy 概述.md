@@ -536,3 +536,4 @@ Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)
 - [[Robot/ChatGPT-RDT-1B|RDT-1B]]
 - [[Robot/ChatGPT-RT-1 论文综述|RT-1 论文综述]]
 - [[Robot/ChatGPT-RT-2 论文综述|RT-2 论文综述]]
+- [[Robot/ChatGPT-GR00T N1 综述|GR00T N1 综述]]
