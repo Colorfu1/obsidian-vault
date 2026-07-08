@@ -1,6 +1,6 @@
 # Reading Status
 
-Updated: 2026-07-02
+Updated: 2026-07-08
 
 ## Finished
 
@@ -30,6 +30,10 @@ Updated: 2026-07-02
   - [[Robot/ChatGPT-RDT-1B|RDT-1B]]
 - GR00T N1
   - [[Robot/ChatGPT-GR00T N1 综述|GR00T N1 综述]]
+- Gemini Robotics 1.5
+  - [[Robot/ChatGPT-Gemini Robotics 1.5 综述|Gemini Robotics 1.5 综述]]
+- MolmoAct2
+  - [[Robot/ChatGPT-MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
 - VQ-VAE
   - [[VQVAE_综述|VQ-VAE 综述]]
 - PPO

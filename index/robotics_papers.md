@@ -40,6 +40,7 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Topic: RT-2, Vision-Language-Action model, PaLI-X/PaLM-E co-fine-tuning, web knowledge transfer to robot control, VQA-style action prompting, action tokens, semantic generalization.
   - Importance: high
   - Notes: Use for RT-2's VLM-to-action-token formulation, semantic generalization, web-scale co-training, and comparisons with RT-1, FAST, OpenVLA/Octo, and pi-series VLA models.
+
 ## Action Tokenization
 
 - [[Robot/PI/FAST_知识总结|FAST 知识总结]]
@@ -65,6 +66,16 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Topic: GR00T N1, open foundation model for generalist humanoid robots, dual-system VLA architecture, Eagle-2 VLM System 2, DiT / flow-matching System 1, embodiment-specific state/action adapters, data pyramid with real data, simulation trajectories, and neural trajectories.
   - Importance: high
   - Notes: Start here for humanoid robot foundation models, GR00T N1 architecture, VLM-conditioned action diffusion/flow matching, multi-source data mixture, rapid embodiment adaptation, and comparisons with RDT-1B, π0.7, RT-2, and Diffusion Policy.
+
+- [[Robot/ChatGPT-Gemini Robotics 1.5 综述|Gemini Robotics 1.5 综述]]
+  - Topic: Gemini Robotics 1.5, multi-embodiment VLA, embodied reasoning VLM, thinking VLA, tool use, success detection, safety reasoning, motion transfer, and closed-loop robot agent orchestration.
+  - Importance: high
+  - Notes: Use for next-generation robot agent systems where high-level embodied reasoning, planning, progress monitoring, and low-level VLA action execution are separated into cooperating modules.
+
+- [[Robot/ChatGPT-MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
+  - Topic: MolmoAct2, open action reasoning model for real-world robot deployment, Molmo2-ER embodied reasoning backbone, FAST action tokenizer, flow-matching continuous action expert, per-layer KV conditioning, adaptive depth-token reasoning, and inference optimization.
+  - Importance: high
+  - Notes: Use for deployment-oriented VLA systems that connect embodied/spatial reasoning, action tokenization, continuous control, depth reasoning, and open robot data/recipe reproducibility.
 
 ## Robot Memory Models
 

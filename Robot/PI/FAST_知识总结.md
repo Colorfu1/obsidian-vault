@@ -889,6 +889,7 @@ FAST 的贡献可以分成三层：
 - [[Robot/ChatGPT-RDT-1B|RDT-1B]]：continuous diffusion action chunk 路线，可与 FAST 离散 token 路线对比。
 - [[Robot/ChatGPT-Diffusion Policy 概述|Diffusion Policy]]：连续 action diffusion 路线。
 - [[Robot/PI/Pi0_7_technical_report|pi0.7]]：FAST token CE loss 与 flow matching action expert 的后续结合。
+- [[Robot/ChatGPT-MolmoAct2论文框架分析|MolmoAct2]]：FAST action tokens、per-layer KV conditioning 与 continuous action expert 的部署型组合。
 - [[VQVAE_综述|VQ-VAE 综述]]：离散 token、codebook、autoregressive prior 的基础概念。
 - [[Robot/ChatGPT-RT-1 论文综述|RT-1 论文综述]]
 - [[Robot/ChatGPT-RT-2 论文综述|RT-2 论文综述]]

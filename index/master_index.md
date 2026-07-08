@@ -27,6 +27,8 @@ Topics covered now:
 - MEM robotic memory model
 - RDT-1B diffusion foundation policy for bimanual manipulation
 - GR00T N1 humanoid generalist robot foundation model
+- Gemini Robotics 1.5 embodied robot agent system
+- MolmoAct2 action reasoning model for real-world robot deployment
 - RT-1 / RT-2 robot transformer and web-scale VLA
 - VLA / robot foundation models
 - Flow matching action policies

@@ -938,6 +938,7 @@ RDT-1B 不是未来 VLA/AWM 的完整答案，但它是 continuous-action diffus
 - [[Robot/PI/ChatGPT-Pi_0机器人文章分析|pi0]]：flow matching action expert 路线。
 - [[Robot/PI/ChatGPT-Pi_0.6论文问题解答|pi0.6]]：continuous action chunk 与 FAST joint likelihood。
 - [[Robot/PI/Pi0_7_technical_report|pi0.7]]：steerable generalist VLA 与 rich context conditioning。
+- [[Robot/ChatGPT-MolmoAct2论文框架分析|MolmoAct2]]：离散 action-token pretraining 与 flow-matching continuous expert 结合的部署路线。
 - [[Robot/PI/ChatGPT-MEM 文章分析|MEM]]：长程记忆与 action policy 的关系。
 
 

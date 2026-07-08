@@ -537,3 +537,4 @@ Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)
 - [[Robot/ChatGPT-RT-1 论文综述|RT-1 论文综述]]
 - [[Robot/ChatGPT-RT-2 论文综述|RT-2 论文综述]]
 - [[Robot/ChatGPT-GR00T N1 综述|GR00T N1 综述]]
+- [[Robot/ChatGPT-MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]

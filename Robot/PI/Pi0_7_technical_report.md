@@ -1268,3 +1268,5 @@ $$
 - [[Robot/PI/FAST_知识总结|FAST]]：离散 action tokenization 路线。
 - [[Robot/ChatGPT-Diffusion Policy 概述|Diffusion Policy]]：diffusion action chunk 与 receding-horizon control 路线。
 - [[Robot/ChatGPT-GR00T N1 综述|GR00T N1 综述]]
+- [[Robot/ChatGPT-Gemini Robotics 1.5 综述|Gemini Robotics 1.5 综述]]
+- [[Robot/ChatGPT-MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
