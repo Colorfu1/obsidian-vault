@@ -949,3 +949,5 @@ Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)
 - [[ChatGPT-RT-1 论文综述|RT-1 论文综述]]
 - [[ChatGPT-RT-2 论文综述|RT-2 论文综述]]
 - [[ChatGPT-GR00T N1 综述|GR00T N1 综述]]
+- [[ChatGPT-PlaNet 论文概述|PlaNet 论文概述]]
+- [[Dreamer_潜空间想象技术报告|Dreamer 潜空间想象技术报告]]

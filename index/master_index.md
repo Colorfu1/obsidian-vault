@@ -22,6 +22,7 @@ See: [[index/robotics_papers|Robotics Papers Index]]
 Topics covered now:
 
 - Physical Intelligence pi0, pi0.5, pi0.6, pi*0.6 / RECAP
+- PlaNet and Dreamer latent world-model RL
 - π0.7 steerable generalist VLA
 - FAST action tokenization
 - MEM robotic memory model

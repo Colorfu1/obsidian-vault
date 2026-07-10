@@ -2,6 +2,18 @@
 
 Use this index for robotics foundation models, Vision-Language-Action models, Physical Intelligence papers, action tokenization, diffusion policies, flow matching policies, and memory models.
 
+## Action and World Models
+
+- [[ChatGPT-PlaNet 论文概述|PlaNet 论文概述]]
+  - Topic: PlaNet, latent dynamics, RSSM, model-based RL from pixels, CEM planning, MPC, reward model, observation reconstruction, and latent overshooting.
+  - Importance: high
+  - Notes: Start here for world-model planning from pixels and the RSSM lineage that leads into Dreamer.
+
+- [[Dreamer_潜空间想象技术报告|Dreamer 潜空间想象技术报告]]
+  - Topic: Dreamer, latent imagination, RSSM world model, actor-critic in imagined trajectories, reward/value models, pathwise gradients, and continuous-control model-based RL.
+  - Importance: high
+  - Notes: Use for understanding how PlaNet-style online planning becomes an amortized actor trained inside latent imagination.
+
 ## Physical Intelligence PI Series
 
 - [[ChatGPT-Pi_0机器人文章分析|pi0 机器人文章分析]]

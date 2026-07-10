@@ -1270,3 +1270,5 @@ $$
 - [[ChatGPT-GR00T N1 综述|GR00T N1 综述]]
 - [[ChatGPT-Gemini Robotics 1.5 综述|Gemini Robotics 1.5 综述]]
 - [[ChatGPT-MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
+- [[ChatGPT-PlaNet 论文概述|PlaNet 论文概述]]：latent world model 与 planning-from-pixels 的基础路线。
+- [[Dreamer_潜空间想象技术报告|Dreamer 潜空间想象技术报告]]：在潜空间想象中训练 actor-critic 的 world-model RL 路线。

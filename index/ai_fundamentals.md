@@ -26,6 +26,18 @@ Use this index for generative models, reinforcement learning, LLM training, KL o
   - Importance: high
   - Notes: Use for LLM distillation, token-level KL, and student on-policy training questions.
 
+## Model-Based RL and World Models
+
+- [[ChatGPT-PlaNet 论文概述|PlaNet 论文概述]]
+  - Topic: latent dynamics, RSSM, model-based RL, CEM planning, MPC, reward model, observation model.
+  - Importance: high
+  - Notes: Useful for understanding learned world models, planning from pixels, and the precursor to Dreamer.
+
+- [[Dreamer_潜空间想象技术报告|Dreamer 潜空间想象技术报告]]
+  - Topic: latent imagination, world-model actor-critic, reward/value models, pathwise gradients, continuous action policies.
+  - Importance: high
+  - Notes: Useful for model-based RL, differentiable imagination, and comparing PPO-style score-function gradients with pathwise gradients.
+
 ## Cross-Topic Links
 
 - [[ChatGPT-Pi_star0.6论文问题解答|pi*0.6 / RECAP 论文问题解答]]

@@ -1,6 +1,6 @@
 # Reading Status
 
-Updated: 2026-07-08
+Updated: 2026-07-10
 
 ## Finished
 
@@ -34,6 +34,10 @@ Updated: 2026-07-08
   - [[ChatGPT-Gemini Robotics 1.5 综述|Gemini Robotics 1.5 综述]]
 - MolmoAct2
   - [[ChatGPT-MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
+- PlaNet
+  - [[ChatGPT-PlaNet 论文概述|PlaNet 论文概述]]
+- Dreamer
+  - [[Dreamer_潜空间想象技术报告|Dreamer 潜空间想象技术报告]]
 - VQ-VAE
   - [[VQVAE_综述|VQ-VAE 综述]]
 - PPO
@@ -45,7 +49,6 @@ Updated: 2026-07-08
 
 ## Reading Next
 
-- Dreamer series
 - RT-X
 - OpenVLA
 - Octo
