@@ -1292,10 +1292,10 @@ real data
 Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)
 
 ## 相关笔记
-- [[Robot/ChatGPT-Gemini Robotics 1.5 综述|Gemini Robotics 1.5 综述]]
-- [[Robot/ChatGPT-MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
-- [[Robot/ChatGPT-RDT-1B|RDT-1B]]
-- [[Robot/ChatGPT-Diffusion Policy 概述|Diffusion Policy 概述]]
-- [[Robot/PI/Pi0_7_technical_report|π0.7 技术报告]]
-- [[Robot/ChatGPT-RT-2 论文综述|RT-2 论文综述]]
-- [[Robot/ChatGPT-ALOHA硬件与ACT算法|ALOHA 硬件与 ACT 算法]]
+- [[ChatGPT-Gemini Robotics 1.5 综述|Gemini Robotics 1.5 综述]]
+- [[ChatGPT-MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
+- [[ChatGPT-RDT-1B|RDT-1B]]
+- [[ChatGPT-Diffusion Policy 概述|Diffusion Policy 概述]]
+- [[Pi0_7_technical_report|π0.7 技术报告]]
+- [[ChatGPT-RT-2 论文综述|RT-2 论文综述]]
+- [[ChatGPT-ALOHA硬件与ACT算法|ALOHA 硬件与 ACT 算法]]

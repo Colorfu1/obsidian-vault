@@ -929,11 +929,11 @@ MEM 是给 π0.6 这类 VLA 增加多尺度记忆的系统：它用 high-level V
 
 ## 相关笔记
 
-- [[Robot/PI/ChatGPT-Pi_0.6论文问题解答|pi0.6]]：MEM 主要增强的底层 VLA/action policy。
-- [[Robot/PI/ChatGPT-Pi_star0.6论文问题解答|pi*0.6 / RECAP]]：policy improvement 与 correction-learning 路线。
-- [[Robot/PI/Pi0_7_technical_report|pi0.7]]：后续 rich context、subtask、subgoal 机制。
-- [[Robot/ChatGPT-RDT-1B|RDT-1B]]：不显式建模 memory 的 continuous diffusion action policy 对照。
-- [[Robot/PI/ChatGPT-Pi_0.5综述|pi0.5]]：长程任务中的 high-level language decomposition。
+- [[ChatGPT-Pi_0.6论文问题解答|pi0.6]]：MEM 主要增强的底层 VLA/action policy。
+- [[ChatGPT-Pi_star0.6论文问题解答|pi*0.6 / RECAP]]：policy improvement 与 correction-learning 路线。
+- [[Pi0_7_technical_report|pi0.7]]：后续 rich context、subtask、subgoal 机制。
+- [[ChatGPT-RDT-1B|RDT-1B]]：不显式建模 memory 的 continuous diffusion action policy 对照。
+- [[ChatGPT-Pi_0.5综述|pi0.5]]：长程任务中的 high-level language decomposition。
 
 
 

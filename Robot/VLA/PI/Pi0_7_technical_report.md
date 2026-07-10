@@ -1260,13 +1260,13 @@ $$
 
 ## 相关笔记
 
-- [[Robot/PI/ChatGPT-Pi_star0.6论文问题解答|pi*0.6 / RECAP]]：pi0.7 吸收 specialist/RL 数据的上游来源之一。
-- [[Robot/PI/ChatGPT-MEM 文章分析|MEM]]：长程任务中的 language/video memory 机制。
-- [[Robot/PI/ChatGPT-Pi_0.6论文问题解答|pi0.6]]：Knowledge Insulation、continuous action chunk 与 subtask-conditioned action generation。
-- [[Robot/PI/ChatGPT-Pi_0.5综述|pi0.5]]：high-level language intermediate outputs 和长程任务分解。
-- [[Robot/ChatGPT-RDT-1B|RDT-1B]]：另一条 large-scale continuous action policy 路线。
-- [[Robot/PI/FAST_知识总结|FAST]]：离散 action tokenization 路线。
-- [[Robot/ChatGPT-Diffusion Policy 概述|Diffusion Policy]]：diffusion action chunk 与 receding-horizon control 路线。
-- [[Robot/ChatGPT-GR00T N1 综述|GR00T N1 综述]]
-- [[Robot/ChatGPT-Gemini Robotics 1.5 综述|Gemini Robotics 1.5 综述]]
-- [[Robot/ChatGPT-MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
+- [[ChatGPT-Pi_star0.6论文问题解答|pi*0.6 / RECAP]]：pi0.7 吸收 specialist/RL 数据的上游来源之一。
+- [[ChatGPT-MEM 文章分析|MEM]]：长程任务中的 language/video memory 机制。
+- [[ChatGPT-Pi_0.6论文问题解答|pi0.6]]：Knowledge Insulation、continuous action chunk 与 subtask-conditioned action generation。
+- [[ChatGPT-Pi_0.5综述|pi0.5]]：high-level language intermediate outputs 和长程任务分解。
+- [[ChatGPT-RDT-1B|RDT-1B]]：另一条 large-scale continuous action policy 路线。
+- [[FAST_知识总结|FAST]]：离散 action tokenization 路线。
+- [[ChatGPT-Diffusion Policy 概述|Diffusion Policy]]：diffusion action chunk 与 receding-horizon control 路线。
+- [[ChatGPT-GR00T N1 综述|GR00T N1 综述]]
+- [[ChatGPT-Gemini Robotics 1.5 综述|Gemini Robotics 1.5 综述]]
+- [[ChatGPT-MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]

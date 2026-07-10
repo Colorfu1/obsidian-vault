@@ -390,7 +390,7 @@ hidden state → Linear(d_model, vocab_text + codebook_size) → unified logits
 
 ## 相关笔记
 
-- [[Robot/PI/FAST_知识总结|FAST]]：把连续 robot action chunk 转成离散 action tokens。
-- [[Robot/PI/ChatGPT-Pi_0机器人文章分析|pi0]]：pi0-FAST 中的 discrete action token prediction。
-- [[Robot/ChatGPT-RDT-1B|RDT-1B]]：与离散 token 路线相对的 continuous diffusion action modeling。
+- [[FAST_知识总结|FAST]]：把连续 robot action chunk 转成离散 action tokens。
+- [[ChatGPT-Pi_0机器人文章分析|pi0]]：pi0-FAST 中的 discrete action token prediction。
+- [[ChatGPT-RDT-1B|RDT-1B]]：与离散 token 路线相对的 continuous diffusion action modeling。
 - [[index/ai_fundamentals|AI Fundamentals Index]]：AI 基础概念导航。

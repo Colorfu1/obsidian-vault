@@ -18,8 +18,9 @@ It contains technical notes, paper reading notes, and structured explanations co
   - Navigation layer for GPT. Start here before reading topic notes.
 - `Robot/`
   - Robotics paper notes and embodied AI notes.
-  - `Robot/PI/` contains Physical Intelligence paper notes, including pi0, pi0.5, pi0.6, pi*0.6 / RECAP, pi0.7, FAST, and MEM.
-  - Root-level `Robot/*.md` files contain non-PI robotics notes such as ALOHA hardware, ACT, RT-1/RT-2, Diffusion Policy, RDT-1B, GR00T N1, Gemini Robotics 1.5, and MolmoAct2.
+  - `Robot/VLA/` contains VLA and robot foundation model notes.
+  - `Robot/VLA/PI/` contains Physical Intelligence paper notes, including pi0, pi0.5, pi0.6, pi*0.6 / RECAP, pi0.7, FAST, and MEM.
+  - Root-level `Robot/VLA/*.md` files contain non-PI robotics notes such as ALOHA hardware, ACT, RT-1/RT-2, Diffusion Policy, RDT-1B, GR00T N1, Gemini Robotics 1.5, and MolmoAct2.
 - `RL/`
   - Reinforcement learning and LLM-training related notes, including PPO, SAC/PPO comparison, and OPD.
 - Repository root

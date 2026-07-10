@@ -81,12 +81,12 @@ Physical Agent
 
 ## 相关笔记
 
-- [[Robot/ChatGPT-GR00T N1 综述|GR00T N1 综述]]
-- [[Robot/ChatGPT-MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
-- [[Robot/PI/Pi0_7_technical_report|π0.7 技术报告]]
-- [[Robot/ChatGPT-RT-2 论文综述|RT-2 论文综述]]
-- [[Robot/PI/FAST_知识总结|FAST 知识总结]]
-- [[Robot/ChatGPT-RDT-1B|RDT-1B]]
+- [[ChatGPT-GR00T N1 综述|GR00T N1 综述]]
+- [[ChatGPT-MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
+- [[Pi0_7_technical_report|π0.7 技术报告]]
+- [[ChatGPT-RT-2 论文综述|RT-2 论文综述]]
+- [[FAST_知识总结|FAST 知识总结]]
+- [[ChatGPT-RDT-1B|RDT-1B]]
 
 
 

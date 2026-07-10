@@ -1069,11 +1069,11 @@ Action token generation
 Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)
 
 ## 相关笔记
-- [[Robot/ChatGPT-RT-1 论文综述|RT-1 论文综述]]
-- [[Robot/PI/FAST_知识总结|FAST 知识总结]]
-- [[Robot/PI/ChatGPT-Pi_0机器人文章分析|pi0 机器人文章分析]]
-- [[Robot/PI/Pi0_7_technical_report|π0.7 技术报告]]
-- [[Robot/ChatGPT-RDT-1B|RDT-1B]]
-- [[Robot/ChatGPT-GR00T N1 综述|GR00T N1 综述]]
-- [[Robot/ChatGPT-Gemini Robotics 1.5 综述|Gemini Robotics 1.5 综述]]
-- [[Robot/ChatGPT-MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
+- [[ChatGPT-RT-1 论文综述|RT-1 论文综述]]
+- [[FAST_知识总结|FAST 知识总结]]
+- [[ChatGPT-Pi_0机器人文章分析|pi0 机器人文章分析]]
+- [[Pi0_7_technical_report|π0.7 技术报告]]
+- [[ChatGPT-RDT-1B|RDT-1B]]
+- [[ChatGPT-GR00T N1 综述|GR00T N1 综述]]
+- [[ChatGPT-Gemini Robotics 1.5 综述|Gemini Robotics 1.5 综述]]
+- [[ChatGPT-MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
