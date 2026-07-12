@@ -1,6 +1,6 @@
 # Reading Status
 
-Updated: 2026-07-10
+Updated: 2026-07-12
 
 ## Finished
 
@@ -34,6 +34,8 @@ Updated: 2026-07-10
   - [[ChatGPT-Gemini Robotics 1.5 综述|Gemini Robotics 1.5 综述]]
 - MolmoAct2
   - [[ChatGPT-MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
+- Visual Foresight
+  - [[ChatGPT-Visual Foresight|Visual Foresight]]
 - PlaNet
   - [[ChatGPT-PlaNet 论文概述|PlaNet 论文概述]]
 - Dreamer

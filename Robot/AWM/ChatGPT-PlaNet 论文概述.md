@@ -516,6 +516,7 @@ PlaNet 和 Dreamer 的关系可以这样理解：
 
 ## 相关笔记
 
+- [[ChatGPT-Visual Foresight|Visual Foresight]]
 - [[Dreamer_潜空间想象技术报告|Dreamer 技术报告]]
 - [[RL/ChatGPT-PPO|PPO]]
 - [[RL/ChatGPT-SAC_PPO_compare|SAC vs PPO]]

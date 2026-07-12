@@ -4,6 +4,11 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
 
 ## Action and World Models
 
+- [[ChatGPT-Visual Foresight|Visual Foresight]]
+  - Topic: Visual Foresight, action-conditioned video prediction, Visual MPC, designated pixel planning, SNA temporal skip connections, CEM trajectory optimization, and robot visual world models.
+  - Importance: high
+  - Notes: Start here for early visual world-model control, pixel-space prediction, and MPC-style robot planning before latent RSSM methods such as PlaNet and Dreamer.
+
 - [[ChatGPT-PlaNet 论文概述|PlaNet 论文概述]]
   - Topic: PlaNet, latent dynamics, RSSM, model-based RL from pixels, CEM planning, MPC, reward model, observation reconstruction, and latent overshooting.
   - Importance: high

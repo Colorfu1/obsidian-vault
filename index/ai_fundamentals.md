@@ -28,6 +28,11 @@ Use this index for generative models, reinforcement learning, LLM training, KL o
 
 ## Model-Based RL and World Models
 
+- [[ChatGPT-Visual Foresight|Visual Foresight]]
+  - Topic: action-conditioned video prediction, Visual MPC, CEM planning, designated pixel planning, robot visual foresight.
+  - Importance: high
+  - Notes: Useful for understanding early pixel-space world models and MPC before latent world-model RL.
+
 - [[ChatGPT-PlaNet 论文概述|PlaNet 论文概述]]
   - Topic: latent dynamics, RSSM, model-based RL, CEM planning, MPC, reward model, observation model.
   - Importance: high

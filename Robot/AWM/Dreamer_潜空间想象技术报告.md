@@ -1079,6 +1079,7 @@ $$
 
 ## 相关笔记
 
+- [[ChatGPT-Visual Foresight|Visual Foresight]]
 - [[ChatGPT-PlaNet 论文概述|PlaNet 论文概述]]
 - [[RL/ChatGPT-PPO|PPO]]
 - [[RL/ChatGPT-SAC_PPO_compare|SAC vs PPO]]
