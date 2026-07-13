@@ -19,7 +19,6 @@ tags:
 **Created:** 5/18/2026 16:35:46  
 **Updated:** 5/22/2026 16:12:44  
 **Exported:** 5/22/2026 16:13:01  
-**Link:** [https://chatgpt.com/c/6a0acf53-a764-83ec-a08d-6cb77711ab35](https://chatgpt.com/c/6a0acf53-a764-83ec-a08d-6cb77711ab35)  
 
 ## Response:
 5/22/2026, 4:11:35 PM
@@ -924,12 +923,11 @@ WAM 不是天然没有这个困扰，
 
 ## 相关笔记
 
-- [[ChatGPT-Pi_0机器人文章分析|pi0]]：pi0.5 的基础 VLA/action expert 路线。
-- [[ChatGPT-Pi_0.6论文问题解答|pi0.6]]：后续 high-level text 与 action likelihood 结合方式。
-- [[ChatGPT-MEM 文章分析|MEM]]：长程任务中的 memory 机制。
+- [[Pi_0机器人文章分析|pi0]]：pi0.5 的基础 VLA/action expert 路线。
+- [[Pi_0.6论文问题解答|pi0.6]]：后续 high-level text 与 action likelihood 结合方式。
+- [[MEM 文章分析|MEM]]：长程任务中的 memory 机制。
 - [[Pi0_7_technical_report|pi0.7]]：rich context 和 steerable generalist VLA 的后续发展。
 
 
 
 ---
-Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)

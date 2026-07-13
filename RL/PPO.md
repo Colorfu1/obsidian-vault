@@ -19,7 +19,6 @@ tags:
 **Created:** 4/27/2026 12:39:28  
 **Updated:** 4/29/2026 17:17:45  
 **Exported:** 4/29/2026 17:29:48  
-**Link:** [https://chatgpt.com/c/69eee87b-85c0-839a-b31a-3c2719195cff](https://chatgpt.com/c/69eee87b-85c0-839a-b31a-3c2719195cff)  
 
 ## Response:
 4/29/2026, 3:47:48 PM
@@ -2546,11 +2545,10 @@ $$
 
 ## 相关笔记
 
-- [[RL/ChatGPT-SAC_PPO_compare|SAC vs PPO]]：PPO 与 off-policy actor-critic 的对比。
+- [[SAC_PPO_compare|SAC vs PPO]]：PPO 与 off-policy actor-critic 的对比。
 - [[RL/opd_on_policy_distillation_知识笔记|OPD / On-Policy Distillation]]：PG-style token loss 与 KL distillation。
-- [[ChatGPT-Pi_star0.6论文问题解答|pi*0.6 / RECAP]]：为什么机器人 VLA policy improvement 没有直接使用 PPO-style gradient。
+- [[Pi_star0.6论文问题解答|pi*0.6 / RECAP]]：为什么机器人 VLA policy improvement 没有直接使用 PPO-style gradient。
 
 
 
 ---
-Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)

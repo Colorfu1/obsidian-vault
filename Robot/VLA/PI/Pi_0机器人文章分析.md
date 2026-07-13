@@ -19,7 +19,6 @@ tags:
 **Created:** 5/17/2026 19:50:15  
 **Updated:** 5/20/2026 16:09:26  
 **Exported:** 5/20/2026 16:17:07  
-**Link:** [https://chatgpt.com/c/6a09ab66-6cd0-83ec-85a3-69240e49f621](https://chatgpt.com/c/6a09ab66-6cd0-83ec-85a3-69240e49f621)  
 
 ## Response:
 5/20/2026, 4:08:37 PM
@@ -908,7 +907,6 @@ suffix hidden states
 
 
 ---
-Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)
 
 ## 11. π0-FAST 是什么？
 
@@ -1332,14 +1330,13 @@ flow velocity prediction
 ## 相关笔记
 
 - [[FAST_知识总结|FAST]]：pi0-FAST 的 action tokenization 基础。
-- [[ChatGPT-Pi_0.5综述|pi0.5]]：在 pi0 基础上加入长程任务和 high-level language intermediate outputs。
-- [[ChatGPT-Pi_0.6论文问题解答|pi0.6]]：进一步组合 continuous action chunk、intermediate text 和 FAST tokens。
-- [[ChatGPT-RDT-1B|RDT-1B]]：continuous action generation 的 diffusion policy 对照路线。
-- [[ChatGPT-Diffusion Policy 概述|Diffusion Policy]]：低层 action chunk diffusion 路线。
+- [[Pi_0.5综述|pi0.5]]：在 pi0 基础上加入长程任务和 high-level language intermediate outputs。
+- [[Pi_0.6论文问题解答|pi0.6]]：进一步组合 continuous action chunk、intermediate text 和 FAST tokens。
+- [[RDT-1B|RDT-1B]]：continuous action generation 的 diffusion policy 对照路线。
+- [[Diffusion Policy 概述|Diffusion Policy]]：低层 action chunk diffusion 路线。
 
 
 
 ---
-Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)
-- [[ChatGPT-RT-1 论文综述|RT-1 论文综述]]
-- [[ChatGPT-RT-2 论文综述|RT-2 论文综述]]
+- [[RT-1 论文综述|RT-1 论文综述]]
+- [[RT-2 论文综述|RT-2 论文综述]]

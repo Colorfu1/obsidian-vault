@@ -20,7 +20,6 @@ tags:
 **Created:** 6/19/2026 23:28:42  
 **Updated:** 6/21/2026 17:37:15  
 **Exported:** 6/21/2026 17:37:56  
-**Link:** [https://chatgpt.com/c/6a356008-57a4-83ec-944a-e83f07e622ad](https://chatgpt.com/c/6a356008-57a4-83ec-944a-e83f07e622ad)  
 
 # Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware 技术报告
 
@@ -1156,13 +1155,12 @@ $$
 
 ## 相关笔记
 
-- [[ChatGPT-RDT-1B|RDT-1B]]：把 diffusion action chunk 扩展到双臂 foundation policy。
-- [[ChatGPT-Diffusion Policy 概述|Diffusion Policy]]：action chunk diffusion 与 receding-horizon control 的基础路线。
+- [[RDT-1B|RDT-1B]]：把 diffusion action chunk 扩展到双臂 foundation policy。
+- [[Diffusion Policy 概述|Diffusion Policy]]：action chunk diffusion 与 receding-horizon control 的基础路线。
 - [[FAST_知识总结|FAST]]：另一条 action chunk 表示路线，离散 tokenization 而不是连续动作生成。
-- [[ChatGPT-Pi_0机器人文章分析|pi0]]：VLA + continuous action expert 的后续路线。
+- [[Pi_0机器人文章分析|pi0]]：VLA + continuous action expert 的后续路线。
 - [[Pi0_7_technical_report|pi0.7]]：更大规模的双臂/通用机器人行为建模。
 
 
 
 ---
-Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)

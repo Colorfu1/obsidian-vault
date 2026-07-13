@@ -1046,6 +1046,6 @@ teacher 被带偏：
 
 ## 相关笔记
 
-- [[RL/ChatGPT-PPO|PPO]]：policy-gradient style loss 的基础。
-- [[RL/ChatGPT-SAC_PPO_compare|SAC vs PPO]]：on-policy / off-policy 策略优化对比。
-- [[ChatGPT-Pi_star0.6论文问题解答|pi*0.6 / RECAP]]：reward/value/advantage 信号进入 VLA 的相关机器人案例。
+- [[PPO|PPO]]：policy-gradient style loss 的基础。
+- [[SAC_PPO_compare|SAC vs PPO]]：on-policy / off-policy 策略优化对比。
+- [[Pi_star0.6论文问题解答|pi*0.6 / RECAP]]：reward/value/advantage 信号进入 VLA 的相关机器人案例。

@@ -516,15 +516,15 @@ PlaNet 和 Dreamer 的关系可以这样理解：
 
 ## 相关笔记
 
-- [[ChatGPT-Visual Foresight|Visual Foresight]]
-- [[Dreamer_潜空间想象技术报告|Dreamer 技术报告]]
-- [[RL/ChatGPT-PPO|PPO]]
-- [[RL/ChatGPT-SAC_PPO_compare|SAC vs PPO]]
-- [[ChatGPT-RDT-1B|RDT-1B]]
-- [[ChatGPT-RT-2 论文综述|RT-2 论文综述]]
+- [[Visual Foresight|Visual Foresight]]
+- [[Dreamer技术报告|Dreamer 技术报告]]
+- [[DayDreamer论文综述与阅读重点|DayDreamer]]
+- [[PPO|PPO]]
+- [[SAC_PPO_compare|SAC vs PPO]]
+- [[RDT-1B|RDT-1B]]
+- [[RT-2 论文综述|RT-2 论文综述]]
 - [[Pi0_7_technical_report|π0.7 技术报告]]
 
 
 
 ---
-Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)

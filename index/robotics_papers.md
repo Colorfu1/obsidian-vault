@@ -4,39 +4,44 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
 
 ## Action and World Models
 
-- [[ChatGPT-Visual Foresight|Visual Foresight]]
+- [[Visual Foresight|Visual Foresight]]
   - Topic: Visual Foresight, action-conditioned video prediction, Visual MPC, designated pixel planning, SNA temporal skip connections, CEM trajectory optimization, and robot visual world models.
   - Importance: high
   - Notes: Start here for early visual world-model control, pixel-space prediction, and MPC-style robot planning before latent RSSM methods such as PlaNet and Dreamer.
 
-- [[ChatGPT-PlaNet 论文概述|PlaNet 论文概述]]
+- [[PlaNet 论文概述|PlaNet 论文概述]]
   - Topic: PlaNet, latent dynamics, RSSM, model-based RL from pixels, CEM planning, MPC, reward model, observation reconstruction, and latent overshooting.
   - Importance: high
   - Notes: Start here for world-model planning from pixels and the RSSM lineage that leads into Dreamer.
 
-- [[Dreamer_潜空间想象技术报告|Dreamer 潜空间想象技术报告]]
+- [[Dreamer技术报告|Dreamer 潜空间想象技术报告]]
   - Topic: Dreamer, latent imagination, RSSM world model, actor-critic in imagined trajectories, reward/value models, pathwise gradients, and continuous-control model-based RL.
   - Importance: high
   - Notes: Use for understanding how PlaNet-style online planning becomes an amortized actor trained inside latent imagination.
 
+- [[DayDreamer论文综述与阅读重点|DayDreamer 论文综述与阅读重点]]
+  - Topic: DayDreamer, DreamerV2, real robot online learning, asynchronous actor-learner, RSSM, latent imagination, locomotion, manipulation, navigation.
+  - Importance: high
+  - Notes: Use for understanding how DreamerV2 is deployed for sample-efficient online learning on physical robots.
+
 ## Physical Intelligence PI Series
 
-- [[ChatGPT-Pi_0机器人文章分析|pi0 机器人文章分析]]
+- [[Pi_0机器人文章分析|pi0 机器人文章分析]]
   - Topic: pi0, openpi, PaliGemma, VLM backbone, flow matching action expert, prefix/suffix tokens, attention masks, KV cache.
   - Importance: high
   - Notes: Start here for pi0 architecture and openpi implementation questions.
 
-- [[ChatGPT-Pi_0.5综述|pi0.5 综述]]
+- [[Pi_0.5综述|pi0.5 综述]]
   - Topic: pi0.5, long-horizon tasks, high-level language intermediate outputs, adaptive RMSNorm, timestep conditioning, flow matching action expert.
   - Importance: high
   - Notes: Use for pi0.5 architecture, training flow, and language/action decomposition.
 
-- [[ChatGPT-Pi_0.6论文问题解答|pi0.6 论文问题解答]]
+- [[Pi_0.6论文问题解答|pi0.6 论文问题解答]]
   - Topic: pi0.6, Section V-A, continuous action chunks, intermediate text, FAST discrete action tokens, joint likelihood, Knowledge Insulation.
   - Importance: high
   - Notes: Use for pi0.6 model-specific questions.
 
-- [[ChatGPT-Pi_star0.6论文问题解答|pi*0.6 / RECAP 论文问题解答]]
+- [[Pi_star0.6论文问题解答|pi*0.6 / RECAP 论文问题解答]]
   - Topic: pi*0.6, RECAP, experience corrections, value model, advantage-conditioned policy, positive/negative losses, offline RL pretraining.
   - Importance: high
   - Notes: Use for policy improvement, advantage conditioning, and correction-learning questions.
@@ -48,12 +53,12 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
 
 ## RT Series and Web-Scale VLA
 
-- [[ChatGPT-RT-1 论文综述|RT-1 论文综述]]
+- [[RT-1 论文综述|RT-1 论文综述]]
   - Topic: RT-1, Robotics Transformer, large-scale real-world robot behavior cloning, language-conditioned EfficientNet, TokenLearner, Transformer policy, discrete action bins, multi-task robot data scaling.
   - Importance: high
   - Notes: Start here for early large-scale robot transformer policies, RT-1 architecture, action discretization, and the data-scaling lineage leading to RT-2 and later VLA models.
 
-- [[ChatGPT-RT-2 论文综述|RT-2 论文综述]]
+- [[RT-2 论文综述|RT-2 论文综述]]
   - Topic: RT-2, Vision-Language-Action model, PaLI-X/PaLM-E co-fine-tuning, web knowledge transfer to robot control, VQA-style action prompting, action tokens, semantic generalization.
   - Importance: high
   - Notes: Use for RT-2's VLM-to-action-token formulation, semantic generalization, web-scale co-training, and comparisons with RT-1, FAST, OpenVLA/Octo, and pi-series VLA models.
@@ -67,43 +72,43 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
 
 ## Diffusion and Continuous-Action Policies
 
-- [[ChatGPT-Diffusion Policy 概述|Diffusion Policy 概述]]
+- [[Diffusion Policy 概述|Diffusion Policy 概述]]
   - Topic: Diffusion Policy, conditional diffusion model for action chunks, denoising future action sequences, multimodal behavior cloning, receding horizon control, CNN/Transformer policy variants.
   - Importance: high
   - Notes: Start here for diffusion-based robot policy learning, comparisons with BC/IBC/BET, and links between Diffusion Policy and later diffusion/flow action heads in robot foundation models.
 
-- [[ChatGPT-RDT-1B|RDT-1B]]
+- [[RDT-1B|RDT-1B]]
   - Topic: RDT-1B, diffusion foundation policy, DiT denoising, clean-action prediction, continuous action chunks, physically interpretable unified action space, multi-robot pretraining, bimanual manipulation, ACI cross-attention conditioning.
   - Importance: high
   - Notes: Start here for RDT-1B, diffusion-based robot foundation policies, continuous action modeling, unified action/proprioception representation, and comparisons with OpenVLA, Octo, ACT, and pi-series flow-matching policies.
 
 ## Humanoid and Generalist Robot Foundation Models
 
-- [[ChatGPT-GR00T N1 综述|GR00T N1 综述]]
+- [[GR00T N1 综述|GR00T N1 综述]]
   - Topic: GR00T N1, open foundation model for generalist humanoid robots, dual-system VLA architecture, Eagle-2 VLM System 2, DiT / flow-matching System 1, embodiment-specific state/action adapters, data pyramid with real data, simulation trajectories, and neural trajectories.
   - Importance: high
   - Notes: Start here for humanoid robot foundation models, GR00T N1 architecture, VLM-conditioned action diffusion/flow matching, multi-source data mixture, rapid embodiment adaptation, and comparisons with RDT-1B, π0.7, RT-2, and Diffusion Policy.
 
-- [[ChatGPT-Gemini Robotics 1.5 综述|Gemini Robotics 1.5 综述]]
+- [[Gemini Robotics 1.5 综述|Gemini Robotics 1.5 综述]]
   - Topic: Gemini Robotics 1.5, multi-embodiment VLA, embodied reasoning VLM, thinking VLA, tool use, success detection, safety reasoning, motion transfer, and closed-loop robot agent orchestration.
   - Importance: high
   - Notes: Use for next-generation robot agent systems where high-level embodied reasoning, planning, progress monitoring, and low-level VLA action execution are separated into cooperating modules.
 
-- [[ChatGPT-MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
+- [[MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
   - Topic: MolmoAct2, open action reasoning model for real-world robot deployment, Molmo2-ER embodied reasoning backbone, FAST action tokenizer, flow-matching continuous action expert, per-layer KV conditioning, adaptive depth-token reasoning, and inference optimization.
   - Importance: high
   - Notes: Use for deployment-oriented VLA systems that connect embodied/spatial reasoning, action tokenization, continuous control, depth reasoning, and open robot data/recipe reproducibility.
 
 ## Robot Memory Models
 
-- [[ChatGPT-MEM 文章分析|MEM 文章分析]]
+- [[MEM 文章分析|MEM 文章分析]]
   - Topic: MEM, long-horizon robot memory, high-level language memory, low-level video memory, pi0.6-MEM, proprioceptive state, task adaptation.
   - Importance: high
   - Notes: Start here for memory-augmented VLA and long-horizon robotic manipulation questions.
 
 ## Robot Hardware and Imitation Learning
 
-- [[ChatGPT-ALOHA硬件与ACT算法|ALOHA 硬件与 ACT 算法]]
+- [[ALOHA硬件与ACT算法|ALOHA 硬件与 ACT 算法]]
   - Topic: ALOHA low-cost bimanual leader-follower teleoperation hardware, WidowX/ViperX setup, joint-space mapping, ACT, action chunking, Transformer policy, CVAE latent variable imitation learning.
   - Importance: high
   - Notes: Start here for low-cost bimanual manipulation, data collection hardware, teleoperation design, ACT policy learning, and comparisons between ACT action chunking and VLA/FAST action tokenization.
@@ -115,7 +120,7 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Importance: high
   - Notes: Useful when comparing image/action tokenization with VLA action token design.
 
-- [[RL/ChatGPT-PPO|PPO]]
+- [[PPO|PPO]]
   - Topic: PPO, advantage, actor-critic, policy gradient.
   - Importance: high
   - Notes: Useful for understanding why pi*0.6/RECAP discusses alternatives to PPO/TRPO.

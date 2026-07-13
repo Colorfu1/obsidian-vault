@@ -1260,15 +1260,15 @@ $$
 
 ## 相关笔记
 
-- [[ChatGPT-Pi_star0.6论文问题解答|pi*0.6 / RECAP]]：pi0.7 吸收 specialist/RL 数据的上游来源之一。
-- [[ChatGPT-MEM 文章分析|MEM]]：长程任务中的 language/video memory 机制。
-- [[ChatGPT-Pi_0.6论文问题解答|pi0.6]]：Knowledge Insulation、continuous action chunk 与 subtask-conditioned action generation。
-- [[ChatGPT-Pi_0.5综述|pi0.5]]：high-level language intermediate outputs 和长程任务分解。
-- [[ChatGPT-RDT-1B|RDT-1B]]：另一条 large-scale continuous action policy 路线。
+- [[Pi_star0.6论文问题解答|pi*0.6 / RECAP]]：pi0.7 吸收 specialist/RL 数据的上游来源之一。
+- [[MEM 文章分析|MEM]]：长程任务中的 language/video memory 机制。
+- [[Pi_0.6论文问题解答|pi0.6]]：Knowledge Insulation、continuous action chunk 与 subtask-conditioned action generation。
+- [[Pi_0.5综述|pi0.5]]：high-level language intermediate outputs 和长程任务分解。
+- [[RDT-1B|RDT-1B]]：另一条 large-scale continuous action policy 路线。
 - [[FAST_知识总结|FAST]]：离散 action tokenization 路线。
-- [[ChatGPT-Diffusion Policy 概述|Diffusion Policy]]：diffusion action chunk 与 receding-horizon control 路线。
-- [[ChatGPT-GR00T N1 综述|GR00T N1 综述]]
-- [[ChatGPT-Gemini Robotics 1.5 综述|Gemini Robotics 1.5 综述]]
-- [[ChatGPT-MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
-- [[ChatGPT-PlaNet 论文概述|PlaNet 论文概述]]：latent world model 与 planning-from-pixels 的基础路线。
-- [[Dreamer_潜空间想象技术报告|Dreamer 潜空间想象技术报告]]：在潜空间想象中训练 actor-critic 的 world-model RL 路线。
+- [[Diffusion Policy 概述|Diffusion Policy]]：diffusion action chunk 与 receding-horizon control 路线。
+- [[GR00T N1 综述|GR00T N1 综述]]
+- [[Gemini Robotics 1.5 综述|Gemini Robotics 1.5 综述]]
+- [[MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
+- [[PlaNet 论文概述|PlaNet 论文概述]]：latent world model 与 planning-from-pixels 的基础路线。
+- [[Dreamer技术报告|Dreamer 潜空间想象技术报告]]：在潜空间想象中训练 actor-critic 的 world-model RL 路线。

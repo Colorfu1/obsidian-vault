@@ -22,7 +22,6 @@ tags:
 **Created:** 6/29/2026 1:02:32  
 **Updated:** 7/2/2026 15:44:02  
 **Exported:** 7/2/2026 23:18:52  
-**Link:** [https://chatgpt.com/c/6a41535c-e280-83e8-bee5-1192d35c88ba?mweb_fallback=1](https://chatgpt.com/c/6a41535c-e280-83e8-bee5-1192d35c88ba?mweb_fallback=1)  
 
 下面是一份**结合标记重点 + 文章内容 + 我们前面讨论**整理出来的 Markdown 技术报告。
 
@@ -1289,13 +1288,12 @@ real data
 
 
 ---
-Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)
 
 ## 相关笔记
-- [[ChatGPT-Gemini Robotics 1.5 综述|Gemini Robotics 1.5 综述]]
-- [[ChatGPT-MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
-- [[ChatGPT-RDT-1B|RDT-1B]]
-- [[ChatGPT-Diffusion Policy 概述|Diffusion Policy 概述]]
+- [[Gemini Robotics 1.5 综述|Gemini Robotics 1.5 综述]]
+- [[MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
+- [[RDT-1B|RDT-1B]]
+- [[Diffusion Policy 概述|Diffusion Policy 概述]]
 - [[Pi0_7_technical_report|π0.7 技术报告]]
-- [[ChatGPT-RT-2 论文综述|RT-2 论文综述]]
-- [[ChatGPT-ALOHA硬件与ACT算法|ALOHA 硬件与 ACT 算法]]
+- [[RT-2 论文综述|RT-2 论文综述]]
+- [[ALOHA硬件与ACT算法|ALOHA 硬件与 ACT 算法]]

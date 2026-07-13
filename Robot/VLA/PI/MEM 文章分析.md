@@ -21,7 +21,6 @@ tags:
 **Created:** 6/5/2026 18:38:47  
 **Updated:** 6/7/2026 19:08:48  
 **Exported:** 6/7/2026 19:24:47  
-**Link:** [https://chatgpt.com/c/6a22a710-6ab0-83ec-bc38-0e98fffad063](https://chatgpt.com/c/6a22a710-6ab0-83ec-bc38-0e98fffad063)  
 
 ## Response:
 07/06/2026, 19:07:18
@@ -929,13 +928,12 @@ MEM 是给 π0.6 这类 VLA 增加多尺度记忆的系统：它用 high-level V
 
 ## 相关笔记
 
-- [[ChatGPT-Pi_0.6论文问题解答|pi0.6]]：MEM 主要增强的底层 VLA/action policy。
-- [[ChatGPT-Pi_star0.6论文问题解答|pi*0.6 / RECAP]]：policy improvement 与 correction-learning 路线。
+- [[Pi_0.6论文问题解答|pi0.6]]：MEM 主要增强的底层 VLA/action policy。
+- [[Pi_star0.6论文问题解答|pi*0.6 / RECAP]]：policy improvement 与 correction-learning 路线。
 - [[Pi0_7_technical_report|pi0.7]]：后续 rich context、subtask、subgoal 机制。
-- [[ChatGPT-RDT-1B|RDT-1B]]：不显式建模 memory 的 continuous diffusion action policy 对照。
-- [[ChatGPT-Pi_0.5综述|pi0.5]]：长程任务中的 high-level language decomposition。
+- [[RDT-1B|RDT-1B]]：不显式建模 memory 的 continuous diffusion action policy 对照。
+- [[Pi_0.5综述|pi0.5]]：长程任务中的 high-level language decomposition。
 
 
 
 ---
-Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)

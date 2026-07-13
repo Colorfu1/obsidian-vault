@@ -77,13 +77,13 @@ tags:
 
 ## 相关笔记
 
-- [[ChatGPT-PlaNet 论文概述|PlaNet 论文概述]]
-- [[Dreamer_潜空间想象技术报告|Dreamer 潜空间想象技术报告]]
+- [[PlaNet 论文概述|PlaNet 论文概述]]
+- [[Dreamer技术报告|Dreamer 潜空间想象技术报告]]
+- [[DayDreamer论文综述与阅读重点|DayDreamer]]
 - [[Pi0_7_technical_report|π0.7 技术报告]]
-- [[ChatGPT-RDT-1B|RDT-1B]]
-- [[ChatGPT-RT-2 论文综述|RT-2 论文综述]]
+- [[RDT-1B|RDT-1B]]
+- [[RT-2 论文综述|RT-2 论文综述]]
 
 
 
 ---
-Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)

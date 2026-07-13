@@ -1079,13 +1079,14 @@ $$
 
 ## 相关笔记
 
-- [[ChatGPT-Visual Foresight|Visual Foresight]]
-- [[ChatGPT-PlaNet 论文概述|PlaNet 论文概述]]
-- [[RL/ChatGPT-PPO|PPO]]
-- [[RL/ChatGPT-SAC_PPO_compare|SAC vs PPO]]
+- [[Visual Foresight|Visual Foresight]]
+- [[PlaNet 论文概述|PlaNet 论文概述]]
+- [[DayDreamer论文综述与阅读重点|DayDreamer]]
+- [[PPO|PPO]]
+- [[SAC_PPO_compare|SAC vs PPO]]
 - [[RL/opd_on_policy_distillation_知识笔记|OPD / On-Policy Distillation]]
 - [[Pi0_7_technical_report|π0.7 技术报告]]
-- [[ChatGPT-RDT-1B|RDT-1B]]
+- [[RDT-1B|RDT-1B]]
 
 ---
 

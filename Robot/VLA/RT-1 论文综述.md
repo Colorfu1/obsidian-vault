@@ -20,7 +20,6 @@ tags:
 **Created:** 6/26/2026 13:57:01  
 **Updated:** 6/28/2026 17:06:42  
 **Exported:** 6/28/2026 17:06:55  
-**Link:** [https://chatgpt.com/c/6a3e148e-b430-83ec-8d09-780389cb20f5](https://chatgpt.com/c/6a3e148e-b430-83ec-8d09-780389cb20f5)  
 
 # RT-1: Robotics Transformer for Real-World Control at Scale 技术报告
 
@@ -1368,10 +1367,9 @@ Image history
 
 
 ---
-Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)
 
 ## 相关笔记
-- [[ChatGPT-RT-2 论文综述|RT-2 论文综述]]
+- [[RT-2 论文综述|RT-2 论文综述]]
 - [[FAST_知识总结|FAST 知识总结]]
-- [[ChatGPT-Pi_0机器人文章分析|pi0 机器人文章分析]]
-- [[ChatGPT-RDT-1B|RDT-1B]]
+- [[Pi_0机器人文章分析|pi0 机器人文章分析]]
+- [[RDT-1B|RDT-1B]]

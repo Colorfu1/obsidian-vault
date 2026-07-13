@@ -20,7 +20,6 @@ tags:
 **Created:** 5/22/2026 18:18:28  
 **Updated:** 6/3/2026 18:17:21  
 **Exported:** 6/3/2026 18:18:09  
-**Link:** [https://chatgpt.com/c/6a102d5a-553c-83ec-8e76-7937eb760753](https://chatgpt.com/c/6a102d5a-553c-83ec-8e76-7937eb760753)  
 
 ## Response:
 6/3/2026, 6:16:32 PM
@@ -385,12 +384,11 @@ $$
 
 ## 相关笔记
 
-- [[ChatGPT-Pi_0.5综述|pi0.5]]：pi0.6 继承的 high-level language/action decomposition。
-- [[ChatGPT-Pi_star0.6论文问题解答|pi*0.6 / RECAP]]：在 pi0.6 上加入 advantage-conditioned policy improvement。
+- [[Pi_0.5综述|pi0.5]]：pi0.6 继承的 high-level language/action decomposition。
+- [[Pi_star0.6论文问题解答|pi*0.6 / RECAP]]：在 pi0.6 上加入 advantage-conditioned policy improvement。
 - [[FAST_知识总结|FAST]]：pi0.6 中 discrete action token 路线的关键基础。
-- [[ChatGPT-MEM 文章分析|MEM]]：pi0.6-MEM 长程记忆扩展。
+- [[MEM 文章分析|MEM]]：pi0.6-MEM 长程记忆扩展。
 - [[Pi0_7_technical_report|pi0.7]]：后续 steerable generalist VLA。
-- [[ChatGPT-RDT-1B|RDT-1B]]：continuous action chunk 的 diffusion 路线对照。
+- [[RDT-1B|RDT-1B]]：continuous action chunk 的 diffusion 路线对照。
 
 ---
-Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)

@@ -933,21 +933,20 @@ RDT-1B 不是未来 VLA/AWM 的完整答案，但它是 continuous-action diffus
 
 ## 相关笔记
 
-- [[ChatGPT-ALOHA硬件与ACT算法|ALOHA / ACT]]：双臂硬件、连续 action chunk、ACT baseline。
+- [[ALOHA硬件与ACT算法|ALOHA / ACT]]：双臂硬件、连续 action chunk、ACT baseline。
 - [[FAST_知识总结|FAST]]：离散 action tokenization 路线，可与 RDT 的 continuous diffusion action 对比。
-- [[ChatGPT-Pi_0机器人文章分析|pi0]]：flow matching action expert 路线。
-- [[ChatGPT-Pi_0.6论文问题解答|pi0.6]]：continuous action chunk 与 FAST joint likelihood。
+- [[Pi_0机器人文章分析|pi0]]：flow matching action expert 路线。
+- [[Pi_0.6论文问题解答|pi0.6]]：continuous action chunk 与 FAST joint likelihood。
 - [[Pi0_7_technical_report|pi0.7]]：steerable generalist VLA 与 rich context conditioning。
-- [[ChatGPT-MolmoAct2论文框架分析|MolmoAct2]]：离散 action-token pretraining 与 flow-matching continuous expert 结合的部署路线。
-- [[ChatGPT-MEM 文章分析|MEM]]：长程记忆与 action policy 的关系。
+- [[MolmoAct2论文框架分析|MolmoAct2]]：离散 action-token pretraining 与 flow-matching continuous expert 结合的部署路线。
+- [[MEM 文章分析|MEM]]：长程记忆与 action policy 的关系。
 
 
 
 ---
-Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)
-- [[ChatGPT-Diffusion Policy 概述|Diffusion Policy 概述]]
-- [[ChatGPT-RT-1 论文综述|RT-1 论文综述]]
-- [[ChatGPT-RT-2 论文综述|RT-2 论文综述]]
-- [[ChatGPT-GR00T N1 综述|GR00T N1 综述]]
-- [[ChatGPT-PlaNet 论文概述|PlaNet 论文概述]]
-- [[Dreamer_潜空间想象技术报告|Dreamer 潜空间想象技术报告]]
+- [[Diffusion Policy 概述|Diffusion Policy 概述]]
+- [[RT-1 论文综述|RT-1 论文综述]]
+- [[RT-2 论文综述|RT-2 论文综述]]
+- [[GR00T N1 综述|GR00T N1 综述]]
+- [[PlaNet 论文概述|PlaNet 论文概述]]
+- [[Dreamer技术报告|Dreamer 潜空间想象技术报告]]

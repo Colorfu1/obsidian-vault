@@ -20,7 +20,6 @@ tags:
 **Created:** 4/28/2026 16:26:31  
 **Updated:** 5/5/2026 13:12:07  
 **Exported:** 5/5/2026 14:32:57  
-**Link:** [https://chatgpt.com/c/69f06f2a-02dc-839c-acca-6d681df78152](https://chatgpt.com/c/69f06f2a-02dc-839c-acca-6d681df78152)  
 
 ## Response:
 2026/5/5 13:11:12
@@ -1355,10 +1354,9 @@ SAC 的 critic 是动作评分器，用来直接指导 actor 改动作。
 
 ## 相关笔记
 
-- [[RL/ChatGPT-PPO|PPO]]：policy gradient、advantage、clipped surrogate 的详细解释。
-- [[ChatGPT-Pi_star0.6论文问题解答|pi*0.6 / RECAP]]：advantage-conditioned robot policy 的对照。
+- [[PPO|PPO]]：policy gradient、advantage、clipped surrogate 的详细解释。
+- [[Pi_star0.6论文问题解答|pi*0.6 / RECAP]]：advantage-conditioned robot policy 的对照。
 
 
 
 ---
-Powered by [ChatGPT Exporter](https://www.chatgptexporter.com)
