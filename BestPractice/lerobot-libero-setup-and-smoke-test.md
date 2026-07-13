@@ -1,7 +1,5 @@
-# Trace 1：LeRobot LIBERO 环境与数据 smoke test
+# LeRobot LIBERO 环境准备与数据/环境 smoke test
 
-- 日期：2026-07-13
-- 工作目录：`/home/mi/codes/practice`
 - Conda 环境：`robot-practice`
 - 目标：安装 LeRobot 的 LIBERO extra，验证 EGL 无头渲染，下载并加载完整的
   `lerobot/libero` 数据集，然后对同一个语言任务完成数据与环境 smoke test。
@@ -31,14 +29,15 @@
 | Robosuite | 1.4.0 |
 | MuJoCo | 3.8.1 |
 | PyTorch | 2.10.0+cu128 |
-| GPU | NVIDIA GeForce RTX 3090 |
+| GPU | 支持 EGL 的 NVIDIA GPU |
 | egl-probe | 1.0.2 |
 | hf-egl-probe | 1.0.2 |
 
-进入项目环境：
+在项目根目录进入环境，并用 `PROJECT_ROOT` 代替具体机器上的绝对路径：
 
 ```bash
-cd /home/mi/codes/practice
+cd /path/to/robot-practice
+export PROJECT_ROOT="$PWD"
 conda activate robot-practice
 export PYTHONNOUSERSITE=1
 ```
@@ -87,7 +86,9 @@ pip CMake wrapper 发生冲突。禁用 build isolation 后，又遇到 CMake 4.
 最终使用系统 CMake 3.28.3 单独构建两个 probe 包，再继续安装 LIBERO extra：
 
 ```bash
-PATH=/usr/bin:/bin:$CONDA_PREFIX/bin \
+export CMAKE_3_BIN=/path/to/cmake-3.x/bin
+
+PATH="$CMAKE_3_BIN:$CONDA_PREFIX/bin:$PATH" \
   python -m pip install --no-build-isolation \
   "hf-egl-probe==1.0.2" "egl-probe==1.0.2"
 
@@ -101,7 +102,7 @@ python -m pip install --upgrade-strategy only-if-needed \
 Robosuite 的本地宏文件通过以下脚本初始化：
 
 ```bash
-python "$CONDA_PREFIX/lib/python3.10/site-packages/robosuite/scripts/setup_macros.py"
+python -m robosuite.scripts.setup_macros
 ```
 
 ## 3. LIBERO 配置与仿真资产
@@ -109,7 +110,7 @@ python "$CONDA_PREFIX/lib/python3.10/site-packages/robosuite/scripts/setup_macro
 首次导入 `libero.libero` 会创建：
 
 ```text
-~/.libero/config.yaml
+$HOME/.libero/config.yaml
 ```
 
 如果需要非交互初始化默认配置，可以运行：
@@ -118,11 +119,16 @@ python "$CONDA_PREFIX/lib/python3.10/site-packages/robosuite/scripts/setup_macro
 printf 'n\n' | python -c 'import libero.libero'
 ```
 
-当前配置中的 BDDL 和 init state 指向 `robot-practice` 环境内安装的 `hf-libero`：
+可以通过 API 查询当前环境实际使用的 BDDL、init state 和其他资源路径，无需在文档中
+硬编码 Conda 的安装位置：
 
-```text
-$CONDA_PREFIX/lib/python3.10/site-packages/libero/libero/bddl_files
-$CONDA_PREFIX/lib/python3.10/site-packages/libero/libero/init_files
+```bash
+python - <<'PY'
+from libero.libero import get_libero_path
+
+for key in ("bddl_files", "init_states", "datasets", "assets"):
+    print(f"{key}: {get_libero_path(key)}")
+PY
 ```
 
 `hf-libero` wheel 本身没有携带完整仿真资产。自动从 Hugging Face 下载资产时遇到 TLS
@@ -132,22 +138,23 @@ EOF，因此从官方 LIBERO GitHub 仓库的固定 commit 稀疏检出资产：
 repository: Lifelong-Robot-Learning/LIBERO
 commit:     8f1084e3132a39270c3a13ebe37270a43ece2a01
 source:     libero/libero/assets
-target:     ~/.cache/libero/assets
+target:     $HOME/.cache/libero/assets
 ```
 
 对应的可复现命令为：
 
 ```bash
+ASSET_TMP_DIR="$(mktemp -d)"
 git clone --filter=blob:none --no-checkout \
   https://github.com/Lifelong-Robot-Learning/LIBERO.git \
-  /tmp/libero-assets
-git -C /tmp/libero-assets sparse-checkout init --cone
-git -C /tmp/libero-assets sparse-checkout set libero/libero/assets
-git -C /tmp/libero-assets checkout 8f1084e3132a39270c3a13ebe37270a43ece2a01
+  "$ASSET_TMP_DIR"
+git -C "$ASSET_TMP_DIR" sparse-checkout init --cone
+git -C "$ASSET_TMP_DIR" sparse-checkout set libero/libero/assets
+git -C "$ASSET_TMP_DIR" checkout 8f1084e3132a39270c3a13ebe37270a43ece2a01
 
-mkdir -p ~/.cache/libero/assets
-cp -a /tmp/libero-assets/libero/libero/assets/. ~/.cache/libero/assets/
-rm -rf /tmp/libero-assets
+mkdir -p "$HOME/.cache/libero/assets"
+cp -a "$ASSET_TMP_DIR/libero/libero/assets/." "$HOME/.cache/libero/assets/"
+rm -rf "$ASSET_TMP_DIR"
 ```
 
 资产目录约占 `405 MiB`，包含：
@@ -236,19 +243,21 @@ commit:     a1aaacb7f6cd6ee5fb43120f673cebb0cfea7dd4
 推荐落盘位置遵循本项目的目录约定：
 
 ```text
-/home/mi/codes/practice/datasets/lerobot/lerobot/libero
+$PROJECT_ROOT/datasets/lerobot/lerobot/libero
 ```
 
 下载与完整性检查流程：
 
 ```bash
-mkdir -p /home/mi/codes/practice/datasets/lerobot/lerobot
+export LIBERO_DATASET_DIR="$PROJECT_ROOT/datasets/lerobot/lerobot/libero"
+
+mkdir -p "$(dirname "$LIBERO_DATASET_DIR")"
 git clone --branch v3.0 --depth 1 \
   https://huggingface.co/datasets/lerobot/libero \
-  /home/mi/codes/practice/datasets/lerobot/lerobot/libero
+  "$LIBERO_DATASET_DIR"
 
-git -C /home/mi/codes/practice/datasets/lerobot/lerobot/libero lfs pull
-git -C /home/mi/codes/practice/datasets/lerobot/lerobot/libero lfs fsck
+git -C "$LIBERO_DATASET_DIR" lfs pull
+git -C "$LIBERO_DATASET_DIR" lfs fsck
 ```
 
 本次共获取 453 个 Git LFS 对象。`git lfs fsck` 通过，并确认工作区中没有残留 LFS
@@ -256,7 +265,7 @@ pointer。完整性确认后删除下载仓库的 `.git`，避免 LFS object cac
 造成磁盘占用翻倍：
 
 ```bash
-rm -rf /home/mi/codes/practice/datasets/lerobot/lerobot/libero/.git
+rm -rf "$LIBERO_DATASET_DIR/.git"
 ```
 
 上述目录已被项目 `.gitignore` 忽略，不会误提交大数据文件。
@@ -265,9 +274,10 @@ rm -rf /home/mi/codes/practice/datasets/lerobot/lerobot/libero/.git
 缓存软链接：
 
 ```bash
-mkdir -p ~/.cache/huggingface/lerobot/lerobot
-ln -sfn /home/mi/codes/practice/datasets/lerobot/lerobot/libero \
-  ~/.cache/huggingface/lerobot/lerobot/libero
+export HF_LEROBOT_HOME="${HF_LEROBOT_HOME:-$HOME/.cache/huggingface/lerobot}"
+
+mkdir -p "$HF_LEROBOT_HOME/lerobot"
+ln -sfn "$LIBERO_DATASET_DIR" "$HF_LEROBOT_HOME/lerobot/libero"
 ```
 
 当前数据集统计：
@@ -328,7 +338,7 @@ PY
 实际结果：
 
 ```text
-dataset_root=/home/mi/.cache/huggingface/lerobot/lerobot/libero
+dataset_root=<HF_LEROBOT_HOME>/lerobot/libero
 selected_episode_frames=84
 image_keys=['observation.images.image', 'observation.images.image2']
 observation.images.image_shape=(3, 256, 256)
@@ -364,21 +374,14 @@ offline_default_root_smoke=ok
 | latency | N/A，本次未做基准测试 |
 | failure cases | 安装阶段遇到 EGL probe/CMake 构建兼容问题；HF Python 下载遇到 TLS EOF；均已通过固定构建工具链和 Git/LFS 路径解决 |
 
-## 8. 当前文件与缓存位置
+## 8. 目录约定
 
 ```text
-requirements:  /home/mi/codes/practice/requirements.txt
-dataset:       /home/mi/codes/practice/datasets/lerobot/lerobot/libero
-dataset link:  ~/.cache/huggingface/lerobot/lerobot/libero
-LIBERO config: ~/.libero/config.yaml
-LIBERO assets: ~/.cache/libero/assets
+requirements:  $PROJECT_ROOT/requirements.txt
+dataset:       $LIBERO_DATASET_DIR
+dataset link:  $HF_LEROBOT_HOME/lerobot/libero
+LIBERO config: $HOME/.libero/config.yaml
+LIBERO assets: $HOME/.cache/libero/assets
 ```
 
-仓库内与本次工作直接相关的 tracked 修改：
-
-```text
-requirements.txt
-lerobot-libero-setup-and-smoke-test.md
-```
-
-数据集、仿真资产、视频和其他生成物均未加入 Git。
+数据集、仿真资产、视频和其他生成物应由项目的 `.gitignore` 排除，不加入 Git。
