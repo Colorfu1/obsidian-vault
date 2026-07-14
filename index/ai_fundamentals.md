@@ -60,6 +60,11 @@ Use this index for generative models, reinforcement learning, LLM training, KL o
   - Importance: high
   - Notes: Useful for understanding video-as-policy representations and how they differ from action-conditioned world models and direct action policies.
 
+- [[WorldVLA 论文综述(不建议读)|WorldVLA 论文综述]]
+  - Topic: autoregressive image/action token modeling, auxiliary one-step world prediction, multi-task VLA.
+  - Importance: low
+  - Notes: Read as a contrast case; it does not perform world-model planning at inference time.
+
 ## Cross-Topic Links
 
 - [[Pi_star0.6论文问题解答|pi*0.6 / RECAP 论文问题解答]]

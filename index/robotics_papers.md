@@ -34,6 +34,11 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Importance: high
   - Notes: Use for video generation as a policy interface and comparisons between visual planning, world models, and direct action generation.
 
+- [[WorldVLA 论文综述(不建议读)|WorldVLA 论文综述]]
+  - Topic: WorldVLA, Chameleon, unified action and image tokens, autoregressive VLA, next-frame prediction, action attention mask.
+  - Importance: low
+  - Notes: Use as a secondary comparison between auxiliary image prediction and closed-loop world-model planning.
+
 ## Physical Intelligence PI Series
 
 - [[Pi_0机器人文章分析|pi0 机器人文章分析]]

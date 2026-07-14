@@ -98,6 +98,7 @@ Dreamer
 - [DayDreamer](<Robot/AWM/DayDreamer论文综述与阅读重点.md>)
 - [DreamerV3](<Robot/AWM/DreamerV3_技术报告_中文.md>)
 - [UniPi](<Robot/AWM/UniPi_技术总结.md>)
+- [WorldVLA（低优先级参考）](<Robot/AWM/WorldVLA 论文综述(不建议读).md>)：联合训练动作生成与单步图像预测，但不进行闭环 world-model planning
 - [π0.7](Robot/VLA/PI/Pi0_7_technical_report.md) 中的 subgoal images 与 world model 部分
 - [RDT-1B](Robot/VLA/RDT-1B.md) 中关于 “不是 world model” 的对比讨论
 
@@ -135,6 +136,7 @@ Action/world model 与 model-based RL 相关笔记。
 | [DayDreamer](<Robot/AWM/DayDreamer论文综述与阅读重点.md>) | DreamerV2, real-robot online RL, asynchronous actor-learner |
 | [DreamerV3](<Robot/AWM/DreamerV3_技术报告_中文.md>) | discrete RSSM, robust world-model RL, distributional critic |
 | [UniPi](<Robot/AWM/UniPi_技术总结.md>) | video-as-policy, text-guided video diffusion, inverse dynamics |
+| [WorldVLA](<Robot/AWM/WorldVLA 论文综述(不建议读).md>) | autoregressive action/image tokens, auxiliary next-frame prediction |
 
 ### 🦾 `Robot/VLA/`
 

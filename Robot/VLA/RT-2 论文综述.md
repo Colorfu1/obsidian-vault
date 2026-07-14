@@ -1076,3 +1076,4 @@ Action token generation
 - [[GR00T N1 综述|GR00T N1 综述]]
 - [[Gemini Robotics 1.5 综述|Gemini Robotics 1.5 综述]]
 - [[MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
+- [[WorldVLA 论文综述(不建议读)|WorldVLA]]：统一自回归 action/image token 建模的后续对照。

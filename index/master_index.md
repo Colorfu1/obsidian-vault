@@ -24,6 +24,7 @@ Topics covered now:
 - Physical Intelligence pi0, pi0.5, pi0.6, pi*0.6 / RECAP
 - Visual Foresight, PlaNet, Dreamer, DayDreamer, and DreamerV3 world-model RL
 - UniPi video-as-policy and text-guided generative video planning
+- WorldVLA unified action/image token modeling as a secondary comparison
 - π0.7 steerable generalist VLA
 - FAST action tokenization
 - MEM robotic memory model

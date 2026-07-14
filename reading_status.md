@@ -1,6 +1,6 @@
 # Reading Status
 
-Updated: 2026-07-14
+Updated: 2026-07-15
 
 ## Finished
 
@@ -46,6 +46,8 @@ Updated: 2026-07-14
   - [[DreamerV3_技术报告_中文|DreamerV3 技术报告]]
 - UniPi
   - [[UniPi_技术总结|UniPi 技术总结]]
+- WorldVLA
+  - [[WorldVLA 论文综述(不建议读)|WorldVLA 论文综述（低优先级）]]
 - VQ-VAE
   - [[VQVAE_综述|VQ-VAE 综述]]
 - PPO

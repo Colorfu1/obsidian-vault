@@ -1272,3 +1272,4 @@ $$
 - [[MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
 - [[PlaNet 论文概述|PlaNet 论文概述]]：latent world model 与 planning-from-pixels 的基础路线。
 - [[Dreamer技术报告|Dreamer 潜空间想象技术报告]]：在潜空间想象中训练 actor-critic 的 world-model RL 路线。
+- [[WorldVLA 论文综述(不建议读)|WorldVLA]]：对比辅助下一帧预测与 π0.7 的异步 subgoal image context。
