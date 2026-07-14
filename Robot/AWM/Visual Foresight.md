@@ -80,6 +80,7 @@ tags:
 - [[PlaNet 论文概述|PlaNet 论文概述]]
 - [[Dreamer技术报告|Dreamer 潜空间想象技术报告]]
 - [[DayDreamer论文综述与阅读重点|DayDreamer]]
+- [[UniPi_技术总结|UniPi]]
 - [[Pi0_7_technical_report|π0.7 技术报告]]
 - [[RDT-1B|RDT-1B]]
 - [[RT-2 论文综述|RT-2 论文综述]]

@@ -42,6 +42,10 @@ Updated: 2026-07-14
   - [[Dreamer技术报告|Dreamer 潜空间想象技术报告]]
 - DayDreamer
   - [[DayDreamer论文综述与阅读重点|DayDreamer 论文综述与阅读重点]]
+- DreamerV3
+  - [[DreamerV3_技术报告_中文|DreamerV3 技术报告]]
+- UniPi
+  - [[UniPi_技术总结|UniPi 技术总结]]
 - VQ-VAE
   - [[VQVAE_综述|VQ-VAE 综述]]
 - PPO

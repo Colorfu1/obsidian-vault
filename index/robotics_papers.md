@@ -24,6 +24,16 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Importance: high
   - Notes: Use for understanding how DreamerV2 is deployed for sample-efficient online learning on physical robots.
 
+- [[DreamerV3_技术报告_中文|DreamerV3 技术报告]]
+  - Topic: DreamerV3, general world-model RL, discrete RSSM, KL balancing, symlog, twohot critic, return normalization, REINFORCE.
+  - Importance: high
+  - Notes: Use for DreamerV3 architecture, robust world-model training, distributional value learning, and cross-domain model-based RL.
+
+- [[UniPi_技术总结|UniPi 技术总结]]
+  - Topic: UniPi, video-as-policy, text-guided video diffusion, UPDP, hierarchical video planning, inverse dynamics, generative imitation.
+  - Importance: high
+  - Notes: Use for video generation as a policy interface and comparisons between visual planning, world models, and direct action generation.
+
 ## Physical Intelligence PI Series
 
 - [[Pi_0机器人文章分析|pi0 机器人文章分析]]

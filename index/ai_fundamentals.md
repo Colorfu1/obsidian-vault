@@ -48,6 +48,18 @@ Use this index for generative models, reinforcement learning, LLM training, KL o
   - Importance: high
   - Notes: Useful for connecting model-based RL foundations to online learning on real robotic systems.
 
+- [[DreamerV3_技术报告_中文|DreamerV3 技术报告]]
+  - Topic: discrete RSSM, robust world-model losses, distributional critic, symlog, twohot, return normalization, policy gradient.
+  - Importance: high
+  - Notes: Useful for modern model-based RL, stable latent dynamics learning, and unified actor-critic training across domains.
+
+## Video Planning and Generative Policies
+
+- [[UniPi_技术总结|UniPi 技术总结]]
+  - Topic: text-guided video generation, video diffusion, video planning, inverse dynamics, generative imitation learning.
+  - Importance: high
+  - Notes: Useful for understanding video-as-policy representations and how they differ from action-conditioned world models and direct action policies.
+
 ## Cross-Topic Links
 
 - [[Pi_star0.6论文问题解答|pi*0.6 / RECAP 论文问题解答]]

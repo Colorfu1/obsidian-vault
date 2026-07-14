@@ -81,22 +81,23 @@ MolmoAct2
 
 ```text
 Visual Foresight
+  ├─→ UniPi（video-as-policy）
   ↓
 PlaNet
   ↓
 Dreamer
+  ├─→ DayDreamer（真实机器人在线学习）
+  └─→ DreamerV3（通用 world-model RL）
   ↓
-DayDreamer
-  ↓
-π0.7 subgoal world model
-  ↓
-现代 VLA / AWM 对比
+π0.7 / 现代 VLA-AWM 对比
 ```
 
 - [Visual Foresight](<Robot/AWM/Visual Foresight.md>)
 - [PlaNet](<Robot/AWM/PlaNet 论文概述.md>)
 - [Dreamer](<Robot/AWM/Dreamer技术报告.md>)
 - [DayDreamer](<Robot/AWM/DayDreamer论文综述与阅读重点.md>)
+- [DreamerV3](<Robot/AWM/DreamerV3_技术报告_中文.md>)
+- [UniPi](<Robot/AWM/UniPi_技术总结.md>)
 - [π0.7](Robot/VLA/PI/Pi0_7_technical_report.md) 中的 subgoal images 与 world model 部分
 - [RDT-1B](Robot/VLA/RDT-1B.md) 中关于 “不是 world model” 的对比讨论
 
@@ -132,6 +133,8 @@ Action/world model 与 model-based RL 相关笔记。
 | [PlaNet](<Robot/AWM/PlaNet 论文概述.md>) | RSSM, latent dynamics, CEM planning, MPC |
 | [Dreamer](<Robot/AWM/Dreamer技术报告.md>) | latent imagination, actor-critic, pathwise gradient |
 | [DayDreamer](<Robot/AWM/DayDreamer论文综述与阅读重点.md>) | DreamerV2, real-robot online RL, asynchronous actor-learner |
+| [DreamerV3](<Robot/AWM/DreamerV3_技术报告_中文.md>) | discrete RSSM, robust world-model RL, distributional critic |
+| [UniPi](<Robot/AWM/UniPi_技术总结.md>) | video-as-policy, text-guided video diffusion, inverse dynamics |
 
 ### 🦾 `Robot/VLA/`
 
