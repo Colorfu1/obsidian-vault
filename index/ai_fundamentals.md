@@ -53,7 +53,7 @@ Use this index for generative models, reinforcement learning, LLM training, KL o
   - Importance: high
   - Notes: Useful for modern model-based RL, stable latent dynamics learning, and unified actor-critic training across domains.
 
-## Video Planning and Generative Policies
+## Generative Policies and World-Action Models
 
 - [[UniPi_技术总结|UniPi 技术总结]]
   - Topic: text-guided video generation, video diffusion, video planning, inverse dynamics, generative imitation learning.
@@ -64,6 +64,16 @@ Use this index for generative models, reinforcement learning, LLM training, KL o
   - Topic: autoregressive image/action token modeling, auxiliary one-step world prediction, multi-task VLA.
   - Importance: low
   - Notes: Read as a contrast case; it does not perform world-model planning at inference time.
+
+- [[DreamZero_Technical_Report|DreamZero 技术报告]]
+  - Topic: video diffusion priors, joint video-action flow matching, chunk-level autoregression, diffusion caching, asynchronous inference.
+  - Importance: high
+  - Notes: Useful for understanding how generative video models can become closed-loop action policies without an explicit planner or reward model.
+
+- [[OA_WAM|OA-WAM 论文综述]]
+  - Topic: object-centric representation, stable object addresses, attention routing, slot state prediction, auxiliary world modeling.
+  - Importance: high
+  - Notes: Useful for attention-level object binding and for distinguishing queryable state representations from explicit world-model planning.
 
 ## Cross-Topic Links
 

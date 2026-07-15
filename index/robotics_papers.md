@@ -39,6 +39,16 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Importance: low
   - Notes: Use as a secondary comparison between auxiliary image prediction and closed-loop world-model planning.
 
+- [[DreamZero_Technical_Report|DreamZero 技术报告]]
+  - Topic: DreamZero, World Action Model, video-action flow matching, autoregressive chunks, DreamZero-Flash, asynchronous robot control, zero-shot policy.
+  - Importance: high
+  - Notes: Use for end-to-end policies built on video generation priors and for precise discussion of task-level versus embodiment-level zero-shot generalization.
+
+- [[OA_WAM|OA-WAM 论文综述]]
+  - Topic: OA-WAM, object-addressable world action model, object slots, address-only attention keys, address reset, world head, robust manipulation.
+  - Importance: high
+  - Notes: Use for object-centric world-action representations, stable target binding under geometric shift, and the limits of auxiliary world prediction.
+
 ## Physical Intelligence PI Series
 
 - [[Pi_0机器人文章分析|pi0 机器人文章分析]]

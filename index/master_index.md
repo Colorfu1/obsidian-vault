@@ -25,6 +25,8 @@ Topics covered now:
 - Visual Foresight, PlaNet, Dreamer, DayDreamer, and DreamerV3 world-model RL
 - UniPi video-as-policy and text-guided generative video planning
 - WorldVLA unified action/image token modeling as a secondary comparison
+- DreamZero joint video-action World Action Model and zero-shot policy
+- OA-WAM object-addressable slots and robust target binding
 - π0.7 steerable generalist VLA
 - FAST action tokenization
 - MEM robotic memory model

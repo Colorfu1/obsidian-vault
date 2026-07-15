@@ -1,6 +1,6 @@
 # Reading Status
 
-Updated: 2026-07-15
+Updated: 2026-07-16
 
 ## Finished
 
@@ -48,6 +48,10 @@ Updated: 2026-07-15
   - [[UniPi_技术总结|UniPi 技术总结]]
 - WorldVLA
   - [[WorldVLA 论文综述(不建议读)|WorldVLA 论文综述（低优先级）]]
+- DreamZero
+  - [[DreamZero_Technical_Report|DreamZero 技术报告]]
+- OA-WAM
+  - [[OA_WAM|OA-WAM 论文综述与批判性阅读笔记]]
 - VQ-VAE
   - [[VQVAE_综述|VQ-VAE 综述]]
 - PPO

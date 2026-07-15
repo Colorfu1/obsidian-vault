@@ -77,7 +77,7 @@ MolmoAct2
 
 ### 🔮 路线 B：AWM / World Model / Model-Based RL
 
-从“预测未来图像”到“在潜空间里想象并训练策略”：
+从“预测未来图像”、在潜空间里想象，到把世界预测和动作生成统一进 World Action Model：
 
 ```text
 Visual Foresight
@@ -90,6 +90,9 @@ Dreamer
   └─→ DreamerV3（通用 world-model RL）
   ↓
 π0.7 / 现代 VLA-AWM 对比
+  ├─→ WorldVLA（辅助单步图像预测）
+  ├─→ DreamZero（联合 video-action flow）
+  └─→ OA-WAM（object-addressable slots）
 ```
 
 - [Visual Foresight](<Robot/AWM/Visual Foresight.md>)
@@ -99,6 +102,8 @@ Dreamer
 - [DreamerV3](<Robot/AWM/DreamerV3_技术报告_中文.md>)
 - [UniPi](<Robot/AWM/UniPi_技术总结.md>)
 - [WorldVLA（低优先级参考）](<Robot/AWM/WorldVLA 论文综述(不建议读).md>)：联合训练动作生成与单步图像预测，但不进行闭环 world-model planning
+- [DreamZero](Robot/AWM/DreamZero_Technical_Report.md)：基于视频生成先验联合预测未来视频 latent 与连续动作
+- [OA-WAM](Robot/AWM/OA_WAM.md)：用稳定对象地址和 slot routing 改善几何变化下的目标绑定
 - [π0.7](Robot/VLA/PI/Pi0_7_technical_report.md) 中的 subgoal images 与 world model 部分
 - [RDT-1B](Robot/VLA/RDT-1B.md) 中关于 “不是 world model” 的对比讨论
 
@@ -137,6 +142,8 @@ Action/world model 与 model-based RL 相关笔记。
 | [DreamerV3](<Robot/AWM/DreamerV3_技术报告_中文.md>) | discrete RSSM, robust world-model RL, distributional critic |
 | [UniPi](<Robot/AWM/UniPi_技术总结.md>) | video-as-policy, text-guided video diffusion, inverse dynamics |
 | [WorldVLA](<Robot/AWM/WorldVLA 论文综述(不建议读).md>) | autoregressive action/image tokens, auxiliary next-frame prediction |
+| [DreamZero](Robot/AWM/DreamZero_Technical_Report.md) | video-action flow matching, autoregressive chunks, real-time WAM |
+| [OA-WAM](Robot/AWM/OA_WAM.md) | object addressability, slot routing, robust manipulation |
 
 ### 🦾 `Robot/VLA/`
 
