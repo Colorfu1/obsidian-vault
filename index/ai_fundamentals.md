@@ -48,10 +48,15 @@ Use this index for generative models, reinforcement learning, LLM training, KL o
   - Importance: high
   - Notes: Useful for connecting model-based RL foundations to online learning on real robotic systems.
 
-- [[DreamerV3_技术报告_中文|DreamerV3 技术报告]]
+- [[DreamerV3_技术报告|DreamerV3 技术报告]]
   - Topic: discrete RSSM, robust world-model losses, distributional critic, symlog, twohot, return normalization, policy gradient.
   - Importance: high
   - Notes: Useful for modern model-based RL, stable latent dynamics learning, and unified actor-critic training across domains.
+
+- [[DreamerV4_技术报告|Dreamer 4 技术报告]]
+  - Topic: causal video tokenization, Shortcut Model, Diffusion Forcing, x-prediction, imagined rollouts, PMPO, behavioral prior.
+  - Importance: high
+  - Notes: Useful for scalable generative world models, offline imagination training, and the interface between flow-based dynamics and reinforcement learning.
 
 ## Generative Policies and World-Action Models
 

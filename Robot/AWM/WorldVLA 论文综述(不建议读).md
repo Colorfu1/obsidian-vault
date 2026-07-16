@@ -342,5 +342,5 @@ WorldVLA 的实现方式比较直接：
 - [[UniPi_技术总结|UniPi]]：同样把视觉生成引入策略学习，但 UniPi 直接生成目标条件视频计划，WorldVLA 只把下一帧预测作为辅助训练任务。
 - [[DreamZero_Technical_Report|DreamZero]]：同样联合视觉与动作生成，但 DreamZero 在推理阶段持续联合生成视频 latent 和动作。
 - [[OA_WAM|OA-WAM]]：同样使用 world prediction 辅助动作学习，但进一步引入对象地址与 slot routing。
-- [[DreamerV3_技术报告_中文|DreamerV3]]：对比真正通过潜空间想象训练 actor-critic 的闭环 world-model RL 路线。
+- [[DreamerV3_技术报告|DreamerV3]]：对比真正通过潜空间想象训练 actor-critic 的闭环 world-model RL 路线。
 - [[Pi0_7_technical_report|π0.7]]：对比异步 subgoal image context 与 WorldVLA 的同步单步图像预测。

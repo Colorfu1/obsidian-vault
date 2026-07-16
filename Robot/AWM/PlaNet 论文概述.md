@@ -519,7 +519,7 @@ PlaNet 和 Dreamer 的关系可以这样理解：
 - [[Visual Foresight|Visual Foresight]]
 - [[Dreamer技术报告|Dreamer 技术报告]]
 - [[DayDreamer论文综述与阅读重点|DayDreamer]]
-- [[DreamerV3_技术报告_中文|DreamerV3]]
+- [[DreamerV3_技术报告|DreamerV3]]
 - [[PPO|PPO]]
 - [[SAC_PPO_compare|SAC vs PPO]]
 - [[RDT-1B|RDT-1B]]

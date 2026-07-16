@@ -7,7 +7,7 @@ It contains technical notes, paper reading notes, and structured explanations co
 ## Main Topics
 
 - AI fundamentals: VQ-VAE, autoregressive priors, reinforcement learning, PPO, SAC, OPD, KL, normalization, action/token modeling.
-- Robotics: Physical Intelligence PI series, RT-1/RT-2, VLA, AWM/world models, Visual Foresight, PlaNet, Dreamer, DayDreamer, DreamerV3, UniPi, WorldVLA, DreamZero, OA-WAM, pi0.7, FAST, MEM, RDT-1B, GR00T N1, Gemini Robotics 1.5, MolmoAct2, robot foundation models, embodied reasoning agents, flow matching action policies, diffusion action policies.
+- Robotics: Physical Intelligence PI series, RT-1/RT-2, VLA, AWM/world models, Visual Foresight, PlaNet, Dreamer, DayDreamer, DreamerV3, Dreamer 4, UniPi, WorldVLA, DreamZero, OA-WAM, pi0.7, FAST, MEM, RDT-1B, GR00T N1, Gemini Robotics 1.5, MolmoAct2, robot foundation models, embodied reasoning agents, flow matching action policies, diffusion action policies.
 - Robot imitation learning and hardware: ALOHA low-cost bimanual teleoperation, ACT action chunking, CVAE imitation learning, Diffusion Policy.
 - Autonomous driving: LiDAR perception, TensorRT deployment, BEV visualization. This topic is planned, but there are no dedicated notes in the current index yet.
 - Personal planning: life documents and planning notes. Keep private or explicitly indexed only when safe to expose.
@@ -18,7 +18,7 @@ It contains technical notes, paper reading notes, and structured explanations co
   - Navigation layer for GPT. Start here before reading topic notes.
 - `Robot/`
   - Robotics paper notes and embodied AI notes.
-  - `Robot/AWM/` contains action/world model, World Action Model, model-based RL, and video-planning notes, including Visual Foresight, PlaNet, Dreamer, DayDreamer, DreamerV3, UniPi, WorldVLA, DreamZero, and OA-WAM.
+  - `Robot/AWM/` contains action/world model, World Action Model, model-based RL, and video-planning notes, including Visual Foresight, PlaNet, Dreamer, DayDreamer, DreamerV3, Dreamer 4, UniPi, WorldVLA, DreamZero, and OA-WAM.
   - `Robot/VLA/` contains VLA and robot foundation model notes.
   - `Robot/VLA/PI/` contains Physical Intelligence paper notes, including pi0, pi0.5, pi0.6, pi*0.6 / RECAP, pi0.7, FAST, and MEM.
   - Root-level `Robot/VLA/*.md` files contain non-PI robotics notes such as ALOHA hardware, ACT, RT-1/RT-2, Diffusion Policy, RDT-1B, GR00T N1, Gemini Robotics 1.5, and MolmoAct2.

@@ -1082,7 +1082,7 @@ $$
 - [[Visual Foresight|Visual Foresight]]
 - [[PlaNet 论文概述|PlaNet 论文概述]]
 - [[DayDreamer论文综述与阅读重点|DayDreamer]]
-- [[DreamerV3_技术报告_中文|DreamerV3]]
+- [[DreamerV3_技术报告|DreamerV3]]
 - [[UniPi_技术总结|UniPi]]
 - [[PPO|PPO]]
 - [[SAC_PPO_compare|SAC vs PPO]]

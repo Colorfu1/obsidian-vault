@@ -88,6 +88,7 @@ PlaNet
 Dreamer
   ├─→ DayDreamer（真实机器人在线学习）
   └─→ DreamerV3（通用 world-model RL）
+        └─→ Dreamer 4（可扩展生成式 world model）
   ↓
 π0.7 / 现代 VLA-AWM 对比
   ├─→ WorldVLA（辅助单步图像预测）
@@ -99,7 +100,8 @@ Dreamer
 - [PlaNet](<Robot/AWM/PlaNet 论文概述.md>)
 - [Dreamer](<Robot/AWM/Dreamer技术报告.md>)
 - [DayDreamer](<Robot/AWM/DayDreamer论文综述与阅读重点.md>)
-- [DreamerV3](<Robot/AWM/DreamerV3_技术报告_中文.md>)
+- [DreamerV3](<Robot/AWM/DreamerV3_技术报告.md>)
+- [Dreamer 4](<Robot/AWM/DreamerV4_技术报告.md>)
 - [UniPi](<Robot/AWM/UniPi_技术总结.md>)
 - [WorldVLA（低优先级参考）](<Robot/AWM/WorldVLA 论文综述(不建议读).md>)：联合训练动作生成与单步图像预测，但不进行闭环 world-model planning
 - [DreamZero](Robot/AWM/DreamZero_Technical_Report.md)：基于视频生成先验联合预测未来视频 latent 与连续动作
@@ -139,7 +141,8 @@ Action/world model 与 model-based RL 相关笔记。
 | [PlaNet](<Robot/AWM/PlaNet 论文概述.md>) | RSSM, latent dynamics, CEM planning, MPC |
 | [Dreamer](<Robot/AWM/Dreamer技术报告.md>) | latent imagination, actor-critic, pathwise gradient |
 | [DayDreamer](<Robot/AWM/DayDreamer论文综述与阅读重点.md>) | DreamerV2, real-robot online RL, asynchronous actor-learner |
-| [DreamerV3](<Robot/AWM/DreamerV3_技术报告_中文.md>) | discrete RSSM, robust world-model RL, distributional critic |
+| [DreamerV3](<Robot/AWM/DreamerV3_技术报告.md>) | discrete RSSM, robust world-model RL, distributional critic |
+| [Dreamer 4](<Robot/AWM/DreamerV4_技术报告.md>) | scalable video world model, Shortcut Forcing, PMPO, offline imagination |
 | [UniPi](<Robot/AWM/UniPi_技术总结.md>) | video-as-policy, text-guided video diffusion, inverse dynamics |
 | [WorldVLA](<Robot/AWM/WorldVLA 论文综述(不建议读).md>) | autoregressive action/image tokens, auxiliary next-frame prediction |
 | [DreamZero](Robot/AWM/DreamZero_Technical_Report.md) | video-action flow matching, autoregressive chunks, real-time WAM |

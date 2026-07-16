@@ -43,7 +43,9 @@ Updated: 2026-07-16
 - DayDreamer
   - [[DayDreamer论文综述与阅读重点|DayDreamer 论文综述与阅读重点]]
 - DreamerV3
-  - [[DreamerV3_技术报告_中文|DreamerV3 技术报告]]
+  - [[DreamerV3_技术报告|DreamerV3 技术报告]]
+- Dreamer 4
+  - [[DreamerV4_技术报告|Dreamer 4 技术报告]]
 - UniPi
   - [[UniPi_技术总结|UniPi 技术总结]]
 - WorldVLA
