@@ -143,6 +143,11 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Importance: high
   - Notes: Start here for low-cost bimanual manipulation, data collection hardware, teleoperation design, ACT policy learning, and comparisons between ACT action chunking and VLA/FAST action tokenization.
 
+- [[BestPractice/LeRobot ACT调试与ALOHA数据可视化实践|LeRobot ACT 调试与 ALOHA 数据可视化实践]]
+  - Topic: LeRobot 0.4.4, ACT training debug, ALOHA dataset cache, Rerun synchronized cameras, joint signals, nominal bimanual forward kinematics, and frame-by-frame visualization.
+  - Importance: medium
+  - Notes: Use as an implementation-oriented companion to the ALOHA/ACT paper note when reproducing training entry points, VS Code debugging, dataset inspection, and 3D episode visualization.
+
 ## Useful Cross-Topic Notes
 
 - [[VQVAE_综述|VQ-VAE 综述]]

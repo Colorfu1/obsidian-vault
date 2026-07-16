@@ -4,7 +4,7 @@ type: paper_note
 topic: robot_imitation_learning
 status: mature
 importance: high
-updated: 2026-06-21
+updated: 2026-07-16
 tags:
   - aloha
   - act
@@ -1160,6 +1160,8 @@ $$
 - [[FAST_知识总结|FAST]]：另一条 action chunk 表示路线，离散 tokenization 而不是连续动作生成。
 - [[Pi_0机器人文章分析|pi0]]：VLA + continuous action expert 的后续路线。
 - [[Pi0_7_technical_report|pi0.7]]：更大规模的双臂/通用机器人行为建模。
+- [[BestPractice/LeRobot ACT调试与ALOHA数据可视化实践|LeRobot ACT 调试与 ALOHA 数据可视化实践]]：
+  LeRobot 训练入口、ALOHA 缓存检查与同步 3D 数据可视化的实操记录。
 
 
 
