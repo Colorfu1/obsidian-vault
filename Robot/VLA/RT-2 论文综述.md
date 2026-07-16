@@ -4,7 +4,7 @@ type: paper_note
 topic: vision_language_action_model
 status: mature
 importance: high
-updated: 2026-06-28
+updated: 2026-07-16
 tags:
   - rt-2
   - vla
@@ -66,6 +66,10 @@ RT-2 想回答的问题是：
 ---
 
 ## 4. 整体 Pipeline
+
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/rt-2-method-overview.png]]
+> RT-2 将机器人动作表示为文本 token，与互联网视觉语言数据共同训练，并在部署时反 token 化为闭环机器人控制。原图来自 [RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control（arXiv:2307.15818）](https://arxiv.org/abs/2307.15818)，由论文源文件高分辨率导出。
 
 RT-2 的完整 pipeline 可以分为 6 步。
 

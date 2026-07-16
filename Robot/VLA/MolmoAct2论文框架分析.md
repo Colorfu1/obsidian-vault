@@ -4,7 +4,7 @@ type: paper_note
 topic: action_reasoning_model
 status: mature
 importance: high
-updated: 2026-07-08
+updated: 2026-07-16
 tags:
   - molmoact2
   - action-reasoning-model
@@ -66,6 +66,10 @@ Molmo2
 ---
 
 ## 3. 系统总体架构
+
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/molmoact2-model-architecture.png]]
+> MolmoAct2 的预训练 VLA、逐层 KV conditioning 与 flow-matching Action Expert。原图来自 [MolmoAct2: Action Reasoning Models for Real-world Deployment（arXiv:2605.02881）](https://arxiv.org/abs/2605.02881)，由论文源文件高分辨率导出。
 
 MolmoAct2 的架构可以分成四个层级：
 

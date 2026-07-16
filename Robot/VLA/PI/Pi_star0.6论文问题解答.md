@@ -4,7 +4,7 @@ type: paper_note
 topic: robotics_foundation_model
 status: mature
 importance: high
-updated: 2026-06-10
+updated: 2026-07-16
 tags:
   - pi-star-0.6
   - recap
@@ -124,6 +124,10 @@ $$
 ---
 
 # 2. π\*0.6 相比 π0.6 加了什么？
+
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/pi-star0.6-model-architecture.png]]
+> π\*0.6 中 VLA、Knowledge Insulation、独立 value function 与二值 advantage indicator 的交互结构。原图来自 [π\*0.6: a VLA That Learns From Experience（arXiv:2511.14759）](https://arxiv.org/abs/2511.14759)，由论文源文件高分辨率导出。
 
 π\*0.6 的关键改动是：**在 π0.6 的输入序列里加入 advantage indicator**。
 

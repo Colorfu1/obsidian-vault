@@ -4,7 +4,7 @@ type: paper_note
 topic: visual_world_model_planning
 status: mature
 importance: high
-updated: 2026-07-12
+updated: 2026-07-16
 tags:
   - visual-foresight
   - visual-mpc
@@ -17,6 +17,10 @@ tags:
 ---
 
 # Visual Foresight
+
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/visual-foresight-visual-mpc-overview.png]]
+> Visual Foresight / Visual MPC 的训练与测试闭环：自主采集交互数据、训练视频预测模型，并在测试时进行采样规划。原图来自 [Visual Foresight: Model-Based Deep Reinforcement Learning for Vision-Based Robotic Control（arXiv:1812.00568）](https://arxiv.org/abs/1812.00568)，使用论文源文件中的原始总览图。
 
 **Visual Foresight 是一篇早期的“视觉世界模型 + MPC 控制”论文：机器人先通过自监督交互学习一个 action-conditioned video prediction model，然后在测试时用这个模型预测不同动作序列的未来图像，并选择最能达成目标的动作。** `Visual Foresight.pdf`
 

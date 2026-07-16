@@ -4,7 +4,7 @@ type: paper_note
 topic: robot_memory_model
 status: mature
 importance: high
-updated: 2026-06-10
+updated: 2026-07-16
 tags:
   - mem
   - vla
@@ -95,6 +95,10 @@ $$
 ---
 
 # 3. MEM 的整体分解：high-level 语言记忆 + low-level 视频记忆
+
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/mem-system-architecture.png]]
+> MEM 的多尺度记忆系统：高层语言记忆负责长期语义事件，低层视频编码器负责短期视觉历史。原图来自 [MEM: Multi-Scale Embodied Memory for Vision Language Action Models（arXiv:2603.03596）](https://arxiv.org/abs/2603.03596)，由论文源文件高分辨率导出。
 
 MEM 把原始长历史动作预测拆成两个部分：
 

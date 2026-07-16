@@ -4,7 +4,7 @@ type: paper_note
 topic: model_based_reinforcement_learning
 status: mature
 importance: high
-updated: 2026-07-14
+updated: 2026-07-16
 tags:
   - daydreamer
   - dreamer-v2
@@ -56,6 +56,10 @@ tags:
 ---
 
 ## 3. 整体训练 Pipeline
+
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/daydreamer-online-learning-pipeline.png]]
+> DayDreamer 的真实机器人在线学习闭环：真实交互、Replay Buffer、世界模型与潜空间 Actor-Critic。原图来自 [DayDreamer: World Models for Physical Robot Learning（arXiv:2206.14176）](https://arxiv.org/abs/2206.14176)，由论文源文件高分辨率导出。
 
 DayDreamer 是一个持续在线运行的循环：
 

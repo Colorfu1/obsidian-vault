@@ -101,6 +101,10 @@ DreamerV3 面向的不是某一个 benchmark，而是强化学习算法在跨领
 
 ## 2. 总体算法：真实交互与潜空间想象
 
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/dreamerv3-training-architecture.png]]
+> DreamerV3 的完整训练结构，左侧为世界模型学习，右侧为想象轨迹中的 Actor-Critic 学习。原图来自 [Mastering Diverse Domains through World Models（arXiv:2301.04104）](https://arxiv.org/abs/2301.04104)，由论文源文件的两个原始面板按论文布局合成。
+
 真实环境阶段仍遵循标准强化学习接口：actor 依据当前 latent state 选择动作，环境返回下一观测、真实奖励和终止标记，这些序列进入 replay buffer。训练阶段从 replay 中抽取长度为 T 的序列，首先更新世界模型；随后选择 replay 中的 latent state 作为 imagination 起点，由当前 actor 与世界模型生成 H 步潜空间轨迹，预测每步 reward 与 continuation，并由 critic 对 horizon 之外的未来进行 bootstrap。
 
 因此，Dreamer 相对于经典 model-free policy gradient 的主要变化不是“PG 不再需要环境”，而是增加了一个可重复使用的模型数据源。同一条真实经验可以反复用于世界模型学习，并从多个起点、多个动作样本生成 imagined trajectories。其经济意义是用更多 GPU 计算换取更少或更高价值的真实交互；在机器人、复杂模拟器或高成本实验中，这种交换尤其重要。

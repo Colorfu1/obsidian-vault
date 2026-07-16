@@ -73,6 +73,10 @@ OA-WAM 的基本假设是：
 
 ## 2. 整体架构
 
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/oa-wam-model-architecture.png]]
+> OA-WAM 的多模态编码、Object Slot、Block-causal Backbone、World Head 与 Action Head。原图来自 [OA-WAM: Object-Addressable World Action Model for Robust Robot Manipulation（arXiv:2605.06481）](https://arxiv.org/abs/2605.06481)，由论文源文件高分辨率导出。
+
 模型在时刻 \(t\) 输入：
 
 - 最近 \(T=4\) 帧视觉观测；

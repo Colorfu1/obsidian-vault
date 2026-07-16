@@ -4,7 +4,7 @@ type: paper_note
 topic: latent_imagination_model_based_rl
 status: mature
 importance: high
-updated: 2026-07-10
+updated: 2026-07-16
 tags:
   - dreamer
   - world-model
@@ -113,6 +113,10 @@ $$
 ---
 
 ## 2. Dreamer 的三阶段工作流
+
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/dreamer-architecture-overview.png]]
+> Dreamer 从经验数据学习潜空间动力学，并在潜空间想象中学习价值与动作。原图来自 [Dream to Control: Learning Behaviors by Latent Imagination（arXiv:1912.01603）](https://arxiv.org/abs/1912.01603)，由论文源文件高分辨率导出。
 
 论文第 3 页的图 3 和 Algorithm 1 将算法分为三个反复交替的过程。
 

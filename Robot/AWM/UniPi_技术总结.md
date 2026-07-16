@@ -4,7 +4,7 @@ type: paper_note
 topic: video_planning
 status: mature
 importance: high
-updated: 2026-07-14
+updated: 2026-07-16
 tags:
   - unipi
   - video-generation
@@ -92,6 +92,10 @@ $$
 ---
 
 ## 2. 核心思想：Video as Policy
+
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/unipi-method-overview.png]]
+> UniPi 将文本条件视频生成作为通用策略，再通过 inverse dynamics 把视频计划转换为机器人动作。原图来自 [Learning Universal Policies via Text-Guided Video Generation（arXiv:2302.00111）](https://arxiv.org/abs/2302.00111)，由论文源文件高分辨率导出。
 
 UniPi 的基本观察是：
 

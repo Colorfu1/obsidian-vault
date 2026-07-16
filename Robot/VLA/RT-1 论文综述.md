@@ -4,7 +4,7 @@ type: paper_note
 topic: robotics_foundation_model
 status: mature
 importance: high
-updated: 2026-06-28
+updated: 2026-07-16
 tags:
   - rt-1
   - robotics-transformer
@@ -48,6 +48,10 @@ RT-1 的方法可以概括为：
 ---
 
 ## 2. RT-1 的核心定位
+
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/rt-1-model-architecture.png]]
+> RT-1 从语言指令与图像历史，经 FiLM EfficientNet、TokenLearner 和 Transformer 输出离散动作的整体结构。原图来自 [RT-1: Robotics Transformer for Real-World Control at Scale（arXiv:2212.06817）](https://arxiv.org/abs/2212.06817)，由论文源文件高分辨率导出。
 
 RT-1 可以被看作早期 VLA 系统的重要代表，但它和今天的 OpenVLA、Octo、π₀ 系列仍然有明显不同。
 

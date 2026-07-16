@@ -4,7 +4,7 @@ type: paper_note
 topic: vision_language_action
 status: mature
 importance: low
-updated: 2026-07-15
+updated: 2026-07-16
 tags:
   - worldvla
   - vla
@@ -42,6 +42,10 @@ $$
 ---
 
 ## 2. 模型结构
+
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/worldvla-model-overview.png]]
+> WorldVLA 将动作模型与世界模型统一到同一个自回归框架中的整体结构。原图来自 [WorldVLA: Towards Autoregressive Action World Model（arXiv:2506.21539）](https://arxiv.org/abs/2506.21539)，由论文源文件高分辨率导出。
 
 WorldVLA 使用三种 tokenizer：
 

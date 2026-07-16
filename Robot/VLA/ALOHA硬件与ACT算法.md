@@ -4,7 +4,7 @@ type: paper_note
 topic: robot_imitation_learning
 status: mature
 importance: high
-updated: 2026-06-21
+updated: 2026-07-16
 tags:
   - aloha
   - act
@@ -198,6 +198,10 @@ $$
 ---
 
 ## 3. ACT：Action Chunking with Transformers
+
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/act-model-architecture.png]]
+> ACT 的 Conditional VAE 结构：训练时用编码器得到 style variable，策略端以多视角图像、关节状态和 latent 预测 action chunk。原图来自 [Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware（arXiv:2304.13705）](https://arxiv.org/abs/2304.13705)，由论文源文件高分辨率导出。
 
 ### 3.1 单步 BC 的问题
 

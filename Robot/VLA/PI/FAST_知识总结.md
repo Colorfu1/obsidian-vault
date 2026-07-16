@@ -4,7 +4,7 @@ type: paper_note
 topic: action_tokenization
 status: mature
 importance: high
-updated: 2026-06-10
+updated: 2026-07-16
 tags:
   - fast
   - action-tokenization
@@ -62,6 +62,10 @@ FAST 的核心目标就是：
 ---
 
 ## 2. FAST 的整体流程
+
+> [!figure] 论文原始方法结构图
+> ![[attachments/paper-figures/fast-tokenization-pipeline.png]]
+> FAST 的动作 tokenization 流程：归一化、DCT、量化、低频优先展平与 BPE 压缩。原图来自 [FAST: Efficient Action Tokenization for Vision-Language-Action Models（arXiv:2501.09747）](https://arxiv.org/abs/2501.09747)，由论文源文件高分辨率导出。
 
 FAST 的流程可以概括为：
 

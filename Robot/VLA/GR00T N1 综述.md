@@ -4,7 +4,7 @@ type: paper_note
 topic: humanoid_robot_foundation_model
 status: mature
 importance: high
-updated: 2026-07-02
+updated: 2026-07-16
 tags:
   - gr00t-n1
   - humanoid-robot
@@ -68,6 +68,10 @@ GR00T N1 =
 ---
 
 ## 3. 模型架构
+
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/groot-n1-model-architecture.png]]
+> GR00T N1 的 Eagle-2 VLM、embodiment-aware state/action encoder、DiT blocks 与动作解码器。原图来自 [GR00T N1: An Open Foundation Model for Generalist Humanoid Robots（arXiv:2503.14734）](https://arxiv.org/abs/2503.14734)，由论文源文件高分辨率导出。
 
 ### 3.1 总体结构
 
