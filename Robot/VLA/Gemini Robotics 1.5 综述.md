@@ -4,7 +4,7 @@ type: paper_note
 topic: embodied_robot_agent
 status: mature
 importance: high
-updated: 2026-07-08
+updated: 2026-07-16
 tags:
   - gemini-robotics
   - embodied-reasoning
@@ -17,6 +17,10 @@ tags:
 ---
 
 # Gemini Robotics 1.5 综述
+
+> [!figure] 论文原始系统结构图
+> ![[attachments/paper-figures/gemini-robotics-1.5-system-overview.png]]
+> Gemini Robotics 1.5 VLA、Gemini Robotics-ER 1.5 与 Agentic Framework 的整体关系。原图来自 [Gemini Robotics 1.5: Pushing the Frontier of Generalist Robots with Advanced Embodied Reasoning, Thinking, and Motion Transfer（arXiv:2510.03342）](https://arxiv.org/abs/2510.03342)，由论文源文件高分辨率导出。
 
 ---
 

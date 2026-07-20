@@ -4,7 +4,7 @@ type: paper_note
 topic: robotics_foundation_model
 status: mature
 importance: high
-updated: 2026-06-10
+updated: 2026-07-16
 tags:
   - pi0.6
   - vla
@@ -29,6 +29,10 @@ tags:
 ---
 
 # π0.6 模型总结：Section V-A
+
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/pi-star0.6-model-architecture.png]]
+> 图中上半部分是本文 Section V-A 使用的 π0.6 VLA / Knowledge Insulation 结构，下半部分是 π\*0.6 新增的 value function 与 advantage conditioning。原图来自 [π\*0.6: a VLA That Learns From Experience（arXiv:2511.14759）](https://arxiv.org/abs/2511.14759)，由论文源文件高分辨率导出。
 
 π0.6 是 π0.5 的后续版本，是一个可以同时处理视觉、语言和机器人动作的 **VLA model**。论文说 π0.6 继承了 π0.5 的几个核心设计：它可以通过 **flow matching** 表达 chunked continuous action distribution，也可以输出用于高层决策的 intermediate text。训练上使用 **Knowledge Insulation, KI** recipe：整个模型端到端训练 continuous actions 和 discretized tokens，但对 flow-matching action expert 使用 stop gradient，避免 action expert 反向影响模型其余部分。预训练数据同时包括 robot data 和来自 web 的 vision-language co-training data。`pi_*0.6.pdf`
 

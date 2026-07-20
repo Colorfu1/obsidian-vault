@@ -5,7 +5,7 @@ type: paper_note
 topic: robotics_foundation_model
 status: mature
 importance: high
-updated: 2026-06-10
+updated: 2026-07-16
 tags:
   - pi0.5
   - vla
@@ -203,6 +203,10 @@ a_{t:t+H} ~ πθ(a_{t:t+H}|o_t, \hat{ℓ})
 ---
 
 # 5. π0.5 的模型结构
+
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/pi0.5-model-overview.png]]
+> π0.5 的两阶段结构：预训练阶段统一离散 action token、机器人数据和 Web 数据，后训练阶段以 flow matching 专门化高低层移动操作策略。原图来自 [π0.5: a VLA with Open-World Generalization（arXiv:2504.16054）](https://arxiv.org/abs/2504.16054)，由论文源文件高分辨率导出。
 
 π0.5 基于 VLM 初始化，大体结构是：
 

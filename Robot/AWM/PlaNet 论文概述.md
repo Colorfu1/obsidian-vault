@@ -5,7 +5,7 @@ type: paper_note
 topic: latent_world_model_planning
 status: mature
 importance: high
-updated: 2026-07-10
+updated: 2026-07-16
 tags:
   - planet
   - world-model
@@ -180,6 +180,10 @@ CEM 在 latent space 中搜索动作序列
 ---
 
 ## 6. RSSM：Recurrent State-Space Model
+
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/planet-rssm-architecture.png]]
+> PlaNet 对纯确定性 RNN、纯随机 SSM 与混合确定性/随机 RSSM 的结构对比。原图来自 [Learning Latent Dynamics for Planning from Pixels（arXiv:1811.04551）](https://arxiv.org/abs/1811.04551)，从论文 PDF 的 Figure 2 高分辨率裁取。
 
 PlaNet 最核心的模型结构是 RSSM。它把 latent state 分成两个部分：
 

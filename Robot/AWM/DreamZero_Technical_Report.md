@@ -112,6 +112,10 @@ $$
 
 ## 2. 模型架构
 
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/dreamzero-model-architecture.png]]
+> DreamZero 的训练与闭环推理结构：视觉、语言和本体状态编码后，由自回归 DiT 联合预测视频与动作。原图来自 [World Action Models are Zero-shot Policies（arXiv:2602.15922）](https://arxiv.org/abs/2602.15922)，由论文源文件高分辨率导出。
+
 ### 2.1 输入与编码器
 
 模型接收三类条件：

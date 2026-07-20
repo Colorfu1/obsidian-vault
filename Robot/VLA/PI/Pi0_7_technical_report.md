@@ -4,7 +4,7 @@ type: paper_note
 topic: robotics_foundation_model
 status: mature
 importance: high
-updated: 2026-06-26
+updated: 2026-07-16
 tags:
   - pi0.7
   - physical-intelligence
@@ -177,6 +177,10 @@ VLM backbone + action expert
 ---
 
 ## 4. 模型结构
+
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/pi0.7-model-architecture.png]]
+> π0.7 的 5B VLA、MEM-style observation memory、high-level policy、subgoal world model、metadata 与 action expert。原图来自 [π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities（arXiv:2604.15483）](https://arxiv.org/abs/2604.15483)，由论文源文件高分辨率导出。
 
 π0.7 是一个约 5B 参数的 VLA，主要由三部分组成：
 

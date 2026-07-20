@@ -135,6 +135,10 @@ $$
 
 ## 3. Figure 2 逐层解读
 
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/dreamer4-world-model-architecture.png]]
+> Dreamer 4 的世界模型设计：Causal Tokenizer 与 Interactive Dynamics。原图来自 [Training Agents Inside of Scalable World Models（arXiv:2509.24527）](https://arxiv.org/abs/2509.24527)，由论文 Figure 2 的两个矢量面板按原布局合成。
+
 论文第 4 页 Figure 2 分成两个部分：左侧是 Causal Tokenizer，右侧是 Interactive Dynamics。策略、奖励和价值 heads 是预训练后插入的，因此 Figure 2 主体没有完整画出 imagination RL 的闭环。
 
 ### 3.1 Figure 2(a)：Causal Tokenizer

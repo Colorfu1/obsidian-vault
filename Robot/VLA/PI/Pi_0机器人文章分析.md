@@ -5,7 +5,7 @@ type: paper_note
 topic: robotics_foundation_model
 status: mature
 importance: high
-updated: 2026-06-10
+updated: 2026-07-16
 tags:
   - pi0
   - openpi
@@ -96,6 +96,10 @@ action_dim 最高 pad 到 18
 ---
 
 ## 3. π0 的整体结构
+
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/pi0-model-overview.png]]
+> π0 的预训练数据混合、PaliGemma VLM backbone、flow-matching action expert 与多 embodiment 输出结构。原图来自 [π0: A Vision-Language-Action Flow Model for General Robot Control（arXiv:2410.24164）](https://arxiv.org/abs/2410.24164)，由论文源文件高分辨率导出。
 
 π0 可以理解成：
 

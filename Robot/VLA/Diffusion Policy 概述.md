@@ -4,7 +4,7 @@ type: paper_note
 topic: robot_policy_learning
 status: mature
 importance: high
-updated: 2026-06-28
+updated: 2026-07-16
 tags:
   - diffusion-policy
   - imitation-learning
@@ -64,6 +64,10 @@ $$
 ---
 
 ## 3. 整体模型 Pipeline
+
+> [!figure] 论文原始模型结构图
+> ![[attachments/paper-figures/diffusion-policy-architecture.png]]
+> Diffusion Policy 的总体输入输出，以及 CNN-based 与 Transformer-based 两种噪声预测网络。原图来自 [Diffusion Policy: Visuomotor Policy Learning via Action Diffusion（arXiv:2303.04137）](https://arxiv.org/abs/2303.04137)，由论文源文件高分辨率导出。
 
 下面是完整流程，分成 **数据构造 / 训练 / 推理执行** 三部分。
 
