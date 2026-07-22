@@ -143,10 +143,20 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Importance: high
   - Notes: Start here for low-cost bimanual manipulation, data collection hardware, teleoperation design, ACT policy learning, and comparisons between ACT action chunking and VLA/FAST action tokenization.
 
-- [[BestPractice/LeRobot ACT调试与ALOHA数据可视化实践|LeRobot ACT 调试与 ALOHA 数据可视化实践]]
+- [[BestPractice/2026-07-16-LeRobot-ACT调试与ALOHA数据可视化|2026-07-16 LeRobot ACT 调试与 ALOHA 数据可视化]]
   - Topic: LeRobot 0.4.4, ACT training debug, ALOHA dataset cache, Rerun synchronized cameras, joint signals, nominal bimanual forward kinematics, and frame-by-frame visualization.
   - Importance: medium
   - Notes: Use as an implementation-oriented companion to the ALOHA/ACT paper note when reproducing training entry points, VS Code debugging, dataset inspection, and 3D episode visualization.
+
+- [[BestPractice/2026-07-20-ACT-A-Sanity实验与模型源码调试|2026-07-20 ACT A-Sanity 实验与模型源码调试]]
+  - Topic: ACT A-Sanity launcher, LIBERO offline and closed-loop evaluation design, LeRobot dataset statistics, Accelerate BF16, CVAE, attention, and positional encoding.
+  - Importance: medium
+  - Notes: Use for the experiment plan and source-level reasoning that preceded the formal A-Sanity training run.
+
+- [[BestPractice/2026-07-23-ACT离线评测与标定可视化|2026-07-23 ACT 离线评测与标定可视化]]
+  - Topic: ACT offline checkpoint comparison, LIBERO calibrated agentview, Panda IK visualization, GT/prediction command semantics, action metrics, and Rerun tables.
+  - Importance: medium
+  - Notes: Use for interpreting teacher-forced ACT results and the visualization-only LIBERO image-orientation correction.
 
 ## Useful Cross-Topic Notes
 

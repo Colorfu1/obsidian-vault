@@ -1164,8 +1164,12 @@ $$
 - [[FAST_知识总结|FAST]]：另一条 action chunk 表示路线，离散 tokenization 而不是连续动作生成。
 - [[Pi_0机器人文章分析|pi0]]：VLA + continuous action expert 的后续路线。
 - [[Pi0_7_technical_report|pi0.7]]：更大规模的双臂/通用机器人行为建模。
-- [[BestPractice/LeRobot ACT调试与ALOHA数据可视化实践|LeRobot ACT 调试与 ALOHA 数据可视化实践]]：
+- [[BestPractice/2026-07-16-LeRobot-ACT调试与ALOHA数据可视化|2026-07-16 LeRobot ACT 调试与 ALOHA 数据可视化]]：
   LeRobot 训练入口、ALOHA 缓存检查与同步 3D 数据可视化的实操记录。
+- [[BestPractice/2026-07-20-ACT-A-Sanity实验与模型源码调试|2026-07-20 ACT A-Sanity 实验与模型源码调试]]：
+  ACT 小规模过拟合实验、评测设计与模型源码分析。
+- [[BestPractice/2026-07-23-ACT离线评测与标定可视化|2026-07-23 ACT 离线评测与标定可视化]]：
+  checkpoint 离线对比、LIBERO 相机标定和 GT/Pred 可视化语义。
 
 
 
