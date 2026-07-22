@@ -1,6 +1,6 @@
 # Reading Status
 
-Updated: 2026-07-16
+Updated: 2026-07-23
 
 ## Finished
 
@@ -54,6 +54,8 @@ Updated: 2026-07-16
   - [[DreamZero_Technical_Report|DreamZero 技术报告]]
 - OA-WAM
   - [[OA_WAM|OA-WAM 论文综述与批判性阅读笔记]]
+- WLA / WLA-0
+  - [[WLA_reading_notes|WLA 论文阅读笔记]]
 - VQ-VAE
   - [[VQVAE_综述|VQ-VAE 综述]]
 - PPO

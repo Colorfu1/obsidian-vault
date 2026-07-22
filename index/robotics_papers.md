@@ -54,6 +54,11 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Importance: high
   - Notes: Use for object-centric world-action representations, stable target binding under geometric shift, and the limits of auxiliary world prediction.
 
+- [[WLA_reading_notes|WLA 论文阅读笔记]]
+  - Topic: WLA, WLA-0, World-Language-Action model, textual subtask reasoning, physical dynamics, World Expert, Action Expert, flow matching, and test-time scaling.
+  - Importance: high
+  - Notes: Use for a unified model that treats language-level planning and future-image prediction as complementary next-state representations, while retaining fast action-only inference and optional imagined-future ranking.
+
 ## Physical Intelligence PI Series
 
 - [[Pi_0机器人文章分析|pi0 机器人文章分析]]

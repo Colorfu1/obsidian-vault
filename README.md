@@ -1,6 +1,6 @@
 # 🧠 Obsidian Knowledge Vault
 
-> 一个面向 **机器人基础模型、VLA、AWM/world model、强化学习、动作建模、生成模型** 的中文技术知识库。
+> 一个面向 **机器人基础模型、VLA、WAM/world model、强化学习、动作建模、生成模型** 的中文技术知识库。
 
 这里不是简单的论文堆叠，而是一张持续生长的技术地图：每篇笔记尽量放进它所属的脉络里，通过 Markdown 链接、Obsidian 关系图、索引页和阅读路径串起来。
 
@@ -11,7 +11,7 @@
 | 入口 | 用途 |
 |---|---|
 | [Master Index](index/master_index.md) | 顶层地图，第一次进入知识库从这里开始 |
-| [Robotics Papers Index](index/robotics_papers.md) | 机器人、VLA、AWM、Diffusion Policy、FAST、PI 系列 |
+| [Robotics Papers Index](index/robotics_papers.md) | 机器人、VLA、WAM、Diffusion Policy、FAST、PI 系列 |
 | [AI Fundamentals Index](index/ai_fundamentals.md) | VQ-VAE、RL、PPO、SAC、OPD、model-based RL |
 | [Reading Status](reading_status.md) | 已整理笔记、阅读进度、下一批候选 |
 | [README for GPT](README_for_GPT.md) | 给 LLM 接入用的导航与规则 |
@@ -24,7 +24,7 @@
 Obsidian Knowledge Vault
 │
 ├── Robot/
-│   ├── AWM/                    # world model / visual foresight / model-based RL
+│   ├── WAM/                    # world/action model / visual foresight / model-based RL
 │   └── VLA/                    # vision-language-action / robot foundation models
 │       └── PI/                 # Physical Intelligence 系列
 │
@@ -75,7 +75,7 @@ MolmoAct2
 - [Gemini Robotics 1.5](<Robot/VLA/Gemini Robotics 1.5 综述.md>)
 - [MolmoAct2](<Robot/VLA/MolmoAct2论文框架分析.md>)
 
-### 🔮 路线 B：AWM / World Model / Model-Based RL
+### 🔮 路线 B：WAM / World Model / Model-Based RL
 
 从“预测未来图像”、在潜空间里想象，到把世界预测和动作生成统一进 World Action Model：
 
@@ -90,22 +90,24 @@ Dreamer
   └─→ DreamerV3（通用 world-model RL）
         └─→ Dreamer 4（可扩展生成式 world model）
   ↓
-π0.7 / 现代 VLA-AWM 对比
+π0.7 / 现代 VLA-WAM 对比
   ├─→ WorldVLA（辅助单步图像预测）
   ├─→ DreamZero（联合 video-action flow）
-  └─→ OA-WAM（object-addressable slots）
+  ├─→ OA-WAM（object-addressable slots）
+  └─→ WLA（语言子任务 + World Expert + Action Expert）
 ```
 
-- [Visual Foresight](<Robot/AWM/Visual Foresight.md>)
-- [PlaNet](<Robot/AWM/PlaNet 论文概述.md>)
-- [Dreamer](<Robot/AWM/Dreamer技术报告.md>)
-- [DayDreamer](<Robot/AWM/DayDreamer论文综述与阅读重点.md>)
-- [DreamerV3](<Robot/AWM/DreamerV3_技术报告.md>)
-- [Dreamer 4](<Robot/AWM/DreamerV4_技术报告.md>)
-- [UniPi](<Robot/AWM/UniPi_技术总结.md>)
-- [WorldVLA（低优先级参考）](<Robot/AWM/WorldVLA 论文综述(不建议读).md>)：联合训练动作生成与单步图像预测，但不进行闭环 world-model planning
-- [DreamZero](Robot/AWM/DreamZero_Technical_Report.md)：基于视频生成先验联合预测未来视频 latent 与连续动作
-- [OA-WAM](Robot/AWM/OA_WAM.md)：用稳定对象地址和 slot routing 改善几何变化下的目标绑定
+- [Visual Foresight](<Robot/WAM/Visual Foresight.md>)
+- [PlaNet](<Robot/WAM/PlaNet 论文概述.md>)
+- [Dreamer](<Robot/WAM/Dreamer技术报告.md>)
+- [DayDreamer](<Robot/WAM/DayDreamer论文综述与阅读重点.md>)
+- [DreamerV3](<Robot/WAM/DreamerV3_技术报告.md>)
+- [Dreamer 4](<Robot/WAM/DreamerV4_技术报告.md>)
+- [UniPi](<Robot/WAM/UniPi_技术总结.md>)
+- [WorldVLA（低优先级参考）](<Robot/WAM/WorldVLA 论文综述(不建议读).md>)：联合训练动作生成与单步图像预测，但不进行闭环 world-model planning
+- [DreamZero](Robot/WAM/DreamZero_Technical_Report.md)：基于视频生成先验联合预测未来视频 latent 与连续动作
+- [OA-WAM](Robot/WAM/OA_WAM.md)：用稳定对象地址和 slot routing 改善几何变化下的目标绑定
+- [WLA / WLA-0](Robot/WAM/WLA_reading_notes.md)：统一语言子任务推理、未来图像预测与动作生成，并支持 test-time scaling
 - [π0.7](Robot/VLA/PI/Pi0_7_technical_report.md) 中的 subgoal images 与 world model 部分
 - [RDT-1B](Robot/VLA/RDT-1B.md) 中关于 “不是 world model” 的对比讨论
 
@@ -131,22 +133,23 @@ Dreamer
 
 ## 🗃️ 目录导览
 
-### 🔮 `Robot/AWM/`
+### 🔮 `Robot/WAM/`
 
 Action/world model 与 model-based RL 相关笔记。
 
 | 笔记 | 关键词 |
 |---|---|
-| [Visual Foresight](<Robot/AWM/Visual Foresight.md>) | video prediction, Visual MPC, designated pixel, CEM |
-| [PlaNet](<Robot/AWM/PlaNet 论文概述.md>) | RSSM, latent dynamics, CEM planning, MPC |
-| [Dreamer](<Robot/AWM/Dreamer技术报告.md>) | latent imagination, actor-critic, pathwise gradient |
-| [DayDreamer](<Robot/AWM/DayDreamer论文综述与阅读重点.md>) | DreamerV2, real-robot online RL, asynchronous actor-learner |
-| [DreamerV3](<Robot/AWM/DreamerV3_技术报告.md>) | discrete RSSM, robust world-model RL, distributional critic |
-| [Dreamer 4](<Robot/AWM/DreamerV4_技术报告.md>) | scalable video world model, Shortcut Forcing, PMPO, offline imagination |
-| [UniPi](<Robot/AWM/UniPi_技术总结.md>) | video-as-policy, text-guided video diffusion, inverse dynamics |
-| [WorldVLA](<Robot/AWM/WorldVLA 论文综述(不建议读).md>) | autoregressive action/image tokens, auxiliary next-frame prediction |
-| [DreamZero](Robot/AWM/DreamZero_Technical_Report.md) | video-action flow matching, autoregressive chunks, real-time WAM |
-| [OA-WAM](Robot/AWM/OA_WAM.md) | object addressability, slot routing, robust manipulation |
+| [Visual Foresight](<Robot/WAM/Visual Foresight.md>) | video prediction, Visual MPC, designated pixel, CEM |
+| [PlaNet](<Robot/WAM/PlaNet 论文概述.md>) | RSSM, latent dynamics, CEM planning, MPC |
+| [Dreamer](<Robot/WAM/Dreamer技术报告.md>) | latent imagination, actor-critic, pathwise gradient |
+| [DayDreamer](<Robot/WAM/DayDreamer论文综述与阅读重点.md>) | DreamerV2, real-robot online RL, asynchronous actor-learner |
+| [DreamerV3](<Robot/WAM/DreamerV3_技术报告.md>) | discrete RSSM, robust world-model RL, distributional critic |
+| [Dreamer 4](<Robot/WAM/DreamerV4_技术报告.md>) | scalable video world model, Shortcut Forcing, PMPO, offline imagination |
+| [UniPi](<Robot/WAM/UniPi_技术总结.md>) | video-as-policy, text-guided video diffusion, inverse dynamics |
+| [WorldVLA](<Robot/WAM/WorldVLA 论文综述(不建议读).md>) | autoregressive action/image tokens, auxiliary next-frame prediction |
+| [DreamZero](Robot/WAM/DreamZero_Technical_Report.md) | video-action flow matching, autoregressive chunks, real-time WAM |
+| [OA-WAM](Robot/WAM/OA_WAM.md) | object addressability, slot routing, robust manipulation |
+| [WLA / WLA-0](Robot/WAM/WLA_reading_notes.md) | language subtask reasoning, World Expert, Action Expert, test-time scaling |
 
 ### 🦾 `Robot/VLA/`
 
@@ -194,7 +197,7 @@ Physical Intelligence 系列与相关动作建模笔记。
 - **想找方向**：先打开 [Master Index](index/master_index.md)。
 - **想看机器人论文**：直接进入 [Robotics Papers Index](index/robotics_papers.md)。
 - **想补基础概念**：进入 [AI Fundamentals Index](index/ai_fundamentals.md)。
-- **想看关系图**：重点观察 `Robot/AWM/`、`Robot/VLA/`、`Robot/VLA/PI/`、`RL/` 之间的交叉链接。
+- **想看关系图**：重点观察 `Robot/WAM/`、`Robot/VLA/`、`Robot/VLA/PI/`、`RL/` 之间的交叉链接。
 - **遇到同主题多笔记**：优先读更新时间更晚、`importance: high` 的笔记，再回到早期笔记看技术演化。
 - **给 LLM 使用**：让模型先读 [README for GPT](README_for_GPT.md)，再进入 `index/`。
 
@@ -204,7 +207,7 @@ Physical Intelligence 系列与相关动作建模笔记。
 
 - 新增笔记后，加入相关 `index/*.md`。
 - 新增论文笔记时，尽量补充 YAML frontmatter、`tags` 和 `## 相关笔记`。
-- 机器人相关笔记优先放入 `Robot/AWM/` 或 `Robot/VLA/`。
+- 机器人相关笔记优先放入 `Robot/WAM/` 或 `Robot/VLA/`。
 - 强化学习和 LLM 训练基础笔记放入 `RL/`。
 - 面向 LLM 的全局说明更新到 [README for GPT](README_for_GPT.md)。
 - 私人、身份、账号、合同、家庭或凭证相关内容不要进入 GPT-facing 索引，除非明确确认可以暴露。
@@ -232,6 +235,6 @@ git status
 
 ## 🌱 当前状态
 
-- 已整理：VLA、AWM/world model、PI 系列、Diffusion Policy、FAST、RL 基础。
+- 已整理：VLA、WAM/world model、PI 系列、Diffusion Policy、FAST、RL 基础。
 - 待扩展：RT-X、OpenVLA、Octo、Flow Matching 基础、Diffusion model 基础。
 - 长期目标：把零散论文笔记整理成可导航、可复用、可被 LLM 接入的研究地图。

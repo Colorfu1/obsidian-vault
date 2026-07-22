@@ -11,7 +11,7 @@
 
 ## 目录规则
 
-- `Robot/AWM/`：action/world model、视频预测、model-based RL、潜空间规划等笔记。
+- `Robot/WAM/`：world/action model、视频预测、model-based RL、潜空间规划等笔记。
 - `Robot/VLA/PI/`：Physical Intelligence 系列及其 action token、memory、policy improvement 笔记。
 - `Robot/VLA/`：其他 VLA、机器人基础模型、模仿学习、动作生成和机器人硬件笔记。
 - `RL/`：强化学习、策略优化、蒸馏和相关概念笔记。
@@ -78,7 +78,7 @@ tags:
 
 新增、移动、重命名或大幅修改文章后，按需更新以下文件：
 
-- `index/robotics_papers.md`：机器人、VLA、AWM、机器人基础模型和动作建模文章。
+- `index/robotics_papers.md`：机器人、VLA、WAM、机器人基础模型和动作建模文章。
 - `index/ai_fundamentals.md`：生成模型、RL、蒸馏、数学和跨主题基础概念。
 - `index/master_index.md`：主题范围、新类别和顶层入口发生变化时更新。
 - `reading_status.md`：加入已完成或待读列表，并更新顶部日期。

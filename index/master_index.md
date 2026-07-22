@@ -27,6 +27,7 @@ Topics covered now:
 - WorldVLA unified action/image token modeling as a secondary comparison
 - DreamZero joint video-action World Action Model and zero-shot policy
 - OA-WAM object-addressable slots and robust target binding
+- WLA unified language reasoning, world modeling, action synthesis, and test-time scaling
 - π0.7 steerable generalist VLA
 - FAST action tokenization
 - MEM robotic memory model
