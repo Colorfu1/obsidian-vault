@@ -163,6 +163,11 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Importance: medium
   - Notes: Use for interpreting teacher-forced ACT results and the visualization-only LIBERO image-orientation correction.
 
+- [[BestPractice/2026-07-24-ACT-A-Sanity收尾与后续实验指南|2026-07-24 ACT A-Sanity 收尾与后续实验指南]]
+  - Topic: ACT A-Sanity measured results, LIBERO closed-loop success, action chunking baseline, delta-action loss, temporal ensemble, proprioception noise, and experiment design.
+  - Importance: medium
+  - Notes: Use for the completed five-demonstration A-Sanity evidence and the implementation plan for the 20-demonstration A0/A1/A2/A3 comparisons.
+
 ## Useful Cross-Topic Notes
 
 - [[VQVAE_综述|VQ-VAE 综述]]

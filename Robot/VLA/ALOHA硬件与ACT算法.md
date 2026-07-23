@@ -1170,6 +1170,9 @@ $$
   ACT 小规模过拟合实验、评测设计与模型源码分析。
 - [[BestPractice/2026-07-23-ACT离线评测与标定可视化|2026-07-23 ACT 离线评测与标定可视化]]：
   checkpoint 离线对比、LIBERO 相机标定和 GT/Pred 可视化语义。
+- [[BestPractice/2026-07-24-ACT-A-Sanity收尾与后续实验指南|2026-07-24 ACT A-Sanity 收尾与后续实验指南]]：
+  五轨迹 A-Sanity 正式闭环结果，以及 action chunking、动作差分损失和 Temporal Ensemble
+  的后续实验路线。
 
 
 
