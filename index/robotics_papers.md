@@ -168,6 +168,11 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Importance: medium
   - Notes: Use for the completed five-demonstration A-Sanity evidence and the implementation plan for the 20-demonstration A0/A1/A2/A3 comparisons.
 
+- [[BestPractice/2026-07-27-ACT末尾样本等权与VAE实验结论|2026-07-27 ACT 末尾样本等权与 VAE 实验结论]]
+  - Topic: ACT observation-equal loss, terminal-horizon supervision, padding masks, CVAE, LIBERO closed-loop evaluation, action jerk, and gripper stability.
+  - Importance: medium
+  - Notes: Use for the controlled 20-demonstration result in which ObsEqual improved success from 15% to 45% and VAE reached 95%, together with the single-seed evidence limits.
+
 ## Useful Cross-Topic Notes
 
 - [[VQVAE_综述|VQ-VAE 综述]]

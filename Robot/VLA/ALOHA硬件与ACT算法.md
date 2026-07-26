@@ -1173,6 +1173,9 @@ $$
 - [[BestPractice/2026-07-24-ACT-A-Sanity收尾与后续实验指南|2026-07-24 ACT A-Sanity 收尾与后续实验指南]]：
   五轨迹 A-Sanity 正式闭环结果，以及 action chunking、动作差分损失和 Temporal Ensemble
   的后续实验路线。
+- [[BestPractice/2026-07-27-ACT末尾样本等权与VAE实验结论|2026-07-27 ACT 末尾样本等权与 VAE 实验结论]]：
+  对比末尾 observation 等权 loss 与标准 ACT CVAE，记录相同闭环条件下的成功率、动作
+  连续性、结论边界和后续验证项。
 
 
 
