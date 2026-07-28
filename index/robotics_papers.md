@@ -173,6 +173,11 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Importance: medium
   - Notes: Use for the controlled 20-demonstration result in which ObsEqual improved success from 15% to 45% and VAE reached 95%, together with the single-seed evidence limits.
 
+- [[BestPractice/2026-07-27-PushT-BCChunk与Diffusion模型规划和训练|2026-07-27 PushT BCChunk 与 Diffusion 模型规划和训练]]
+  - Topic: PushT, BCChunk, Diffusion Policy, action chunks, fixed data split, paired initialization, clean-action regression, and epsilon prediction.
+  - Importance: medium
+  - Notes: Use for the controlled BCChunk/Diffusion experiment design, shared model settings, Smoke training evidence, and the boundary between training loss and later closed-loop conclusions.
+
 ## Useful Cross-Topic Notes
 
 - [[VQVAE_综述|VQ-VAE 综述]]
