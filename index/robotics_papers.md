@@ -178,6 +178,11 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Importance: medium
   - Notes: Use for the controlled BCChunk/Diffusion experiment design, shared model settings, Smoke training evidence, and the boundary between training loss and later closed-loop conclusions.
 
+- [[BestPractice/2026-07-29-PushT-Benchmark阶段性结论|2026-07-29 PushT Benchmark 阶段性结论]]
+  - Topic: PushT, BCChunk, Diffusion Policy, checkpoint selection, development closed-loop comparison, paired DDPM sampling, action-chunk diversity, and evidence limits.
+  - Importance: medium
+  - Notes: Use for the completed 200k training, selected BC-150k/DP-175k comparison, E1 paired sampling result, and the distinction between offline diversity and successful closed-loop multimodality.
+
 ## Useful Cross-Topic Notes
 
 - [[VQVAE_综述|VQ-VAE 综述]]
