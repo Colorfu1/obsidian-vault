@@ -4,7 +4,7 @@ type: concept_note
 topic: robot_imitation_learning
 status: draft
 importance: medium
-updated: 2026-07-29
+updated: 2026-07-30
 tags:
   - pusht
   - diffusion-policy
@@ -163,3 +163,4 @@ Smoke 子集包含 793 frames；正式 Train 包含 20,610 frames。两个模型
 - [[Robot/VLA/Diffusion Policy 概述|Diffusion Policy 概述]]
 - [[BestPractice/2026-07-27-ACT末尾样本等权与VAE实验结论|ACT 末尾样本等权与 VAE 实验结论]]
 - [[BestPractice/2026-07-29-PushT-Benchmark阶段性结论|PushT Benchmark 阶段性结论]]
+- [[BestPractice/2026-07-29-PushT实验进展总结|PushT 实验进展总结]]

@@ -1,6 +1,6 @@
 # Reading Status
 
-Updated: 2026-07-23
+Updated: 2026-07-30
 
 ## Finished
 
@@ -64,6 +64,8 @@ Updated: 2026-07-23
   - [[SAC_PPO_compare|SAC vs PPO]]
 - OPD / On-Policy Distillation
   - [[RL/opd_on_policy_distillation_知识笔记|OPD / On-Policy Distillation]]
+- PushT BCChunk / Diffusion 实验
+  - [[BestPractice/2026-07-29-PushT实验进展总结|PushT 实验进展总结]]
 
 ## Reading Next
 
