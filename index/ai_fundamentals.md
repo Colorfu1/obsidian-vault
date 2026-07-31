@@ -16,6 +16,11 @@ Use this index for generative models, reinforcement learning, LLM training, KL o
   - Importance: high
   - Notes: Long-form PPO concept note.
 
+- [[PPO_逻辑重构版|PPO：从策略梯度到裁剪目标（重构草稿）]]
+  - Topic: PPO, policy gradient derivation, Monte Carlo estimation, log-derivative trick, advantage, GAE, clipped surrogate.
+  - Importance: high
+  - Notes: Deduplicated draft organized as a continuous derivation; review before replacing the original PPO entry.
+
 - [[SAC_PPO_compare|SAC vs PPO]]
   - Topic: PPO vs SAC, V/Q/A relationship, rollout buffer, replay buffer, on-policy vs off-policy, actor-critic gradient paths.
   - Importance: high

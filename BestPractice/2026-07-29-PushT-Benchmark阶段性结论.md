@@ -142,20 +142,20 @@ E1 将同一批 initial noise 配对到两个协议：
 
 | 指标 | E1a：initial noise only | E1b：full sampling seed |
 |---|---:|---:|
-| Denormalized trajectory pairwise RMS | 0.00659 px | 1.94563 px |
-| Denormalized endpoint pairwise distance | 0.00750 px | 2.80300 px |
+| Denormalized trajectory pairwise RMS | 0.00163 px | 1.66488 px |
+| Denormalized endpoint pairwise distance | 0.00213 px | 2.41515 px |
 | 相同条件 repeat max error | 0 | 0 |
 
 BCChunk 三次调用的最大误差同样为 0。E1b 相比 E1a：
 
-- trajectory RMS 约扩大 295 倍；
-- endpoint distance 约扩大 374 倍。
+- trajectory RMS 约扩大 1024 倍；
+- endpoint distance 约扩大 1134 倍。
 
 结论不是“Diffusion 只由初始 noise 决定”。相反，在当前 checkpoint 和 DDPM-100
 下，只改变初始 noise 几乎不能改变输出；完整 reverse sampling stream 才产生了
 主要 action-chunk 多样性。
 
-但 E1 没有执行环境。约 2–3 像素的预测差异是否会形成不同且成功的闭环轨迹，必须
+但 E1 没有执行环境。约 1.7–2.4 像素的预测差异是否会形成不同且成功的闭环轨迹，必须
 由 E2 回答。离线 action pattern 不等同于成功行为模式。
 
 ## 当前结论
@@ -164,7 +164,7 @@ BCChunk 三次调用的最大误差同样为 0。E1b 相比 E1a：
 2. **Diffusion-175k 在 development 上有方向性优势。** 80% 对 55%，但
    `p=0.125` 且使用了 selection set，仍需独立评测。
 3. **完整 DDPM 随机流会产生 action-chunk 多样性。** initial noise 单独变化
-   几乎无效，full sampling seed 的影响大约高两个数量级。
+   几乎无效，full sampling seed 的影响大约高三个数量级。
 4. **成功多模态尚未得到证明。** E0 只证明全局数据轨迹多样，E1 只证明离线
    action 多样，E2 才能验证多种成功闭环行为。
 5. **部署效率尚未测量。** E4 完成前，不能判断减少 denoising steps 的速度收益

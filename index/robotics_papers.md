@@ -148,6 +148,11 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Importance: high
   - Notes: Start here for low-cost bimanual manipulation, data collection hardware, teleoperation design, ACT policy learning, and comparisons between ACT action chunking and VLA/FAST action tokenization.
 
+- [[ALOHA与ACT完整笔记|ALOHA 与 ACT：从低成本双臂数据采集到闭环稳定性（融合草稿）]]
+  - Topic: ALOHA, ACT, action chunking, CVAE, temporal ensemble, padding loss, delta-action loss, closed-loop stability, LIBERO evaluation.
+  - Importance: high
+  - Notes: Integrated draft connecting the original ALOHA/ACT paper mechanisms with later closed-loop experiment findings and corrected failure hypotheses.
+
 - [[BestPractice/2026-07-16-LeRobot-ACT调试与ALOHA数据可视化|2026-07-16 LeRobot ACT 调试与 ALOHA 数据可视化]]
   - Topic: LeRobot 0.4.4, ACT training debug, ALOHA dataset cache, Rerun synchronized cameras, joint signals, nominal bimanual forward kinematics, and frame-by-frame visualization.
   - Importance: medium
@@ -182,6 +187,16 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Topic: PushT, BCChunk, Diffusion Policy, checkpoint selection, development closed-loop comparison, paired DDPM sampling, action-chunk diversity, and evidence limits.
   - Importance: medium
   - Notes: Use for the completed 200k training, selected BC-150k/DP-175k comparison, E1 paired sampling result, and the distinction between offline diversity and successful closed-loop multimodality.
+
+- [[BestPractice/2026-07-30-PushT-E5原型条件实验实现|2026-07-30 PushT E5 原型条件实验阶段性成果]]
+  - Topic: PushT, prototype-conditioned BCChunk and Diffusion Policy, held-out audit, requested-achieved confusion matrix, adherence, fixed DDPM noise, and controllability limits.
+  - Importance: medium
+  - Notes: Use for the completed E5 checkpoint selection and formal evidence that prototype embeddings affect actions without establishing reliable semantic mode control.
+
+- [[BestPractice/2026-07-31-PushT路线条件与SmolVLA-LIBERO训练基建|2026-07-31 PushT 路线条件与 SmolVLA LIBERO 训练基建]]
+  - Topic: PushT RF7 route fields, route-conditioned BCChunk and Diffusion Policy, SmolVLA LIBERO offline loading, B0 training, Rerun, and multi-GPU experiment infrastructure.
+  - Importance: medium
+  - Notes: Use for the transition from E5 prototype IDs to RF7 spatial route conditions and the completed SmolVLA B0 offline training infrastructure, while distinguishing launch readiness from formal model results.
 
 ## Useful Cross-Topic Notes
 
