@@ -1088,7 +1088,7 @@ $$
 - [[DayDreamer论文综述与阅读重点|DayDreamer]]
 - [[DreamerV3_技术报告|DreamerV3]]
 - [[UniPi_技术总结|UniPi]]
-- [[PPO|PPO]]
+- [[PPO_逻辑重构版|PPO]]
 - [[SAC_PPO_compare|SAC vs PPO]]
 - [[RL/opd_on_policy_distillation_知识笔记|OPD / On-Policy Distillation]]
 - [[Pi0_7_technical_report|π0.7 技术报告]]

@@ -1372,7 +1372,7 @@ $$
 
 - [[Pi_0.6论文问题解答|pi0.6]]：pi*0.6 继承的 base policy 结构。
 - [[Pi0_7_technical_report|pi0.7]]：把 specialist/RL 数据蒸馏到 generalist 的后续路线。
-- [[PPO|PPO]]：理解为什么 RECAP 避开 PPO-style policy gradient。
+- [[PPO_逻辑重构版|PPO]]：理解为什么 RECAP 避开 PPO-style policy gradient。
 - [[RL/opd_on_policy_distillation_知识笔记|OPD / On-Policy Distillation]]：on-policy distillation 与 reward-weighted token learning 的相关概念。
 
 

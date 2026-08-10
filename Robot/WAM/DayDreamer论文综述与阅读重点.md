@@ -1059,5 +1059,5 @@ $$
 - [[PlaNet 论文概述|PlaNet]]：RSSM 与 latent planning 的直接前序工作。
 - [[Dreamer技术报告|Dreamer]]：DayDreamer 部署到真实机器人的算法基础。
 - [[DreamerV3_技术报告|DreamerV3]]：Dreamer 系列面向跨领域稳定性的后续发展。
-- [[PPO|PPO]]：论文中 model-free policy-gradient baseline 的概念背景。
+- [[PPO_逻辑重构版|PPO]]：论文中 model-free policy-gradient baseline 的概念背景。
 - [[SAC_PPO_compare|SAC vs PPO]]：理解在线数据、replay buffer 与策略更新方式的差异。

@@ -599,7 +599,7 @@ DreamerV3 的技术意义在于，它把“学习一个可想象未来的世界�
 - [[Dreamer技术报告|Dreamer]]：DreamerV3 的潜空间想象与 actor-critic 基础。
 - [[DayDreamer论文综述与阅读重点|DayDreamer]]：DreamerV2 在真实机器人在线学习中的部署路线。
 - [[PlaNet 论文概述|PlaNet]]：RSSM 与 latent planning 的前序工作。
-- [[PPO|PPO]]：理解 DreamerV3 中 REINFORCE、advantage 与 entropy 的策略梯度背景。
+- [[PPO_逻辑重构版|PPO]]：理解 DreamerV3 中 REINFORCE、advantage 与 entropy 的策略梯度背景。
 - [[DreamerV4_技术报告|Dreamer 4]]：将 Dreamer 系列扩展到高容量生成式视频世界模型与离线 imagination training。
 
 ## 参考资料

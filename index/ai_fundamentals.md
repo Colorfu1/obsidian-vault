@@ -11,15 +11,10 @@ Use this index for generative models, reinforcement learning, LLM training, KL o
 
 ## Reinforcement Learning
 
-- [[PPO|PPO]]
-  - Topic: PPO, policy gradient, reward backpropagation, advantage, actor, critic, log probability, clipped surrogate, GAE, value estimation.
-  - Importance: high
-  - Notes: Long-form PPO concept note.
-
-- [[PPO_逻辑重构版|PPO：从策略梯度到裁剪目标（重构草稿）]]
+- [[PPO_逻辑重构版|PPO：从策略梯度到裁剪目标]]
   - Topic: PPO, policy gradient derivation, Monte Carlo estimation, log-derivative trick, advantage, GAE, clipped surrogate.
   - Importance: high
-  - Notes: Deduplicated draft organized as a continuous derivation; review before replacing the original PPO entry.
+  - Notes: 主 PPO 概念笔记；按“策略梯度 → Advantage/GAE → clipped objective”的连续链路组织，并补充 Monte Carlo 与 log-derivative 推导。
 
 - [[SAC_PPO_compare|SAC vs PPO]]
   - Topic: PPO vs SAC, V/Q/A relationship, rollout buffer, replay buffer, on-policy vs off-policy, actor-critic gradient paths.

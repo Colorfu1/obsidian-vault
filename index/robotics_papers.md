@@ -205,7 +205,7 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Importance: high
   - Notes: Useful when comparing image/action tokenization with VLA action token design.
 
-- [[PPO|PPO]]
+- [[PPO_逻辑重构版|PPO]]
   - Topic: PPO, advantage, actor-critic, policy gradient.
   - Importance: high
   - Notes: Useful for understanding why pi*0.6/RECAP discusses alternatives to PPO/TRPO.

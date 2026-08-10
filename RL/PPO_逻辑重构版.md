@@ -4,7 +4,7 @@ type: concept_note
 topic: reinforcement_learning
 status: draft
 importance: high
-updated: 2026-07-27
+updated: 2026-08-10
 tags:
   - ppo
   - reinforcement-learning
@@ -23,8 +23,8 @@ tags:
 ratio 和 clipped objective 就不再是彼此独立的公式，而是为了解决同一个问题依次引入的
 组件。
 
-本文是 [[PPO|原始 PPO 长篇笔记]] 的去重重构草稿。原笔记保留了讨论过程；本文将重复
-问答合并为一次完整推导。
+本文将原始 PPO 讨论中的关键问题与 Policy Gradient 推导合并为一次完整推导，重点解释
+环境不可导时，策略如何通过采样、log probability 和 Advantage 获得更新信号。
 
 ## 1. PPO 的定位与完整流程
 
@@ -217,6 +217,47 @@ $$
 
 ### 3.2 Monte Carlo 如何估计期望
 
+“把目标写成积分”并不等于已经得到了这个积分的解析解。比如
+$\int_0^1x^2\,dx$ 可以直接算出结果，但强化学习中的积分变量是一整条轨迹：
+
+$$
+\tau=(s_0,a_0,s_1,a_1,\ldots,s_T).
+$$
+
+因此：
+
+$$
+\int p_\theta(\tau)R(\tau)\,d\tau
+$$
+
+本质上是在高维、通常无法枚举的轨迹空间上积分或求和。如果这个积分确实存在可计算的
+解析解，当然不需要 Monte Carlo；Monte Carlo 是在解析计算不可行时，用样本近似积分的
+方法。
+
+这里还要区分“知道当前参数”和“知道整个积分”。当前优化步中 $\theta$ 确实是已知的，
+但它主要让我们能够计算策略在某个已访问状态下的动作概率：
+
+$$
+\pi_\theta(a_t\mid s_t).
+$$
+
+它并不意味着我们已经知道所有可能状态、动作和后续转移组成的完整轨迹分布，也不意味着
+高维积分可以解析求出。更准确地说，$p_\theta(\tau)$ 与 $R(\tau)$ 都可以写成轨迹的
+函数，例如：
+
+$$
+R(\tau)=\sum_{t=0}^{T-1}\gamma^t r(s_t,a_t),
+$$
+
+$$
+p_\theta(\tau)
+=\rho_0(s_0)\prod_{t=0}^{T-1}
+\pi_\theta(a_t\mid s_t)P(s_{t+1}\mid s_t,a_t),
+$$
+
+但在 model-free RL 中，环境转移 $P(s'\mid s,a)$ 通常未知；即使形式上能写出这些
+函数，也通常没有能直接求解整个高维积分的闭式表达式。
+
 一般地，如果：
 
 $$
@@ -245,7 +286,7 @@ $$
 一次采样不能给出精确期望，只能给出一个随机样本。随着轨迹或时间步样本增多，样本平均
 才逐渐接近期望。PPO 的 rollout buffer 就是在收集用于这种估计的一批样本。
 
-不过，知道如何估计 $J(\theta)$ 还不够。训练真正需要的是：
+这里 Monte Carlo 首先估计的是目标 $J(\theta)$；但训练真正需要的是它对参数的梯度：
 
 $$
 \nabla_\theta J(\theta),
@@ -253,7 +294,7 @@ $$
 
 也就是参数应该朝哪个方向变化，才能提高期望回报。
 
-### 3.3 为什么不能直接采样估计 $\int \nabla p\,R$
+### 3.3 为什么原始梯度形式不能直接用当前策略采样
 
 把期望写成积分并求导：
 
@@ -439,7 +480,7 @@ log trick 没有让 reward 或环境变得可导。它做的是另一件事：
 > 把“轨迹分布的概率如何随参数变化”改写成“采样轨迹的 log probability 如何随参数
 > 变化”，从而得到可由样本估计的梯度。
 
-### 3.5 为什么轨迹概率最终变成动作的 log probability
+### 3.5 环境转移概率未知，为什么仍然能计算梯度
 
 轨迹概率可以分解为：
 
@@ -479,8 +520,32 @@ $$
 \nabla_\theta\log\pi_\theta(a_t\mid s_t).
 $$
 
-于是 Policy Gradient 最终只需要 Actor 对已采样动作给出的 `log_prob`。环境可以完全
-不可导，只要能够执行动作并返回 reward 即可。
+这一步解释了为什么标准 model-free Policy Gradient 不需要知道环境转移概率的显式形式：
+
+- $P(s_{t+1}\mid s_t,a_t)$ 当然会影响实际经过哪些状态、得到哪些 reward，但它不依赖
+  Actor 参数，因此对 $\theta$ 的 log-derivative 为零；
+- Policy Gradient 也不需要先算出完整的 $p_\theta(\tau)$ 或遍历所有可能轨迹，只需在
+  已采样的轨迹上计算 Actor 给出的动作 `log_prob`；
+- 环境仍然负责产生下一状态和 reward，但不必把 `env.step` 放进 PyTorch 的反向传播图。
+
+于是，3.4 节得到的轨迹级 Monte Carlo 估计可以落到实际可计算的形式：
+
+$$
+\nabla_\theta J(\theta)
+\approx
+\frac{1}{N}\sum_{i=1}^{N}
+R(\tau_i)
+\sum_t
+\nabla_\theta\log\pi_\theta(a_t^{(i)}\mid s_t^{(i)}),
+\qquad
+\tau_i\sim p_\theta.
+$$
+
+这里 Monte Carlo 估计的是梯度期望，而不是在对环境求导；log-derivative trick 负责把
+梯度改写成可由轨迹样本估计的形式。
+
+因此，Policy Gradient 与环境之间的接口只需要是“执行动作并返回下一状态与 reward”；
+真正进入 Actor 反向传播图的，是对已采样动作计算出的 `log_prob`。
 
 进一步使用 reward-to-go，并用 Advantage 替代原始 return 后，常见形式为：
 
@@ -1610,7 +1675,6 @@ PPO ratio 与 clip 告诉优化器：不要持续从同一批旧数据中获取�
 
 ## 相关笔记
 
-- [[PPO|原始 PPO 长篇笔记]]：保留原始讨论顺序与追问过程。
 - [[SAC_PPO_compare|SAC vs PPO]]：比较 on-policy 与 off-policy Actor-Critic。
 - [[RL/opd_on_policy_distillation_知识笔记|OPD / On-Policy Distillation]]：理解 token
   级 PG-style loss 与 KL distillation。

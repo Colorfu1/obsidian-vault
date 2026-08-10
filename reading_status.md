@@ -59,7 +59,7 @@ Updated: 2026-07-30
 - VQ-VAE
   - [[VQVAE_综述|VQ-VAE 综述]]
 - PPO
-  - [[PPO|PPO]]
+  - [[PPO_逻辑重构版|PPO]]
 - SAC vs PPO
   - [[SAC_PPO_compare|SAC vs PPO]]
 - OPD / On-Policy Distillation

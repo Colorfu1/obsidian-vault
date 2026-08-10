@@ -115,7 +115,7 @@ Dreamer
 
 适合补齐 policy gradient、actor-critic、on-policy/off-policy、distillation 相关背景：
 
-- [PPO](RL/PPO.md)
+- [PPO](<RL/PPO_逻辑重构版.md>)
 - [SAC vs PPO](RL/SAC_PPO_compare.md)
 - [OPD / On-Policy Distillation](<RL/opd_on_policy_distillation_知识笔记.md>)
 - [pi*0.6 / RECAP](<Robot/VLA/PI/Pi_star0.6论文问题解答.md>)
@@ -186,7 +186,7 @@ Physical Intelligence 系列与相关动作建模笔记。
 
 | 笔记 | 关键词 |
 |---|---|
-| [PPO](RL/PPO.md) | policy gradient, GAE, clipped objective |
+| [PPO](<RL/PPO_逻辑重构版.md>) | policy gradient, GAE, clipped objective |
 | [SAC vs PPO](RL/SAC_PPO_compare.md) | on-policy vs off-policy, actor-critic |
 | [OPD / On-Policy Distillation](<RL/opd_on_policy_distillation_知识笔记.md>) | KL, teacher/student, on-policy distillation |
 
