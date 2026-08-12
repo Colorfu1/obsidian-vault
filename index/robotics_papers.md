@@ -14,15 +14,15 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Importance: high
   - Notes: Start here for world-model planning from pixels and the RSSM lineage that leads into Dreamer.
 
-- [[Dreamer技术报告|Dreamer 潜空间想象技术报告]]
-  - Topic: Dreamer, latent imagination, RSSM world model, actor-critic in imagined trajectories, reward/value models, pathwise gradients, and continuous-control model-based RL.
+- [[Dreamer技术报告|Dreamer 技术综述：从真实经验到潜空间想象，再到可微行为学习]]
+  - Topic: Dreamer, Algorithm 1, Equation 1–10, reconstruction world model, RSSM, posterior/prior KL, sparse reward, imagination, $k$-step value, $V_\lambda$, pathwise actor gradient, Advantage, and real-environment interaction.
   - Importance: high
-  - Notes: Use for understanding how PlaNet-style online planning becomes an amortized actor trained inside latent imagination.
+  - Notes: 逻辑重构完整版；按“真实经验与 sparse reward → 世界模型 → 潜空间想象 → Actor/Value 与 PPO 对照 → 真实交互”主线阅读，并核对 Dreamer 原论文公式。
 
-- [[DayDreamer论文综述与阅读重点|DayDreamer 论文综述与阅读重点]]
-  - Topic: DayDreamer, DreamerV2, real robot online learning, asynchronous actor-learner, RSSM, latent imagination, locomotion, manipulation, navigation.
+- [[DayDreamer论文综述与阅读重点|DreamerV2 与 DayDreamer：从潜空间想象到真实机器人在线学习]]
+  - Topic: DreamerV2 improvements over Dreamer, discrete RSSM latent, KL balancing, REINFORCE/dynamics actor gradients, entropy exploration, real robot online learning, asynchronous actor-learner, locomotion, manipulation, and navigation.
   - Importance: high
-  - Notes: Use for understanding how DreamerV2 is deployed for sample-efficient online learning on physical robots.
+  - Notes: 先看 DreamerV2 相比 Dreamer 的改进，再理解其如何通过 DayDreamer 进入真实机器人在线学习。
 
 - [[DreamerV3_技术报告|DreamerV3 技术报告]]
   - Topic: DreamerV3, general world-model RL, discrete RSSM, KL balancing, symlog, twohot critic, return normalization, REINFORCE.

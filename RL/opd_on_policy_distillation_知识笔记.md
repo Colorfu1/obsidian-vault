@@ -4,7 +4,7 @@ type: concept_note
 topic: llm_training
 status: mature
 importance: high
-updated: 2026-06-10
+updated: 2026-08-10
 tags:
   - opd
   - on-policy-distillation
@@ -86,7 +86,7 @@ KL 散度定义为：
 
 $$
 D_{KL}(P \| Q) = \sum_i P(i) \log \frac{P(i)}{Q(i)}
-$$```
+$$
 
 其中：
 
@@ -244,62 +244,572 @@ OPD：student 自己写答案，teacher 在 student 的 prefix 上指导 student
 
 ---
 
-## 5. input_ids、logits、prob 的关系
+## 5. OPD 的算法主线：到底在优化什么？
 
-语言模型输入的是 token id，也就是词表 index。
+前面已经分别介绍了 student rollout、student prefix、teacher next-token distribution
+以及 Forward KL / Reverse KL。但真正理解 OPD，需要把它们连接成一条完整的优化链路。
 
-例如：
+OPD 的定义不在于某一种特定 KL，也不在于某一个特殊 loss。它真正要解决的问题是：
 
-```text
-文本: "hello world"
-input_ids: [15496, 995]
-```
+> **让 student 在自己实际会访问到的状态上，学习 teacher 的行为。**
 
-模型内部：
+因此 OPD 的优化可以拆成两个先后相连的选择：
 
 ```text
-input_ids
--> embedding lookup
--> transformer
--> logits
+先决定训练状态来自哪里
+        ↓
+再决定 teacher 如何在这些状态上指导 student
 ```
 
-输出 logits 的 shape 通常是：
+第一步决定它为什么是 **on-policy**；第二步决定它具体采用哪种
+**distillation objective**。
+
+### 5.1 普通蒸馏的问题：训练状态不是 student 自己产生的
+
+普通 SFT / KD 可以抽象为：
 
 ```text
-[B, T, V]
+dataset 或 teacher 提供 prefix/state
+        ↓
+teacher 给出目标
+        ↓
+student 在这个 state 上学习
 ```
 
-其中：
+形式上，训练状态可能来自数据分布或 teacher 的状态分布：
+
+$$
+s\sim d_{\mathrm{data}}
+\quad\text{或}\quad
+s\sim d_{\pi_T}.
+$$
+
+student 学习在这些状态上逼近 teacher：
+
+$$
+\pi_\theta(\cdot\mid s)
+\approx
+\pi_T(\cdot\mid s).
+$$
+
+但自回归推理时，student 的状态不是 teacher 产生的。student 会自己采样下一个 token：
+
+$$
+y_t\sim\pi_\theta(\cdot\mid s_t),
+$$
+
+然后把它追加到 prefix，得到下一个状态：
+
+$$
+s_{t+1}=\operatorname{append}(s_t,y_t).
+$$
+
+随着生成继续，student 实际访问的是自己的状态分布：
+
+$$
+s_t\sim d_{\pi_\theta}.
+$$
+
+这就是 exposure bias 的核心：
 
 ```text
-B = batch size
-T = sequence length
-V = vocab size
+训练时：dataset / teacher 的 prefix
+推理时：student 自己生成的 prefix
 ```
 
-`logits[b, t, :]` 表示在位置 t，对下一个 token 的预测分布。
+所以仅在 teacher 的轨迹上做得很好，并不保证 student 在自己走偏之后仍然知道下一步
+该怎么做。
 
-然后：
+### 5.2 OPD 的第一步：让 student 自己决定训练状态
 
-```python
-log_probs = torch.log_softmax(logits, dim=-1)
-```
+OPD 首先改变的不是 loss，而是训练 state 的来源。本轮使用当前 rollout policy
+$\pi_{\mathrm{old}}$ 让 student 自己生成：
 
-得到每个 vocab token 的 log probability。
+$$
+x\sim\mathcal D,
+\qquad
+y\sim\pi_{\mathrm{old}}(\cdot\mid x).
+$$
 
-语言模型有 shift 关系：
+由此得到 student 实际走过的 prefix：
+
+$$
+s_t=(x,y_{<t}),
+\qquad
+s_t\sim d_{\pi_{\mathrm{old}}}.
+$$
+
+例如 student 生成：
 
 ```text
-position t 的 logits 用来预测 token t+1。
+prompt:
+求解 2x + 3 = 7
+
+student response:
+First, subtract 3 from both sides...
 ```
 
-所以训练时通常：
+那么训练状态依次是：
 
-```python
-log_probs = log_probs[:, :-1, :]
-labels = input_ids[:, 1:]
+```text
+s1 = prompt
+s2 = prompt + "First"
+s3 = prompt + "First,"
+s4 = prompt + "First, subtract"
+...
 ```
+
+这些 state 全部来自 student 自己实际生成的 trajectory。因此：
+
+$$
+s_t\sim d_{\pi_{\mathrm{old}}}
+$$
+
+就是 OPD 中 “On-Policy” 的来源。它表达的是：
+
+```text
+student 决定自己走到哪里；
+teacher 只负责告诉它：
+“既然你已经走到这里，下一步应该怎样做。”
+```
+
+### 5.3 OPD 的第二步：teacher 给 student state 标注目标
+
+student rollout 得到：
+
+$$
+s_t=(x,y_{<t}).
+$$
+
+teacher 不需要重新生成一条完整答案，而是在这条 student prefix 上计算 next-token
+distribution：
+
+$$
+\pi_T(\cdot\mid s_t).
+$$
+
+于是每个 student state 上都有两套分布：
+
+$$
+\pi_{\mathrm{old}}(\cdot\mid s_t)
+\quad\text{和}\quad
+\pi_T(\cdot\mid s_t),
+$$
+
+训练时当前 student $\pi_\theta$ 重新在同一个固定 prefix 上 forward，并学习：
+
+$$
+\pi_\theta(\cdot\mid s_t)
+\rightarrow
+\pi_T(\cdot\mid s_t).
+$$
+
+这里要区分两个角色：
+
+- student 的 rollout token 和 prefix 决定训练数据，在本轮更新中固定；
+- teacher 是 frozen 的，只提供监督；
+- 当前 student 的 logits/log-probability 参与反向传播并更新参数。
+
+因此，OPD 的主干是：
+
+```text
+student rollout
+      ↓
+student 实际访问的 states
+      ↓
+teacher 在这些 states 上给 next-token target
+      ↓
+current student 匹配 teacher
+```
+
+### 5.4 OPD 的核心优化目标
+
+概念上，可以把 OPD 写成：
+
+$$
+\mathcal L_{\mathrm{OPD}}(\theta)
+=
+\mathbb E_{
+\substack{x\sim\mathcal D,\\
+y\sim\pi_\theta(\cdot\mid x)}
+}
+\left[
+\frac{1}{T}
+\sum_{t=0}^{T-1}
+D\left(
+\pi_T(\cdot\mid s_t),
+\pi_\theta(\cdot\mid s_t)
+\right)
+\right],
+\qquad
+s_t=(x,y_{<t}).
+$$
+
+这个目标包含两个不同层次：
+
+1. **状态分布层**：$y\sim\pi_\theta$，决定训练状态来自 student 的 rollout，体现
+   on-policy 性质。
+2. **局部匹配层**：$D(\pi_T,\pi_\theta)$，决定在这些 state 上如何让 student
+   靠近 teacher，体现 distillation 性质。
+
+所以可以把 OPD 记成：
+
+```text
+OPD
+= student 决定去哪里
++ teacher 告诉 student 到那里以后应该怎么做
+```
+
+不过，上式是理想化目标。实际训练通常不会对离散生成链路
+`token sample → next state → token sample` 整体直接反向传播，而是使用旧 student
+采集固定 rollout，再在这些 state 上优化当前 student；这一点在第 5.8 节展开。
+
+### 5.5 Forward KL、Reverse KL、Top-K KL 只是“怎么教”的不同选择
+
+拿到 student state $s_t$ 后，才需要决定在这个 state 上采用什么分布匹配方式。它们共享
+同一条 OPD 主干，区别只是 teacher 以什么形式给 student 提供指导。
+
+#### 方法 A：Forward KL
+
+$$
+D_{\mathrm{KL}}
+\left(
+\pi_T\|\pi_\theta
+\right).
+$$
+
+权重来自 teacher，直觉是：
+
+```text
+teacher 认为重要的 token，student 尽量覆盖。
+```
+
+这对应后面的 `sample rollout + Full-KL OPD`，可以利用完整 vocabulary distribution
+提供较稳定的 dense signal。
+
+#### 方法 B：Reverse KL
+
+$$
+D_{\mathrm{KL}}
+\left(
+\pi_\theta\|\pi_T
+\right)
+=
+\mathbb E_{a\sim\pi_\theta(\cdot\mid s)}
+\left[
+\log\pi_\theta(a\mid s)-\log\pi_T(a\mid s)
+\right].
+$$
+
+权重来自 student，直觉是：
+
+```text
+student 自己想选的 token，teacher 是否认可。
+```
+
+可以完整计算整个 vocabulary 的 reverse KL，也可以从 student 分布中采样 token，对
+上述期望做 Monte Carlo 估计，这就得到 `sampled-token reverse KL`。
+
+#### 方法 C：Top-K / Top-P KL
+
+只在 teacher 或 student 的局部 support 上做分布匹配，处在：
+
+```text
+Full KL
+   ↕
+Top-K / Top-P KL
+   ↕
+单个 sampled token
+```
+
+之间，是计算量与估计稳定性的折中。因此，Full-KL、sampled-token 和 Top-K/Top-P KL
+不是三个互不相关的算法，而是同一主干下不同的 supervision granularity。
+
+### 5.6 一个完整的 OPD iteration
+
+一次实际迭代可以写成如下闭环。
+
+#### Step 1：固定本轮 rollout policy
+
+记本轮开始时的 student 为：
+
+$$
+\pi_{\mathrm{old}}.
+$$
+
+本轮先用它采集数据；在后续优化 epoch 中，rollout 得到的 token、prefix 和
+`old_student_logp` 都视为固定量。
+
+#### Step 2：student rollout
+
+对 prompt：
+
+$$
+x\sim\mathcal D
+$$
+
+student 生成：
+
+$$
+y\sim\pi_{\mathrm{old}}(\cdot\mid x),
+$$
+
+并记录：
+
+```text
+prompt
+student response
+每个 response token 对应的 prefix/state
+response loss mask
+必要时记录 old student chosen-token logprob
+```
+
+#### Step 3：teacher evaluate
+
+对每一个：
+
+$$
+s_t=(x,y_{<t}),
+$$
+
+teacher 计算：
+
+$$
+\pi_T(\cdot\mid s_t),
+$$
+
+或只计算实际 variant 需要的信息：
+
+```text
+teacher logits / full log-probability
+teacher top-k 或 top-p support
+teacher chosen-token logprob
+```
+
+teacher 不改变这条 trajectory，只是在 student 已经访问到的 state 上提供监督。
+
+#### Step 4：构造 distillation loss
+
+选择具体的 OPD variant：
+
+```text
+Full Forward KL
+Full Reverse KL
+Top-K / Top-P KL
+Sampled-token Reverse KL
+```
+
+它们都在优化同一个局部目标：
+
+$$
+\pi_\theta(\cdot\mid s_t)
+\rightarrow
+\pi_T(\cdot\mid s_t).
+$$
+
+#### Step 5：更新 current student
+
+轨迹本身作为已采集的训练数据，不需要对 token sampling 操作反向传播；teacher 也保持
+frozen。真正更新的是当前 student：
+
+$$
+\theta
+\leftarrow
+\theta-\eta\nabla_\theta\mathcal L.
+$$
+
+因此：
+
+```text
+rollout / sampled tokens：固定
+teacher：固定
+current student parameters：更新
+```
+
+#### Step 6：使用新 student 重新 rollout
+
+更新后：
+
+$$
+\pi_{\theta_{\mathrm{new}}}
+\neq
+\pi_{\mathrm{old}},
+$$
+
+它未来访问的 state distribution 也会变化：
+
+$$
+d_{\pi_{\theta_{\mathrm{new}}}}
+\neq
+d_{\pi_{\mathrm{old}}}.
+$$
+
+所以不能把同一批旧 trajectory 永久当作 on-policy 数据。下一轮应重新 rollout：
+
+```text
+new student
+     ↓
+new rollout
+     ↓
+new student states
+     ↓
+teacher 再指导
+     ↓
+student 再更新
+```
+
+完整闭环是：
+
+```text
+current student
+      ↓
+student rollout
+      ↓
+student prefix / state
+      ↓
+teacher evaluation
+      ↓
+distillation loss
+      ↓
+update student ───────────┐
+      ↑                   │
+      └───────────────────┘
+```
+
+### 5.7 为什么 On-Policy 不一定意味着 Policy Gradient
+
+这是 OPD 中最容易混淆的概念之一。
+
+**On-policy 首先描述数据或 state 从哪里来，而不是 loss 长什么样。**
+
+OPD 的 state 来自：
+
+$$
+s_t\sim d_{\pi_{\mathrm{old}}},
+$$
+
+所以它是 on-policy distillation。但在拿到这些固定 state 后，可以直接计算：
+
+$$
+D_{\mathrm{KL}}
+\left(
+\pi_T(\cdot\mid s_t)
+\|\pi_\theta(\cdot\mid s_t)
+\right)
+$$
+
+然后用普通 backprop 更新 student。
+
+因此：
+
+```text
+On-policy
+    = 训练 state 来自当前 student 的 rollout
+
+Policy Gradient
+    = 如何估计涉及 policy sampling 的目标梯度
+```
+
+Full-KL OPD 的数据可以是 on-policy，但它在固定 prefix 上做的是普通分布匹配，不要求
+使用 PPO-style policy gradient。Sampled-token Reverse KL 则可以进一步写成 PG-style
+estimator，所以它看起来更像 RL/PPO；但：
+
+> **OPD 本身不等于 Policy Gradient。**
+
+### 5.8 理想目标和实际训练循环的区别
+
+理想化地写，生成 trajectory 的策略和正在优化的策略都是 $\pi_\theta$：
+
+$$
+\mathcal L_{\mathrm{OPD}}(\theta)
+=
+\mathbb E_{y\sim\pi_\theta}
+\left[
+\text{distillation loss}
+\right].
+$$
+
+但实际训练通常是交替进行的：
+
+```text
+① 用 πold rollout
+② 固定 rollout 得到的 trajectory 和 prefix
+③ 在这些 state 上训练 current πθ
+④ 更新 student
+⑤ 用新的 student 再 rollout
+```
+
+所以在一轮更新内部，更准确的目标是：
+
+$$
+s_t\sim d_{\pi_{\mathrm{old}}},
+$$
+
+$$
+\mathcal L_{\mathrm{iteration}}(\theta)
+=
+\mathbb E_{s_t\sim d_{\pi_{\mathrm{old}}}}
+\left[
+D\left(
+\pi_T(\cdot\mid s_t),
+\pi_\theta(\cdot\mid s_t)
+\right)
+\right].
+$$
+
+这一轮里 $d_{\pi_{\mathrm{old}}}$ 被当成固定的数据分布。student 更新之后，下一轮
+再采集新的 $d_{\pi_{\mathrm{new}}}$。因此 OPD 的“on-policy”不是：
+
+```text
+对 rollout token 一路穿过离散 sample 操作反向传播
+```
+
+而是：
+
+```text
+student 变了
+→ rollout 数据也刷新
+→ 训练尽量跟着 student 当前的 state distribution 走
+```
+
+### 5.9 把整篇 OPD 压缩成一条主线
+
+```text
+普通 KD 的 state 来自 teacher / dataset，推理 state 来自 student
+        ↓
+让 student 自己 rollout
+        ↓
+得到 student 真正访问的 prefix/state distribution
+        ↓
+teacher 在这些 state 上给 next-token guidance
+        ↓
+选择 Forward KL / Reverse KL / Top-K KL / sampled-token objective
+        ↓
+更新 student
+        ↓
+student policy 改变，state distribution 也改变
+        ↓
+重新 rollout，继续训练
+```
+
+因此最核心的因果链是：
+
+$$
+\boxed{
+\text{student rollout}
+\rightarrow
+\text{student state distribution}
+\rightarrow
+\text{teacher supervision}
+\rightarrow
+\text{student update}
+\rightarrow
+\text{new state distribution}
+}
+$$
+
+后面的 Full-KL、sampled-token reverse KL、PG-style loss 和 PPO 对比，都是这条主线上的
+具体实现或对照，而不是 OPD 定义本身。
 
 ---
 
@@ -518,6 +1028,25 @@ student_logp - teacher_logp.detach()
 ```
 
 会倾向于降低 student 对 sampled token 的 logprob，不管 teacher 是否喜欢它。
+我们本来希望的是：
+
+```
+teacher 喜欢这个 token
+→ student 提高它的概率
+
+teacher 不喜欢这个 token
+→ student 降低它的概率
+```
+
+但是 naive loss 变成了：
+
+```
+不管 teacher 喜不喜欢
+↓
+梯度永远都是 ∇ log πθ(a|s)
+↓
+gradient descent 永远试图降低 log πθ(a|s)
+```
 
 所以实际更合理的 PG-style 写法是把 teacher signal 放进 reward：
 
@@ -668,7 +1197,7 @@ $$
 会让：
 
 ```text
-log πθ(a|s) 变大
+log πθ(a|s) 数值变大（即更接近 0）
 πθ(a|s) 变大
 ```
 

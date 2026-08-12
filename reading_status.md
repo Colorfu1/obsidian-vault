@@ -1,6 +1,6 @@
 # Reading Status
 
-Updated: 2026-07-30
+Updated: 2026-08-12
 
 ## Finished
 
@@ -39,9 +39,9 @@ Updated: 2026-07-30
 - PlaNet
   - [[PlaNet 论文概述|PlaNet 论文概述]]
 - Dreamer
-  - [[Dreamer技术报告|Dreamer 潜空间想象技术报告]]
+  - [[Dreamer技术报告|Dreamer 技术综述：从真实经验到潜空间想象，再到可微行为学习]]
 - DayDreamer
-  - [[DayDreamer论文综述与阅读重点|DayDreamer 论文综述与阅读重点]]
+  - [[DayDreamer论文综述与阅读重点|DreamerV2 与 DayDreamer：从潜空间想象到真实机器人在线学习]]
 - DreamerV3
   - [[DreamerV3_技术报告|DreamerV3 技术报告]]
 - Dreamer 4

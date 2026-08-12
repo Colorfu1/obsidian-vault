@@ -1,10 +1,10 @@
 ---
-title: DayDreamer 论文综述与阅读重点
+title: DreamerV2 与 DayDreamer：从潜空间想象到真实机器人在线学习
 type: paper_note
 topic: model_based_reinforcement_learning
 status: mature
 importance: high
-updated: 2026-07-16
+updated: 2026-08-12
 tags:
   - daydreamer
   - dreamer-v2
@@ -14,7 +14,208 @@ tags:
   - robotics
 ---
 
-# DayDreamer：真实机器人在线世界模型学习技术报告
+# DreamerV2 与 DayDreamer：从潜空间想象到真实机器人在线学习
+
+## 0. 先看版本关系：DayDreamer 使用的是 DreamerV2
+
+先给结论：**DayDreamer 不是在原始 Dreamer 上重新提出一套世界模型，而是把
+DreamerV2 的 latent imagination 算法部署到了真实机器人上。** 因此，阅读这篇笔记时
+需要先把两层变化分开：
+
+1. **DreamerV2 相比原始 Dreamer 的算法改进**：主要发生在 stochastic latent、KL
+   训练、Actor gradient 和 exploration 机制上；
+2. **DayDreamer 相比 DreamerV2 的系统落地**：主要是把算法放进真实机器人在线学习闭环，
+   并加入异步 Actor-Learner、实时控制接口和任务相关的安全工程。
+
+三者的继承关系可以先记成：
+
+```text
+Dreamer
+  └─ continuous stochastic latent
+  └─ latent imagination
+  └─ imagined Actor-Critic
+
+DreamerV2
+  └─ 保留 Dreamer 的核心训练闭环
+  └─ 改用 discrete categorical stochastic latent
+  └─ 引入 KL balancing
+  └─ 同时考虑 REINFORCE 与 dynamics gradient
+  └─ 将 exploration 更多地写进 entropy-regularized objective
+
+DayDreamer
+  └─ 直接采用 DreamerV2 的世界模型与行为学习思路
+  └─ 在真实机器人上持续在线收集数据
+  └─ 使用 asynchronous Actor-Learner
+```
+
+也就是说：
+
+$$
+\boxed{
+\text{DayDreamer}
+=
+\text{DreamerV2}
++
+\text{real-robot online learning}
++
+\text{asynchronous Actor-Learner}
+}
+$$
+
+### 0.1 核心框架没有改变
+
+DreamerV2 仍然沿用 Dreamer 的主线：
+
+```text
+真实交互数据
+      ↓
+训练 RSSM 世界模型
+      ↓
+latent imagination
+      ↓
+训练 Actor / Critic
+```
+
+因此，DreamerV2 不是把 Dreamer 改成了 model-free RL，也没有取消 posterior、prior、
+Reward Model、Value Model 或 imagined rollout。它主要是在这条主线上改善 latent 表示、
+prior 学习和 Actor 更新。
+
+### 0.2 DreamerV2 相比 Dreamer 的五项主要改进
+
+| 改进位置 | 原始 Dreamer | DreamerV2 | 对 DayDreamer 的意义 |
+|---|---|---|---|
+| stochastic latent | 连续 Gaussian latent | 多组 categorical latent，并用 straight-through 近似反传 | 更适合表达突变式、非连续的状态分支；DayDreamer 的 $z_t$ 因此是离散 latent |
+| posterior-prior 对齐 | 普通 KL | KL balancing，分别控制 prior 和 posterior 的梯度 | imagination 不看 observation，只能依赖 prior，因此更强调 prior 学会预测 posterior |
+| Actor gradient | 主要依赖穿过可微 dynamics 的 pathwise / dynamics gradient | 引入 REINFORCE，并可与 dynamics gradient 结合或按任务选择 | 连续动作任务可用 dynamics gradient，离散动作任务可用 REINFORCE；本文第 15 节展开 |
+| action sampling | 同样会从 Actor 分布采样 | 仍然 sample；重点改进的是 sampling 后如何传递梯度 | 不要把 DreamerV2 理解成 deterministic Actor |
+| exploration | 常通过额外 action noise | 将 entropy regularization 直接写入 Actor objective | 探索由策略分布本身控制，同时真实机器人仍需动作边界和安全工程 |
+
+下面把其中几项写成公式。
+
+#### 0.2.1 连续 Gaussian latent 变成离散 categorical latent
+
+原始 Dreamer 可以用连续随机状态表示不确定性：
+
+$$
+z_t\sim\mathcal N(\mu_t,\sigma_t).
+$$
+
+DreamerV2 改为多个 categorical 变量：
+
+$$
+z_t=
+\left(z_t^{(1)},\ldots,z_t^{(N)}\right),
+$$
+
+每个变量从有限类别中采样，并通常用 one-hot 形式参与网络计算。由于真正的离散采样
+不可微，DreamerV2 使用 straight-through estimator：前向传播执行离散采样，反向传播
+近似把梯度传回 softmax 概率。
+
+这项改动的重点不是让 latent “更像标签”，而是让模型更容易表达 Atari 或机器人任务中
+突然切换的状态分支。DayDreamer 中的 $z_t$ 采用的正是这条 DreamerV2 路线，后文第 11、
+12 节会再展开其历史来源和具体配置。
+
+#### 0.2.2 普通 KL 变成 KL balancing
+
+普通 posterior-prior KL 可以写成：
+
+$$
+D_{\mathrm{KL}}
+\left[
+q_\theta(z_t\mid h_t,x_t)
+\parallel
+p_\theta(z_t\mid h_t)
+\right].
+$$
+
+DreamerV2 将两个更新方向拆开：
+
+$$
+\alpha
+D_{\mathrm{KL}}
+\left[
+\operatorname{sg}(q)\parallel p
+\right]
++
+(1-\alpha)
+D_{\mathrm{KL}}
+\left[
+q\parallel\operatorname{sg}(p)
+\right].
+$$
+
+其中 $\operatorname{sg}$ 表示 stop-gradient。第一项主要推动 prior 去匹配 posterior，
+第二项保留对 posterior 的约束。这样做的动机是：真实数据训练时 posterior 可以看到
+观测，但 imagination 时没有未来观测，真正承担预测任务的是 prior。
+
+#### 0.2.3 Actor 不再只依赖 dynamics gradient
+
+原始 Dreamer 的典型路径是：
+
+$$
+\phi
+\rightarrow a_t
+\rightarrow s_{t+1}
+\rightarrow \hat r_{t+1},v(s_{t+1})
+\rightarrow V_\lambda.
+$$
+
+DreamerV2 同时考虑两类 Actor gradient：
+
+$$
+\nabla_\phi\log\pi_\phi(a_t\mid s_t)A_t
+$$
+
+对应 REINFORCE / score-function gradient；另一类是继续穿过 imagined dynamics 的
+dynamics gradient。经验上，离散控制或 Atari 场景中 REINFORCE 往往更有效，而连续控制
+中 dynamics gradient 往往更有优势。DayDreamer 的具体动作类型对应关系是：A1、Sphero
+等连续动作任务使用 reparameterization gradient，UR5、XArm 等离散动作任务使用
+REINFORCE，详见第 15 节。
+
+#### 0.2.4 两个版本都会 sample action
+
+DreamerV2 的策略仍然输出分布并采样：
+
+$$
+a_t\sim\pi_\phi(\cdot\mid s_t).
+$$
+
+所以真正的区别不是“DreamerV2 不采样”，而是如何处理采样动作对 Actor 的梯度：
+
+```text
+REINFORCE：      log π(a|s) × Advantage
+dynamics gradient：reparameterization / straight-through → world model → return
+```
+
+#### 0.2.5 额外 action noise 变成 entropy regularization
+
+DreamerV2 更倾向于把探索直接放进 Actor 目标：
+
+$$
+\eta H\left[\pi(a\mid s)\right],
+$$
+
+例如：
+
+$$
+\max_\phi
+\left(
+\text{return}
++
+\eta H[\pi]
+\right).
+$$
+
+这使探索成为 policy learning 的一部分，而不只是训练时额外加在 action 上的噪声。
+不过在真实机器人上，entropy 并不能替代安全控制、动作限幅、低层 PD 控制器和任务奖励
+设计；DayDreamer 的在线学习仍然依赖这些系统约束。
+
+### 0.3 如何带着这条版本关系阅读后文
+
+后文第 5–13 节解释 DreamerV2/DayDreamer 的 RSSM、离散 $z_t$、posterior-prior 对齐和
+world-model loss；第 14–15 节解释 latent imagination、lambda-return、target critic
+以及连续/离散动作对应的 Actor gradient；第 16 节以后再看这些机制如何进入真实机器人
+控制、异步训练和在线适应。
 
 ## 1. 论文定位
 

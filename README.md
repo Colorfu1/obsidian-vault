@@ -100,7 +100,7 @@ Dreamer
 - [Visual Foresight](<Robot/WAM/Visual Foresight.md>)
 - [PlaNet](<Robot/WAM/PlaNet 论文概述.md>)
 - [Dreamer](<Robot/WAM/Dreamer技术报告.md>)
-- [DayDreamer](<Robot/WAM/DayDreamer论文综述与阅读重点.md>)
+- [DreamerV2 & DayDreamer](<Robot/WAM/DayDreamer论文综述与阅读重点.md>)
 - [DreamerV3](<Robot/WAM/DreamerV3_技术报告.md>)
 - [Dreamer 4](<Robot/WAM/DreamerV4_技术报告.md>)
 - [UniPi](<Robot/WAM/UniPi_技术总结.md>)
@@ -142,7 +142,7 @@ Action/world model 与 model-based RL 相关笔记。
 | [Visual Foresight](<Robot/WAM/Visual Foresight.md>) | video prediction, Visual MPC, designated pixel, CEM |
 | [PlaNet](<Robot/WAM/PlaNet 论文概述.md>) | RSSM, latent dynamics, CEM planning, MPC |
 | [Dreamer](<Robot/WAM/Dreamer技术报告.md>) | latent imagination, actor-critic, pathwise gradient |
-| [DayDreamer](<Robot/WAM/DayDreamer论文综述与阅读重点.md>) | DreamerV2, real-robot online RL, asynchronous actor-learner |
+| [DreamerV2 & DayDreamer](<Robot/WAM/DayDreamer论文综述与阅读重点.md>) | DreamerV2 improvements, real-robot online RL, asynchronous actor-learner |
 | [DreamerV3](<Robot/WAM/DreamerV3_技术报告.md>) | discrete RSSM, robust world-model RL, distributional critic |
 | [Dreamer 4](<Robot/WAM/DreamerV4_技术报告.md>) | scalable video world model, Shortcut Forcing, PMPO, offline imagination |
 | [UniPi](<Robot/WAM/UniPi_技术总结.md>) | video-as-policy, text-guided video diffusion, inverse dynamics |

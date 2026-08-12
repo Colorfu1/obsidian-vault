@@ -24,7 +24,7 @@ Use this index for generative models, reinforcement learning, LLM training, KL o
 - [[RL/opd_on_policy_distillation_知识笔记|OPD / On-Policy Distillation]]
   - Topic: OPD, on-policy distillation, teacher/student rollout, KL, forward KL, reverse KL, sampled-token reverse KL, PG-style loss.
   - Importance: high
-  - Notes: Use for LLM distillation, token-level KL, and student on-policy training questions.
+  - Notes: OPD 主线入口；先理解 student state distribution 与 teacher supervision 的闭环，再阅读 Full-KL、sampled-token reverse KL 和 PG-style loss 的具体实现。
 
 ## Model-Based RL and World Models
 
@@ -38,15 +38,15 @@ Use this index for generative models, reinforcement learning, LLM training, KL o
   - Importance: high
   - Notes: Useful for understanding learned world models, planning from pixels, and the precursor to Dreamer.
 
-- [[Dreamer技术报告|Dreamer 潜空间想象技术报告]]
-  - Topic: latent imagination, world-model actor-critic, reward/value models, pathwise gradients, continuous action policies.
+- [[Dreamer技术报告|Dreamer 技术综述：从真实经验到潜空间想象，再到可微行为学习]]
+  - Topic: latent imagination, RSSM world model, sparse reward, $V_\lambda$, world-model actor-critic, pathwise gradients, Advantage comparison, and continuous action policies.
   - Importance: high
-  - Notes: Useful for model-based RL, differentiable imagination, and comparing PPO-style score-function gradients with pathwise gradients.
+  - Notes: 逻辑重构完整版；用于理解 Dreamer 的完整训练链路，并对照 PPO 的 score-function gradient 与 Dreamer 的 pathwise gradient。
 
-- [[DayDreamer论文综述与阅读重点|DayDreamer 论文综述与阅读重点]]
-  - Topic: DreamerV2, physical robot online RL, asynchronous actor-learner, replay buffer, RSSM, latent imagination.
+- [[DayDreamer论文综述与阅读重点|DreamerV2 与 DayDreamer：从潜空间想象到真实机器人在线学习]]
+  - Topic: DreamerV2 improvements over Dreamer, discrete RSSM latent, KL balancing, REINFORCE/dynamics actor gradients, entropy exploration, and physical robot online RL.
   - Importance: high
-  - Notes: Useful for connecting model-based RL foundations to online learning on real robotic systems.
+  - Notes: 先理解 DreamerV2 的算法改进，再阅读 DayDreamer 如何把它部署到真实机器人在线学习。
 
 - [[DreamerV3_技术报告|DreamerV3 技术报告]]
   - Topic: discrete RSSM, robust world-model losses, distributional critic, symlog, twohot, return normalization, policy gradient.
