@@ -85,7 +85,7 @@ prior 学习和 Actor 更新。
 | 改进位置 | 原始 Dreamer | DreamerV2 | 对 DayDreamer 的意义 |
 |---|---|---|---|
 | stochastic latent | 连续 Gaussian latent | 多组 categorical latent，并用 straight-through 近似反传 | 更适合表达突变式、非连续的状态分支；DayDreamer 的 $z_t$ 因此是离散 latent |
-| posterior-prior 对齐 | 普通 KL | KL balancing，分别控制 prior 和 posterior 的梯度 | imagination 不看 observation，只能依赖 prior，因此更强调 prior 学会预测 posterior |
+| posterior-prior 对齐 | 普通 KL | KL balancing：降低 $q\to p$、提高 $p\to q$ 的作用 | imagination 不看 observation，只能依赖 prior，因此更强调 prior 学会预测 posterior |
 | Actor gradient | 主要依赖穿过可微 dynamics 的 pathwise / dynamics gradient | 引入 REINFORCE，并可与 dynamics gradient 结合或按任务选择 | 连续动作任务可用 dynamics gradient，离散动作任务可用 REINFORCE；本文第 15 节展开 |
 | action sampling | 同样会从 Actor 分布采样 | 仍然 sample；重点改进的是 sampling 后如何传递梯度 | 不要把 DreamerV2 理解成 deterministic Actor |
 | exploration | 常通过额外 action noise | 将 entropy regularization 直接写入 Actor objective | 探索由策略分布本身控制，同时真实机器人仍需动作边界和安全工程 |
@@ -144,9 +144,18 @@ q\parallel\operatorname{sg}(p)
 \right].
 $$
 
-其中 $\operatorname{sg}$ 表示 stop-gradient。第一项主要推动 prior 去匹配 posterior，
-第二项保留对 posterior 的约束。这样做的动机是：真实数据训练时 posterior 可以看到
-观测，但 imagination 时没有未来观测，真正承担预测任务的是 prior。
+其中 $\operatorname{sg}$ 表示 stop-gradient。两项的作用方向要分清：
+
+- $D_{\mathrm{KL}}[\operatorname{sg}(q)\|p]$：固定 posterior，更新 prior，让 $p$ 向
+  $q$ 靠近，可记作 $p\to q$；
+- $D_{\mathrm{KL}}[q\|\operatorname{sg}(p)]$：固定 prior，更新 posterior，让 $q$ 向
+  $p$ 靠近，可记作 $q\to p$。
+
+后者所谓的 **posterior regularization**，在数学上就是固定 prior 后将 posterior $q$
+拉向 $p$。“regularization”不是另一种独立的梯度方向，而是指这种 $q\to p$ 的作用
+会限制 posterior 从 observation 中编码 prior 无法预测的信息。DreamerV2 降低 $q\to p$
+方向的权重、提高 $p\to q$ 方向的权重，避免 posterior 过度迁就尚未学好的 prior；因为
+imagination 阶段没有未来 observation，最终真正承担预测任务的是 prior。
 
 #### 0.2.3 Actor 不再只依赖 dynamics gradient
 

@@ -30,9 +30,9 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Notes: Use for DreamerV3 architecture, robust world-model training, distributional value learning, and cross-domain model-based RL.
 
 - [[DreamerV4_技术报告|Dreamer 4 技术报告]]
-  - Topic: Dreamer 4, scalable generative world model, causal tokenizer, Shortcut Forcing, Diffusion Forcing, imagination training, PMPO, offline RL.
+  - Topic: Dreamer 4, scalable generative world model, causal tokenizer, continuous video latent, Shortcut Forcing, Diffusion Forcing, task-conditioned Agent Tokens, MTP, imagined rollouts, lambda-return, PMPO, frozen BC prior, and offline RL.
   - Importance: high
-  - Notes: Use for modern video-based world-model agents, scalable imagined environments, and policy improvement from fixed offline data.
+  - Notes: Start with the global computation graph and train/freeze table; then read the local Shortcut, x-prediction, Agent Token, MTP, and PMPO sections for implementation-level details.
 
 - [[UniPi_技术总结|UniPi 技术总结]]
   - Topic: UniPi, video-as-policy, text-guided video diffusion, UPDP, hierarchical video planning, inverse dynamics, generative imitation.

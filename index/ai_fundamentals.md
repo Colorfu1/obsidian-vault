@@ -54,9 +54,9 @@ Use this index for generative models, reinforcement learning, LLM training, KL o
   - Notes: Useful for modern model-based RL, stable latent dynamics learning, and unified actor-critic training across domains.
 
 - [[DreamerV4_技术报告|Dreamer 4 技术报告]]
-  - Topic: causal video tokenization, Shortcut Model, Diffusion Forcing, x-prediction, imagined rollouts, PMPO, behavioral prior.
+  - Topic: causal video tokenization, Shortcut Model, Diffusion Forcing, x-prediction, task-conditioned policy/reward/value heads, imagined rollouts, lambda-return, PMPO, and behavioral prior.
   - Importance: high
-  - Notes: Useful for scalable generative world models, offline imagination training, and the interface between flow-based dynamics and reinforcement learning.
+  - Notes: Start with the global training lifecycle and time-index conventions, then use the note to connect flow-based dynamics with offline imagination RL.
 
 ## Generative Policies and World-Action Models
 

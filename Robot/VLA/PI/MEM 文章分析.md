@@ -22,20 +22,6 @@ tags:
 **Updated:** 6/7/2026 19:08:48  
 **Exported:** 6/7/2026 19:24:47  
 
-## Response:
-07/06/2026, 19:07:18
-
-> **从文件中引用进行精确引证**
->
->
-> **引用文献并评估任务适应中的MEM策略**
->
-> 
->
-> 思考了 19s
-
-下面给你一份比较完整的 **MEM: Multi-Scale Embodied Memory for Vision Language Action Models** 总结。我会把论文动机、模型结构、训练/推理流程、GT 生成方式、video encoder 细节、实验结论和我认为的关键理解点都串起来。
-
 ---
 
 # 1. 这篇文章想解决什么问题？
