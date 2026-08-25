@@ -1142,5 +1142,7 @@ DreamZero 的真正价值不在于简单地“给 VLA 增加一个视频预测�
 - [[WorldVLA 论文综述(不建议读)|WorldVLA]]：同样联合视觉与动作建模；WorldVLA 的图像预测只服务于辅助训练，DreamZero 则在推理时联合生成视频和动作。
 - [[WLA_reading_notes|WLA]]：同样融合世界建模与动作生成；WLA 额外显式预测语言子任务，并在默认高效模式中关闭 World Expert。
 - [[UniPi_技术总结|UniPi]]：对比“先生成视频计划、再由 inverse dynamics 恢复动作”和端到端 video-action flow matching。
+- [[Video/Wan2.1技术报告|Wan2.1]]：DreamZero 使用 Wan2.1-I2V-14B 初始化，是通用视频生成先验进入机器人 video-action policy 的直接来源。
+- [[Video/Cosmos3技术报告|Cosmos 3]]：更广义的 omnimodal backbone；对照 DreamZero 的 video-action policy 与 Cosmos 3 的 FD/ID/policy 统一接口。
 - [[DreamerV3_技术报告|DreamerV3]]：对比依赖 reward/value 与 latent imagination 的 world-model RL 路线。
 - [[Pi0_7_technical_report|π0.7]]：对比异步 subgoal world model 加 flow-matching action expert 与统一视频—动作生成。

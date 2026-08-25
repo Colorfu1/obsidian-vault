@@ -1,6 +1,6 @@
 # Reading Status
 
-Updated: 2026-08-14
+Updated: 2026-08-25
 
 ## Finished
 
@@ -46,6 +46,10 @@ Updated: 2026-08-14
   - [[DreamerV3_技术报告|DreamerV3 技术报告]]
 - Dreamer 4
   - [[DreamerV4_技术报告|Dreamer 4 技术报告]]
+- Wan2.1 / Video Generation
+  - [[Video/Wan2.1技术报告|Wan2.1 技术报告]]
+- Cosmos 3
+  - [[Video/Cosmos3技术报告|Cosmos 3 技术报告]]
 - UniPi
   - [[UniPi_技术总结|UniPi 技术总结]]
 - WorldVLA

@@ -4,6 +4,11 @@ Use this index for generative models, reinforcement learning, LLM training, KL o
 
 ## Generative Models
 
+- [[index/video_generation|Video Generation Index]]
+  - Topic: video foundation models, video diffusion, Flow Matching, video VAE, video editing, and real-time generation.
+  - Importance: high
+  - Notes: 进入视频生成主题索引；通用视频模型与视频 latent 表示优先从 Wan2.1 开始。
+
 - [[VQVAE_综述|VQ-VAE 综述]]
   - Topic: VQ-VAE, codebook, quantizer, autoregressive prior, teacher forcing, loss mask, weight tying, text/image vocabulary design.
   - Importance: high

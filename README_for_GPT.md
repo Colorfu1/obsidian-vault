@@ -7,6 +7,7 @@ It contains technical notes, paper reading notes, and structured explanations co
 ## Main Topics
 
 - AI fundamentals: VQ-VAE, autoregressive priors, reinforcement learning, PPO, SAC, OPD, KL, normalization, action/token modeling.
+- Video generation: Wan2.1, video diffusion, Flow Matching, video VAE, video editing, real-time video generation, and video-to-audio.
 - Robotics: Physical Intelligence PI series, RT-1/RT-2, VLA, WAM/world models, Visual Foresight, PlaNet, Dreamer, DayDreamer, DreamerV3, Dreamer 4, UniPi, WorldVLA, DreamZero, OA-WAM, WLA/WLA-0, pi0.7, FAST, MEM, RDT-1B, GR00T N1, Gemini Robotics 1.5, MolmoAct2, robot foundation models, embodied reasoning agents, flow matching action policies, diffusion action policies.
 - Robot imitation learning and hardware: ALOHA low-cost bimanual teleoperation, ACT action chunking, CVAE imitation learning, Diffusion Policy.
 - Autonomous driving: LiDAR perception, TensorRT deployment, BEV visualization. This topic is planned, but there are no dedicated notes in the current index yet.
@@ -22,6 +23,8 @@ It contains technical notes, paper reading notes, and structured explanations co
   - `Robot/VLA/` contains VLA and robot foundation model notes.
   - `Robot/VLA/PI/` contains Physical Intelligence paper notes, including pi0, pi0.5, pi0.6, pi*0.6 / RECAP, pi0.7, FAST, and MEM.
   - Root-level `Robot/VLA/*.md` files contain non-PI robotics notes such as ALOHA hardware, ACT, RT-1/RT-2, Diffusion Policy, RDT-1B, GR00T N1, Gemini Robotics 1.5, and MolmoAct2.
+- `Video/`
+  - General video generation foundation models, video diffusion, video VAE, video editing, real-time generation, and video-to-audio notes.
 - `RL/`
   - Reinforcement learning and LLM-training related notes, including PPO, SAC/PPO comparison, and OPD.
 - Repository root
@@ -35,6 +38,8 @@ It contains technical notes, paper reading notes, and structured explanations co
   - AI fundamentals, generative models, RL, and LLM training notes.
 - [[index/robotics_papers|Robotics Papers Index]]
   - Robotics foundation model, WAM/world model, World Action Model, World-Language-Action model, model-based RL, video planning, Physical Intelligence, robot memory, action tokenization, diffusion policies, RT-series VLA notes, humanoid foundation model notes, embodied robot agent notes, deployment-oriented VLA notes, ALOHA hardware, and ACT notes.
+- [[index/video_generation|Video Generation Index]]
+  - Wan2.1 and future notes on video foundation models, video diffusion, video VAE, editing, real-time generation, and multimodal video applications.
 - [[reading_status|Reading Status]]
   - Reading progress and next reading candidates.
 - [[VQVAE_综述|VQ-VAE 综述]]

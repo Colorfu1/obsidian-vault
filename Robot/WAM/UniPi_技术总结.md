@@ -1182,6 +1182,7 @@ $$
 - [[Dreamer技术报告|Dreamer]]：以 latent dynamics、reward 和 actor-critic 进行 model-based RL 的对照路线。
 - [[DreamerV3_技术报告|DreamerV3]]：更通用、稳定的潜空间 world-model RL 路线。
 - [[Diffusion Policy 概述|Diffusion Policy]]：直接生成动作序列的 diffusion policy，可与 UniPi 的视频 diffusion 中间接口对比。
+- [[Video/Wan2.1技术报告|Wan2.1]]：通用视频基础模型、视频 VAE 和 Flow Matching 主干，可作为 UniPi 视频生成接口的背景对照。
 - [[Pi0_7_technical_report|π0.7]]：使用视觉 subgoal 与丰富上下文控制通用机器人行为的相关路线。
 - [[WorldVLA 论文综述(不建议读)|WorldVLA]]：同样统一视觉生成与动作学习，但图像预测只作为辅助训练任务。
 

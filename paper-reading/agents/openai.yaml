@@ -1,0 +1,4 @@
+interface:
+  display_name: "Paper Reading"
+  short_description: "先精简后展开，只保留关键、非常规和影响判断的论文内容"
+  default_prompt: "Use $paper-reading to produce concise and complete illustrated notes focused only on critical and unconventional findings."

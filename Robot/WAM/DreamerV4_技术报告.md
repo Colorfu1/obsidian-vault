@@ -2547,6 +2547,8 @@ Dreamer 4 的技术价值不只是“用视频模型玩 Minecraft”，而是给
 - [[Dreamer技术报告|Dreamer]]：潜空间想象、world-model actor-critic 与 Dreamer 系列训练闭环的基础。
 - [[PlaNet 论文概述|PlaNet]]：RSSM、latent planning 和从像素学习动力学的早期路线。
 - [[DreamZero_Technical_Report|DreamZero]]：同样利用视频生成先验，但 DreamZero 直接联合生成机器人视频和动作，Dreamer 4 在世界模型内训练显式策略。
+- [[Video/Wan2.1技术报告|Wan2.1]]：通用视频生成基础模型的训练、latent 压缩和推理系统，可与 Dreamer 4 的 action-conditioned world model 对照。
+- [[Video/Cosmos3技术报告|Cosmos 3]]：有 action-conditioned video/action generation，但尚未像 Dreamer 4 一样提供 reward/value 与 imagined RL 闭环。
 - [[Diffusion Policy 概述|Diffusion Policy]]：对比生成动作轨迹的 diffusion policy 与生成环境未来的 flow-based dynamics。
 
 ---

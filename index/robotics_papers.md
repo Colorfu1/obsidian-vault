@@ -49,6 +49,11 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Importance: high
   - Notes: Use for end-to-end policies built on video generation priors and for precise discussion of task-level versus embodiment-level zero-shot generalization.
 
+- [[Video/Cosmos3技术报告|Cosmos 3 技术报告]]
+  - Topic: omnimodal world model、AR/DM MoT、action representation、forward/inverse dynamics、video-action policy、Physical AI 数据与跨域 action transfer。
+  - Importance: high
+  - Notes: 观察通用视频生成 backbone 如何通过统一 action/time token 适配 FD、ID 和 robot policy，并与 DreamZero、Dreamer 4 对照其 world-model 边界。
+
 - [[OA_WAM|OA-WAM 论文综述]]
   - Topic: OA-WAM, object-addressable world action model, object slots, address-only attention keys, address reset, world head, robust manipulation.
   - Importance: high

@@ -15,6 +15,17 @@ Topics covered now:
 - OPD / On-Policy Distillation
 - KL and policy-gradient style training
 
+## Video Generation
+
+See: [[index/video_generation|Video Generation Index]]
+
+Topics covered now:
+
+- Wan2.1 open large-scale video foundation model
+- Video diffusion and Flow Matching
+- Spatio-temporal video VAE and latent compression
+- Video editing, personalization, camera control, real-time streaming, and video-to-audio
+
 ## Robotics
 
 See: [[index/robotics_papers|Robotics Papers Index]]
