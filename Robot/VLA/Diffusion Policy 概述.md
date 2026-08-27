@@ -534,7 +534,7 @@ Diffusion Policy 的本质是：**给定当前观测，用 diffusion model 生�
 
 - [[FAST_知识总结|FAST 知识总结]]
 - [[UniPi_技术总结|UniPi 视频策略]]
-- [[ALOHA硬件与ACT算法|ALOHA 硬件与 ACT 算法]]
+- [[ALOHA与ACT完整笔记|ALOHA 硬件与 ACT 算法]]
 - [[Pi_0机器人文章分析|pi0 机器人文章分析]]
 - [[Pi_0.6论文问题解答|pi0.6 论文问题解答]]
 - [[RDT-1B|RDT-1B]]

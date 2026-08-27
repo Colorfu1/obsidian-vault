@@ -159,7 +159,7 @@ metrics 和多个可切换 recording。这些能力可以用来观察过拟合�
 
 ## 相关笔记
 
-- [[Robot/VLA/ALOHA硬件与ACT算法|ALOHA 硬件与 ACT 算法]]：ACT、action chunking、CVAE
+- [[Robot/VLA/ALOHA与ACT完整笔记|ALOHA 硬件与 ACT 算法]]：ACT、action chunking、CVAE
   与 Temporal Ensemble 的算法背景。
 - [[BestPractice/2026-07-20-ACT-A-Sanity实验与模型源码调试|ACT A-Sanity 实验与模型源码调试]]：
   五轨迹过拟合实验的启动器、评测设计和源码分析。

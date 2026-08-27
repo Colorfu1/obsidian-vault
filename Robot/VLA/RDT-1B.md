@@ -937,7 +937,7 @@ RDT-1B 不是未来 VLA/AWM 的完整答案，但它是 continuous-action diffus
 
 ## 相关笔记
 
-- [[ALOHA硬件与ACT算法|ALOHA / ACT]]：双臂硬件、连续 action chunk、ACT baseline。
+- [[ALOHA与ACT完整笔记|ALOHA / ACT]]：双臂硬件、连续 action chunk、ACT baseline。
 - [[FAST_知识总结|FAST]]：离散 action tokenization 路线，可与 RDT 的 continuous diffusion action 对比。
 - [[Pi_0机器人文章分析|pi0]]：flow matching action expert 路线。
 - [[Pi_0.6论文问题解答|pi0.6]]：continuous action chunk 与 FAST joint likelihood。

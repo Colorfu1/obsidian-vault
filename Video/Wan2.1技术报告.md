@@ -4,7 +4,7 @@ type: paper_note
 topic: video_generation
 status: mature
 importance: high
-updated: 2026-08-24
+updated: 2026-08-27
 tags:
   - video-generation
   - video-foundation-model
@@ -24,6 +24,10 @@ tags:
 > 原始文件：`/home/mi/Downloads/wan2.2.pdf`
 >
 > 阅读日期：2026-08-24
+>
+> 本次补充材料：`/home/mi/Downloads/Wan2.1 补充：VAE、Latent Generation 与 I2V 条件机制.md`
+>
+> 补充日期：2026-08-27
 
 ## 精简版
 
@@ -33,8 +37,8 @@ Wan 的主要贡献不是提出一个全新的扩散目标，而是把大规模�
 
 ### 核心方法
 
-1. **Wan-VAE**：使用 3D causal VAE，将视频的时空尺寸压缩为 `[1+T/4, H/8, W/8, 16]`；RMSNorm 保持时间因果性，feature cache 支持分块编码和长视频处理。
-2. **Wan DiT**：使用 `Wan-VAE + Diffusion Transformer + umT5`。视频 latent 经过 3D patchify 后进入时空 self-attention，并通过 cross-attention 注入文本。
+1. **Wan-VAE**：先把 RGB 视频编码到固定的时空 latent，再由 DiT 在该 latent space 中生成；3D causal VAE 将视频压缩为 `[1+T/4, H/8, W/8, 16]`，第一帧只做空间压缩，以兼容 image condition；RMSNorm 与 feature cache 支持因果的分块处理。
+2. **Wan DiT**：使用 `Wan-VAE + Diffusion Transformer + umT5`。视频 latent 经过 3D patchify 后进入时空 self-attention，并通过 cross-attention 注入文本；I2V 还把 reference image 经像素空间零填充和 Wan-VAE 得到 condition latent，并经 CLIP/MLP 的 decoupled cross-attention 注入全局图像条件。
 3. **Flow Matching**：对图像和视频使用统一的速度场学习目标：
 
    $$x_t=tx_1+(1-t)x_0,\qquad v_t=x_1-x_0$$
@@ -143,6 +147,8 @@ Wan 的实际改动可以压缩为四个层次：
 6. 对图像或视频 latent 加噪并构造 flow-matching 中间状态，DiT 预测 clean latent 与噪声之间的速度。
 7. 推理时通过 ODE solver 逐步积分生成 latent，再由 Wan-VAE decoder 重建视频。
 
+训练和推理的边界很重要：T2V 推理从 Gaussian noise latent 开始，经过 umT5 条件下的 Flow-Matching DiT 生成 clean video latent，最后只调用冻结的 VAE Decoder；推理时不需要把文本先经过 VAE Encoder。I2V 则额外编码 reference image 作为 condition latent。
+
 ### Objective and supervision
 
 设 $x_1$ 是干净图像或视频 latent，$x_0\sim\mathcal{N}(0,I)$ 是高斯噪声，$t$ 从 logit-normal 分布采样：
@@ -155,11 +161,19 @@ $$v_t=\frac{dx_t}{dt}=x_1-x_0$$
 
 $$\mathcal{L}=\mathbb{E}_{x_0,x_1,c,t}\left[\|u(x_t,c,t;\theta)-v_t\|^2\right]$$
 
+#### DiT 学的是 latent generator，不是 RGB decoder
+
+[论文事实] 训练时，真实视频先经过已经训练好的 Wan-VAE Encoder 得到 clean latent $x_1$，DiT 只学习在条件 $c$ 下从噪声 latent 生成符合该固定分布的 latent。T2V 推理从 $x_0\sim\mathcal{N}(0,I)$ 开始，因此不需要 VAE Encoder；经过多步 ODE/flow integration 得到 $\hat{x}_1$ 后，再调用冻结的 VAE Decoder：
+
+$$\text{Text}\rightarrow\text{umT5}\rightarrow c,\qquad x_0\xrightarrow{\text{Flow-Matching DiT}}\hat{x}_1\xrightarrow{D_{\rm VAE}}\hat{V}$$
+
+[分析推断] 这相当于先固定 $\text{RGB Video}\leftrightarrow\text{Latent Space}$ 的 codec，再训练 latent generator。若 VAE 和 DiT 同时改变，DiT 的 target distribution 也会移动；Wan 的分阶段训练避免了这类表示漂移。
+
 关键训练和推理差异如下：
 
 | 组件 | 训练阶段 | 推理阶段 |
 |---|---|---|
-| Wan-VAE | 重建、KL、LPIPS，后期加入 3D GAN loss | 编码条件或噪声 latent，解码生成 latent |
+| Wan-VAE | 重建、KL、LPIPS，后期加入 3D GAN loss | I2V 编码 reference condition；解码 DiT 生成的 clean latent；T2V 不需要 Encoder |
 | DiT | 预测 flow velocity，图像与视频联合训练 | 多步 ODE/flow sampling |
 | umT5 | 论文中作为冻结文本 encoder 使用 | 生成 prompt embedding |
 | Prompt rewrite | 训练 caption 多样化 | 用 Qwen2.5-Plus 将短 prompt 改写成训练分布附近的长 prompt |
@@ -176,6 +190,44 @@ Wan-VAE 的主要设计是：
 - 通过每次最多处理 4 帧的 chunk-wise 编码支持任意长度视频。
 
 训练分三阶段：先训练 2D image VAE，再 inflate 为 3D causal VAE，最后在高质量、多分辨率、多帧数视频上 fine-tune，并加入 3D discriminator 的 GAN loss。200 个 720×720、25 帧视频的重建实验中，作者报告 Wan-VAE 在 PSNR 和处理效率之间取得较好折中（p.12，Figure 7）。
+
+#### Latent shape、posterior 与采样
+
+[论文事实] Wan-VAE 以“首帧 + 后续视频帧”的记法，将输入写成 $V\in\mathbb{R}^{(1+T)\times H\times W\times3}$，编码后得到：
+
+$$Z\in\mathbb{R}^{(1+T/4)\times H/8\times W/8\times16}$$
+
+时间约压缩 4 倍、空间各压缩 8 倍；每个 latent 时空位置是一个 16-channel vector。这里的 16 是随机变量/特征的 channel 维度，不表示 16 个彼此独立的语义因素。
+
+[论文事实] 技术报告使用 KL loss，说明 latent 受到 variational regularization。若按标准 diagonal-Gaussian VAE 展开，可以写成：
+
+$$q_\phi(z\mid x)=\mathcal{N}\left(\mu_\phi(x),\operatorname{diag}(\sigma_\phi^2(x))\right),\qquad z=\mu_\phi(x)+\sigma_\phi(x)\odot\epsilon$$
+
+$$\epsilon\sim\mathcal{N}(0,I)$$
+
+[分析推断] reparameterization 使 sample 后仍可沿 decoder loss 反传；在 diagonal posterior 下可以 factorize 的是 sampling noise，而不是不同空间/时间位置的 latent 内容。不同位置仍通过共享 encoder 和重叠 receptive field 相关。
+
+[待验证] Wan 原始技术报告没有详细展开 posterior covariance 的具体参数化，因此上式是标准 VAE 的解释，不应当当成 Wan 代码实现的逐项证明。
+
+#### Causal VAE、首帧与 feature cache
+
+[论文事实] 第一帧只做 spatial compression，后续帧才参与 temporal compression，因此 image 可以自然映射到与 video 兼容的 latent 形状：$1\times H/8\times W/8\times16$。这也是 I2V 能把 reference image 接入同一套 Wan-VAE 的基础。
+
+[论文事实] causal convolution 只读取当前及历史帧；RMSNorm 替换 GroupNorm，是为了避免 normalization 跨 temporal dimension 汇总未来统计量，并让 feature cache 与 causal processing 兼容。
+
+[论文事实] VAE 可以按 temporal compression ratio 分块编码/解码，而不必一次性缓存整段视频。这里的“VAE 支持任意长度”只描述编码计算图；[分析推断] 它不等于 DiT 的长时生成不会出现 identity、motion 或 scene drift。
+
+[待验证] 补充文档给出的“temporal kernel size=3、保留前一 chunk 最后 2 个 feature”等细节需要以公开实现逐层核对；技术报告正文明确了 causal/cache 设计，但没有列出每个 ResBlock 的完整 kernel 与 padding 配置。
+
+#### VAE loss 与 DiT 的训练边界
+
+[论文事实] 补充材料整理出的 VAE 主要目标为：
+
+$$L_{\rm VAE}=3L_{L1}+3\times10^{-6}L_{KL}+3L_{LPIPS}$$
+
+最终高质量视频阶段再加入 3D GAN loss，但其具体权重在技术报告中没有完整展开。[分析推断] 极小的 KL 权重表明 Wan-VAE 更偏向高保真 reconstruction，而不是为了强 prior regularization 大幅牺牲重建质量。
+
+训练完 VAE 后，DiT 使用冻结的 Encoder 将真实视频变成 clean latent $x_1$，并只在 latent space 学习 flow velocity；冻结的 Decoder 仅在生成结果可视化或最终输出时把 $\hat{x}_1$ 还原成 RGB。Wan 采用“先固定 latent space，再训练 latent generator”的分阶段边界，而不是 VAE 与 DiT 端到端共同移动。
 
 ### Video Diffusion Transformer
 
@@ -244,6 +296,9 @@ Wan 的推理优化包括：
 - **caption 充分性假设**：更密集、更结构化的 caption 能改善指令遵循和视觉文字生成。
 - **有限时空依赖假设**：Streamer 假设长视频主要依赖固定时间窗口内的 token，才能用滑动窗口生成无限长视频。
 - **latent 足够性假设**：Wan-VAE 的 16-channel latent 保留了生成任务所需的纹理、文字和运动信息。
+- **固定 latent space 假设**：先训练并冻结 Wan-VAE，再让 DiT 学习该 latent 分布；若 VAE 与 DiT 联合漂移，flow target 的含义也会变化。
+- **I2V 条件语义假设**：像素空间的 `[I,0,...]`、causal VAE 传播和 mask 能够让模型区分 preserved 与 generated 区域，而不会把 zero-filled frame 当成真实黑帧。
+- **I2V loss 边界**：技术报告没有说明 mask 是否同时用于 loss masking；因此不能把 condition mask 自动解释成只在生成区域计算损失。
 - **可能的 shortcut**：模型可能利用 prompt 中的风格词、背景和相机模式，而不是真正理解物理关系；Wan-Bench 中的 detector/MLLM 也可能与训练数据或 caption 分布存在相关性。
 - **可复现性边界**：内部版权数据、内部质量模型和部分自动标注器没有完全公开，因此社区无法只依靠论文复现同等训练分布。
 
@@ -252,6 +307,7 @@ Wan 的推理优化包括：
 | Claim | Direct evidence | Controls / ablations | Assessment |
 |---|---|---|---|
 | Wan-VAE 同时高质量且高效率 | 200 个 720×720、25 帧视频；Figure 7、Figure 8；VAE-D 对照 | VAE 与 VAE-D 的 FID；不同 VAE 的 PSNR/速度比较 | **部分支持**：有直接重建证据，但测试规模有限，未给出完整端到端视频生成归因 |
+| I2V condition 需要 VAE latent、mask 和 CLIP global feature | I2V condition construction、mask-guided unified pre-training、I2V SFT | 没有 I2V-specific loss 的显式公式；未完整拆分三条 condition 的独立贡献 | **部分支持**：机制描述清楚，但具体损失与各条件的因果收益仍待验证 |
 | Wan 14B 综合视频质量领先 | Wan-Bench、700+ 人工任务、VBench Table 4 | 多模型比较；Wan-Bench 使用 5,000+ pairwise preference 做权重 | **部分支持**：VBench 和人工结果有支持，但 Wan-Bench 自建，模型版本、prompt 和采样设置细节仍影响公平性 |
 | 共享 AdaLN 更有效 | 1.3B text-to-image 200K steps 的 loss curve | 1.3B/1.5B/1.7B、共享与非共享 AdaLN 对比 | **支持有限范围**：支持参数预算优先放在 depth，但不能直接推广到所有规模和视频训练阶段 |
 | umT5 优于更大的 LLM encoder | 训练曲线与 Table 6 | Qwen2.5、GLM-4、Qwen-VL 对比 | **不完全支持**：Qwen-VL second-last FID 为 42.91，略优于 umT5 的 43.01，只是模型更大 |
@@ -266,6 +322,8 @@ Wan 的推理优化包括：
 2. 关闭 prompt rewrite，分别报告原始 prompt 与改写 prompt 的结果。
 3. 使用统一模型版本、统一采样步数和统一 prompt，对 Wan-Bench 与 VBench 做独立复核。
 4. 对 Streamer 报告 1 分钟、15 分钟和更长视频的 identity drift、motion drift、flicker 和失败率。
+5. 对 I2V 做 condition ablation：只用 $z_c$、只用 CLIP、去掉 mask、以及比较像素空间补零和 latent 空间补零；同时明确报告是否做 loss masking。
+6. 固定 VAE、DiT 和训练预算，单独测量三种 I2V condition 对首帧保持、运动遵循、全局语义和长时一致性的贡献。
 
 ## 关键与非常规结果
 
@@ -289,11 +347,64 @@ Figure 31 的图注写单张 RTX 4090 达到 20 FPS，正文写 TensorRT 量化�
 
 I2V 有一定人工比较；视频编辑和相机控制主要依赖定性结果；个性化 ArcFace similarity 为 `0.5526`，低于一个对照模型的 `0.5655`；audio 模型只训练环境声和背景音乐，不覆盖 speech、laughter 等人声。因此“统一支持多任务”成立，但各任务的成熟度并不相同。
 
+### 6. I2V 的 reference image 是多路径条件，不是单一 image token
+
+[论文事实] Wan-I2V 同时使用 VAE condition latent $z_c$、preserve/generate mask $m$ 和 CLIP global feature $c_{\rm img}$；它们分别承担局部结构、区域状态和全局语义的条件作用。I2V 还分为不使用 CLIP branch 的 mask-guided unified pre-training，以及加入 CLIP decoupled cross-attention 的 task-specific SFT。
+
+[分析推断] I2V 的主要改动更像“保持 latent flow target 不变、逐步增加条件通道”，而不是重新设计一个 image-specific generator。这解释了为什么参考图像既不能只当 text 的替代品，也不能简单地在 latent 后面补零。
+
+[证据边界] 技术报告没有给出去掉 $z_c$、mask 或 CLIP 的完整等预算消融，也没有明确说明 mask 是否用于 Flow-Matching loss masking；因此三条路径的独立收益和 preserved frame 的损失处理仍待验证。
+
 ## Extended Applications
 
 ### Image-to-video
 
-Wan-I2V 将首帧编码为 condition latent，并拼接 noise latent、mask 和 CLIP image feature，通过 decoupled cross-attention 注入全局图像上下文。mask 机制还被复用于视频续写、首尾帧转换和随机帧插值。
+Wan-I2V 的 reference image 不是单一的 image token，而是通过 VAE condition latent、binary mask 和 CLIP global feature 三条互补路径进入 DiT。mask 机制还被复用于视频续写、首尾帧转换和随机帧插值。
+
+#### Condition construction：先在像素空间补零，再过 Wan-VAE
+
+[论文事实] 给定 reference image $I$，Wan 先在像素空间构造伪视频：
+
+$$I_c=[I,0,0,\ldots,0]$$
+
+然后整体送入冻结的 Wan-VAE Encoder：
+
+$$z_c=E_{\rm VAE}(I_c)$$
+
+这与“先把 image 编成 latent、再在 latent space 补零”不同。由于 Wan-VAE 是 causal 3D VAE，$z_c(t)$ 依赖 $I_c(\leq t)$；因此后续 pixel frame 虽然为零，后续 condition latent 也不必严格为零，仍可能携带首帧通过 temporal receptive field 传播的信息。
+
+#### Mask 与三类条件
+
+[论文事实] Wan 同时构造 binary mask $M\in\{0,1\}$：1 表示 preserved frame，0 表示需要生成的 frame。经过 rearrange 得到 $m$，并沿 channel 维将 noisy latent、condition latent 和 mask 组合：
+
+$$[x_t;z_c;m]$$
+
+参考图像还经过独立的 CLIP Image Encoder 和 3-layer MLP，得到 global image feature $c_{\rm img}$，通过 decoupled cross-attention 注入 DiT。最终可以把主要条件写成：
+
+~~~text
+Text → umT5 → text cross-attention
+Reference image → [I,0,...] → Wan-VAE → zc → channel concat
+Reference image → CLIP → MLP → c_img → decoupled cross-attention
+Mask m + noisy latent xt → DiT
+~~~
+
+[论文事实] $z_c$ 更适合保留 reference image 的局部/空间结构，CLIP feature 补充全局语义上下文，text condition 规定内容和运动语义；三者不是互相替代的同一种条件。
+
+#### I2V 的两阶段训练
+
+[论文事实] I2V 先进行 mask-guided unified pre-training，联合覆盖 image-to-video、video continuation、first-last frame transformation 和 random frame interpolation。该阶段的重点是让模型学习哪些位置应 preserve、哪些位置应 generate，并且不使用 CLIP image encoder branch，主要使用 $x_t+z_c+m+c_{\rm text}$。
+
+[论文事实] 随后的 task-specific SFT 才加入 CLIP Image Encoder，通过 decoupled cross-attention 补足仅靠 frame-level latent condition 时不足的 global semantic/contextual information。
+
+#### I2V loss 与 mask 的证据边界
+
+[论文事实] 技术报告详细说明了 reference condition、mask、latent concatenation、CLIP branch 以及两阶段训练，但没有重新给出 I2V-specific loss，也没有明确声明额外的 image-consistency loss 或 CLIP loss。
+
+[分析推断] 因为 I2V 是从 T2V Flow-Matching generator 扩展而来，最自然的理解是仍使用 latent flow-matching objective，只是把条件扩展为 $c_{\rm text},z_c,m,c_{\rm img}$：
+
+$$\mathcal{L}_{\rm I2V}\approx\mathbb{E}\left[\left\|u_\theta(x_t,c_{\rm text},z_c,m,c_{\rm img},t)-(x_1-x_0)\right\|^2\right]$$
+
+上式是强合理推断，不是论文在 I2V 小节显式给出的公式。[待验证] 论文也只明确把 $m$ 作为模型输入条件，没有说明是否用 $(1-m)$ 对 Flow-Matching loss 做 loss masking，因此不能直接断言 preserved 的第一帧不参与 loss。
 
 论文的一个重要观察是：只给有限 conditioning frame 时，预训练 T2V 模型缺乏足够的上下文和语义深度，因此 I2V fine-tuning 仍需要 image encoder 分支。
 
@@ -360,3 +471,4 @@ Wan 最值得复用的不是某一个 block，而是一条系统级经验：
 - 标有“论文事实”的内容直接来自 PDF 正文、图表或附录。
 - “分析推断”是基于论文证据的独立判断，不代表作者原话。
 - Wan-Bench 的综合权重、部分 caption/质量模型和训练数据来自作者内部流程，外部读者无法完全复现。
+- 本次补充还参考用户提供的 `/home/mi/Downloads/Wan2.1 补充：VAE、Latent Generation 与 I2V 条件机制.md`。其中 reparameterization、latent 相关性等是解释性展开；posterior covariance、具体 cache 保留范围、I2V loss 和 mask loss masking 若原技术报告未明确说明，已标为“待验证”。

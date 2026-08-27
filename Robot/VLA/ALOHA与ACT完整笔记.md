@@ -2,9 +2,9 @@
 title: ALOHA 与 ACT：从低成本双臂数据采集到闭环稳定性
 type: concept_note
 topic: robot_imitation_learning
-status: draft
+status: mature
 importance: high
-updated: 2026-07-27
+updated: 2026-08-19
 tags:
   - aloha
   - act
@@ -18,7 +18,8 @@ tags:
 
 # ALOHA 与 ACT：从低成本双臂数据采集到闭环稳定性
 
-这篇笔记把两条原本分开的知识主线合并起来：
+这篇笔记是仓库中 ALOHA / ACT 主题的统一主笔记，覆盖从硬件数据采集、ACT 模型结构到
+闭环实验分析的完整链路：
 
 1. ALOHA 如何以低成本 leader-follower 硬件采集高质量双臂示范，以及 ACT 论文提出的
    Action Chunking、CVAE 和 Temporal Ensemble；
@@ -26,10 +27,8 @@ tags:
    loss 和 CVAE 如何实际影响 closed-loop behavior，以及这些实验如何修正早期对 ACT
    failure mode 的理解。
 
-两篇源文保持不动：
-
-- [[ALOHA硬件与ACT算法|ALOHA 硬件与 ACT 算法原始长篇笔记]]
-- [[ACT-补充理解-从Action-Chunking到闭环稳定性|ACT 闭环稳定性补充笔记]]
+原先分散的论文整理、ACT 概念理解和闭环稳定性分析已经合并到本文；`BestPractice/` 下的
+文件继续保留为可追溯的实验记录，不重复展开为第二篇理论主笔记。
 
 ## 1. 阅读范围与证据层级
 
@@ -554,6 +553,32 @@ Human demonstration 往往是多模态的。同一 observation 下，人可能�
 均值。连续控制中的“平均轨迹”未必可执行，例如两条绕开障碍的路径平均后可能正好撞向
 障碍。
 
+如果同一个 observation 对应多条合法的 future action chunk，普通 deterministic
+regression 只能输出一个点估计：
+
+$$
+\hat A_t=f_\theta(o_t).
+$$
+
+在 L1 或 MSE 监督下，这个点估计可能接近不同 demonstration mode 的均值或中位数：
+
+$$
+\hat A_t
+\approx
+\operatorname{mean/median}
+\left(
+A_t^{(1)},A_t^{(2)},\ldots
+\right).
+$$
+
+因此，两个单独看都能成功的轨迹，其平均轨迹不一定仍然可执行：
+
+$$
+\boxed{
+\text{两个成功轨迹的平均，不一定仍然是一条成功轨迹。}
+}
+$$
+
 ACT 用条件生成模型表示：
 
 $$
@@ -770,6 +795,42 @@ $$
 \text{在当前本地任务中，标准 ACT CVAE 改善了 action-chunk 学习和闭环稳定性。}
 }
 $$
+
+### 8.8 CVAE 的作用边界：训练期解耦，推理期不显式选 mode
+
+ACT 的 posterior encoder 在训练时可以看到目标 action chunk：
+
+$$
+A_t^{GT}
+\rightarrow
+q_\phi(z\mid q_t,A_t^{GT})
+\rightarrow
+z.
+$$
+
+它的主要作用是把相似 observation 下的不同 demonstration mode 分开，降低 decoder
+同时拟合互相冲突的 future chunk 时产生的梯度冲突。它并不是一个在部署阶段根据当前
+观测显式选择左绕、右绕等 mode 的 planner。
+
+推理时未来动作不存在，posterior encoder 不能使用，因此标准 ACT 采用：
+
+$$
+z=0,
+\qquad
+\hat A_t=\pi_\theta(o_t,z=0).
+$$
+
+所以 ACT CVAE 更准确的表述是：
+
+$$
+\boxed{
+\text{训练期用 }z\text{ 解耦 action modes；推理期使用 prior 中心附近的 canonical behavior。}
+}
+$$
+
+这也解释了它与后续直接建模 $p(A_t\mid o_t)$ 的 Diffusion、Flow Matching 或
+autoregressive action-token 方法之间的差别：后者把生成自由度保留到了推理阶段，而
+标准 ACT 的 $z$ 主要承担训练期的表示和正则化作用。
 
 ## 9. 训练目标：L1、Padding、ObsEqual 与 Delta-action loss
 
@@ -1077,6 +1138,112 @@ $$
 
 同样，A2 + TE 的本地实验还同时把 `n_action_steps` 改为 1，因此它不能单独识别
 ensemble 的纯增益。
+
+### 10.5 Temporal Ensemble 的 mode averaging 风险
+
+Temporal Ensemble 融合的是“对同一个绝对时刻的多个预测”，但融合操作本身仍然是数值
+平均。如果旧 prediction 计划从障碍物左侧绕行，而新 prediction 计划从右侧绕行，二者
+分别可能是合法轨迹；直接平均后却可能得到一条从中间穿过障碍物的无效轨迹：
+
+$$
+A_t^{\mathrm{avg}}
+=
+\alpha A_t^{\mathrm{left}}
++
+(1-\alpha)A_t^{\mathrm{right}}.
+$$
+
+因此，Temporal Ensemble 主要缓解的是跨 timestep 重规划造成的方差、动作跳变和 chunk
+边界不连续，而不是从根本上解决多模态 action 的表示问题：
+
+$$
+\boxed{
+\text{Temporal Ensemble 可以降低 prediction noise，但无法保证不同 mode 的平均仍然有效。}
+}
+$$
+
+这也是它与 Diffusion / Flow Matching 的一个重要区别：后者在生成阶段保留采样自由度，
+而 Temporal Ensemble 在已经生成的 action 之间做后处理融合。
+
+### 10.6 Receding Horizon：一致性与反应性的折中
+
+后续 action-generation policy 通常不把多个 overlapping chunk 做平均，而是联合生成一段
+内部一致的 action trajectory，只执行其中的前缀，再根据新 observation 重新生成：
+
+$$
+A_t
+=
+[a_t,a_{t+1},\ldots,a_{t+H_{\mathrm{pred}}-1}],
+\qquad
+H_{\mathrm{exec}}<H_{\mathrm{pred}}.
+$$
+
+这就是 receding-horizon execution。它与本文第 6.2 节的 `n_action_steps` 是同一个
+执行接口：`chunk_size` 决定预测多远，`n_action_steps` 决定一次真正提交多少个动作。
+
+两种策略的差别可以概括为：
+
+| 执行方式 | 主要机制 | 主要风险 |
+| --- | --- | --- |
+| Temporal Ensemble | 对齐多个 chunk 后加权平均 | 不同 mode 可能被平均成无效轨迹 |
+| Receding Horizon | 生成一个 chunk，执行 prefix 后重新规划 | 新旧 chunk 交界处仍可能发生 mode switch |
+
+因此存在不可同时消除的折中：
+
+$$
+H_{\mathrm{exec}}\uparrow
+\Rightarrow
+\text{更强的 temporal consistency，但反应性下降},
+$$
+
+$$
+H_{\mathrm{exec}}\downarrow
+\Rightarrow
+\text{更强的 reactivity，但 mode jump 和 jitter 风险上升}.
+$$
+
+Receding Horizon 改变了重新规划的方式，但并没有自动解决跨 chunk 的时间一致性。
+
+### 10.7 Trajectory-conditioned regeneration：从平均到条件续接
+
+更进一步的生成式策略会把已经确定、正在执行或已经执行的旧 trajectory prefix 作为
+条件，让新 trajectory 从这个 prefix 连续生成，而不是把旧、新 trajectory 做数值平均：
+
+$$
+A_{\mathrm{future}}
+\sim
+p_\theta
+\left(
+A_{\mathrm{future}}
+\mid
+o_t,A_{\mathrm{prefix}}^{\mathrm{committed}}
+\right).
+$$
+
+两种操作的区别是：
+
+$$
+\text{Temporal Ensemble:}
+\quad
+A_{\mathrm{old}}+A_{\mathrm{new}}
+\rightarrow
+\text{数值平均},
+$$
+
+$$
+\text{Trajectory-conditioned regeneration:}
+\quad
+A_{\mathrm{prefix}}^{\mathrm{committed}}
+\rightarrow
+\text{生成约束}
+\rightarrow
+A_{\mathrm{future}}.
+$$
+
+这类 RTC / conditional inpainting 思路并不是原始 ACT 的组成部分，而是后续 flow-based
+action policy 为解决异步推理和 chunk 衔接提出的相关方向；π0.7 中的
+[[Pi0_7_technical_report|RTC 讨论]]可作为进一步对照。它的目标是保留已承诺动作的连续性，
+同时避免把来自不同 mode 的完整轨迹直接平均。
 
 ## 11. Release horizon 停滞与闭环固定点
 
@@ -1487,6 +1654,103 @@ Q-learning、offline RL、value-guided decoding 和 model-based planning 也可�
 - 学习失败恢复；
 - 在 demonstration 之外优化 closed-loop success。
 
+### 15.6 ACT 到现代 action modeling 的演化
+
+前面的比较可以沿两条相互独立的主线整理。第一条主线解决的是多模态 action：同一个
+observation 下不应被迫输出不同成功轨迹的平均值。
+
+| 路线 | 生成自由度 | 主要作用 |
+| --- | --- | --- |
+| Deterministic BC | 单个回归点 | 简单，但容易 mode averaging |
+| ACT + CVAE | 训练期 latent $z$ | 解耦 demonstration mode，并形成 canonical behavior |
+| Diffusion Policy | noise 条件下的连续 chunk 生成 | 直接表达多峰 $p(A\mid o)$ |
+| Flow Matching | 条件 vector field | 以 flow 生成连续 action chunk |
+| Autoregressive action token | 离散 token 的条件概率 | 在离散空间中选择 mode，FAST 属于相关路线 |
+
+对应的接口可以概括为：
+
+$$
+\text{ACT:}
+\qquad
+A^{GT}
+\rightarrow
+q_\phi(z\mid A^{GT},o)
+\rightarrow
+\pi_\theta(o,z),
+$$
+
+$$
+\text{Diffusion / Flow:}
+\qquad
+\epsilon
+\rightarrow
+A,
+\qquad
+p(A\mid o),
+$$
+
+$$
+\text{Autoregressive tokens:}
+\qquad
+p(\mathrm{token}_i\mid o,\mathrm{token}_{<i}).
+$$
+
+例如合法动作只有 $a=-1$ 和 $a=+1$ 时，点回归可能输出不存在的中间动作：
+
+$$
+\hat a_{\mathrm{MSE}}=0,
+$$
+
+而 categorical action model 可以保留：
+
+$$
+p(a=-1)=0.5,
+\qquad
+p(a=+1)=0.5,
+$$
+
+再从分布中选择一个 mode，而不是直接执行平均动作。
+
+因此，ACT 的 CVAE 是一种间接的训练期多模态解耦机制；Diffusion、Flow Matching 和
+autoregressive action tokens 则把生成自由度更直接地保留到 inference 阶段。这里的
+演化不是简单的“后者替代前者”，而是从 latent-assisted regression 逐步转向显式
+action-distribution modeling。
+
+第二条主线解决的是时间一致性：
+
+$$
+\text{Action Chunk}
+\rightarrow
+\text{Temporal Ensemble}
+\rightarrow
+\text{Joint Chunk Generation + Receding Horizon}
+\rightarrow
+\text{Trajectory-conditioned Regeneration}.
+$$
+
+其中：
+
+- Action Chunk 给出短期 trajectory supervision；
+- Temporal Ensemble 对同一绝对时刻的重叠预测做融合；
+- Joint Chunk Generation 与 Receding Horizon 生成内部一致的 chunk，并执行其 prefix；
+- Trajectory-conditioned Regeneration 用已承诺 prefix 约束下一段 trajectory，减少 chunk
+  boundary 的 mode switch。
+
+所以 ACT 对后续 VLA 和生成式 action policy 的重要贡献，不是要求后续方法继续使用
+CVAE 或 Temporal Ensemble，而是留下了两个更一般的原则：
+
+$$
+\boxed{
+\text{Robot action 应以 trajectory / chunk 为单位建模，而不是把每个 timestep 当成独立预测。}
+}
+$$
+
+$$
+\boxed{
+\text{当 }p(A\mid o)\text{ 多模态时，应保留 mode 选择自由度，而不是回归一个平均动作。}
+}
+$$
+
 ## 16. 完整流程、优势、局限与结论
 
 ### 16.1 训练流程
@@ -1606,10 +1870,9 @@ $$
 
 ## 相关笔记
 
-- [[ALOHA硬件与ACT算法|ALOHA 硬件与 ACT 算法原始长篇笔记]]：论文、硬件与模型结构
-  的原始整理。
-- [[ACT-补充理解-从Action-Chunking到闭环稳定性|ACT 闭环稳定性补充笔记]]：本地实验
-  驱动的 failure mode 修正过程。
+- [[Diffusion Policy 概述|Diffusion Policy 概述]]：对比 action chunking、扩散策略和
+  receding-horizon control。
+- [[FAST_知识总结|FAST 知识总结]]：对比连续 action chunk 与离散 action tokenization。
 - [[BestPractice/2026-07-24-ACT-A-Sanity收尾与后续实验指南|ACT A-Sanity 收尾与后续实验指南]]：
   五轨迹 sanity check 与后续实验设计。
 - [[BestPractice/2026-07-25-ACT动作差分损失与公平评测|ACT 动作差分损失与公平评测]]：

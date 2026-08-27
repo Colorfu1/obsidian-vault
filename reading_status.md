@@ -1,6 +1,6 @@
 # Reading Status
 
-Updated: 2026-08-25
+Updated: 2026-08-27
 
 ## Finished
 
@@ -19,7 +19,7 @@ Updated: 2026-08-25
 - MEM
   - [[MEM 文章分析|MEM 文章分析]]
 - ALOHA / ACT
-  - [[ALOHA硬件与ACT算法|ALOHA 硬件与 ACT 算法]]
+  - [[ALOHA与ACT完整笔记|ALOHA 与 ACT：从低成本双臂数据采集到闭环稳定性]]
 - Diffusion Policy
   - [[Diffusion Policy 概述|Diffusion Policy 概述]]
 - RT-1
@@ -56,10 +56,18 @@ Updated: 2026-08-25
   - [[WorldVLA 论文综述(不建议读)|WorldVLA 论文综述（低优先级）]]
 - DreamZero
   - [[DreamZero_Technical_Report|DreamZero 技术报告]]
+- ShadowDancer
+  - [[Robot/WAM/ShadowDancer_论文总结|ShadowDancer 论文总结]]
 - OA-WAM
   - [[OA_WAM|OA-WAM 论文综述与批判性阅读笔记]]
 - WLA / WLA-0
   - [[WLA_reading_notes|WLA 论文阅读笔记]]
+- Flex-π
+  - [[Robot/VLA/PI/Flex-Pi_论文总结|Flex-π 论文总结]]
+- Light-WAM
+  - [[Robot/WAM/LightWAM_论文总结|Light-WAM 论文总结]]
+- Zero-WAM
+  - [[Robot/WAM/ZeroWAM_论文总结|Zero-WAM 论文总结]]
 - VQ-VAE
   - [[VQVAE_综述|VQ-VAE 综述]]
 - PPO

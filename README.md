@@ -25,13 +25,14 @@
 Obsidian Knowledge Vault
 │
 ├── Robot/
-│   ├── WAM/                    # world/action model / visual foresight / model-based RL
+│   ├── WAM/
+│   │   └── Dreamer/            # world/action model / visual foresight / model-based RL
 │   └── VLA/                    # vision-language-action / robot foundation models
 │       └── PI/                 # Physical Intelligence 系列
 │
 ├── RL/                         # PPO / SAC / OPD / policy optimization
 │
-├── Video/                      # video foundation model / video diffusion / video editing
+├── Video/                   # video foundation model / video diffusion / video editing
 │
 ├── VQVAE_综述.md               # 离散表示、codebook、tokenization
 │
@@ -96,6 +97,7 @@ Dreamer
 π0.7 / 现代 VLA-WAM 对比
   ├─→ WorldVLA（辅助单步图像预测）
   ├─→ DreamZero（联合 video-action flow）
+  ├─→ ShadowDancer（shadow-pair latent dynamics）
   ├─→ OA-WAM（object-addressable slots）
   └─→ WLA（语言子任务 + World Expert + Action Expert）
 ```
@@ -109,6 +111,7 @@ Dreamer
 - [UniPi](<Robot/WAM/UniPi_技术总结.md>)
 - [WorldVLA（低优先级参考）](<Robot/WAM/WorldVLA 论文综述(不建议读).md>)：联合训练动作生成与单步图像预测，但不进行闭环 world-model planning
 - [DreamZero](Robot/WAM/DreamZero_Technical_Report.md)：基于视频生成先验联合预测未来视频 latent 与连续动作
+- [ShadowDancer](<Robot/WAM/ShadowDancer_论文总结.md>)：用 shadow pair 学习跨外观统一动力学表示，驱动 block-causal 视频 world model
 - [OA-WAM](Robot/WAM/OA_WAM.md)：用稳定对象地址和 slot routing 改善几何变化下的目标绑定
 - [WLA / WLA-0](Robot/WAM/WLA_reading_notes.md)：统一语言子任务推理、未来图像预测与动作生成，并支持 test-time scaling
 - [Wan2.1](<Video/Wan2.1技术报告.md>)：通用视频基础模型、视频 VAE、Flow Matching 和系统级推理加速
@@ -172,6 +175,7 @@ Action/world model 与 model-based RL 相关笔记。
 | [UniPi](<Robot/WAM/UniPi_技术总结.md>) | video-as-policy, text-guided video diffusion, inverse dynamics |
 | [WorldVLA](<Robot/WAM/WorldVLA 论文综述(不建议读).md>) | autoregressive action/image tokens, auxiliary next-frame prediction |
 | [DreamZero](Robot/WAM/DreamZero_Technical_Report.md) | video-action flow matching, autoregressive chunks, real-time WAM |
+| [ShadowDancer](<Robot/WAM/ShadowDancer_论文总结.md>) | shadow pairs, cross-shadow latent action, action transfer, block-causal video world model |
 | [OA-WAM](Robot/WAM/OA_WAM.md) | object addressability, slot routing, robust manipulation |
 | [WLA / WLA-0](Robot/WAM/WLA_reading_notes.md) | language subtask reasoning, World Expert, Action Expert, test-time scaling |
 
@@ -188,7 +192,7 @@ Vision-Language-Action、机器人基础模型、动作生成和模仿学习相�
 | [GR00T N1](<Robot/VLA/GR00T N1 综述.md>) | humanoid foundation model, data pyramid |
 | [Gemini Robotics 1.5](<Robot/VLA/Gemini Robotics 1.5 综述.md>) | embodied reasoning, agentic robot system |
 | [MolmoAct2](<Robot/VLA/MolmoAct2论文框架分析.md>) | action reasoning, FAST, adaptive depth |
-| [ALOHA / ACT](<Robot/VLA/ALOHA硬件与ACT算法.md>) | bimanual hardware, action chunking, imitation learning |
+| [ALOHA / ACT](<Robot/VLA/ALOHA与ACT完整笔记.md>) | bimanual hardware, action chunking, imitation learning |
 
 ### 🧬 `Robot/VLA/PI/`
 

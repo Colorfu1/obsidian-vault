@@ -49,6 +49,11 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Importance: high
   - Notes: Use for end-to-end policies built on video generation priors and for precise discussion of task-level versus embodiment-level zero-shot generalization.
 
+- [[Robot/WAM/ShadowDancer_论文总结|ShadowDancer 论文总结]]
+  - Topic: shadow pairs、cross-shadow prediction、unified dynamics representation、latent action、block-causal video world model、action transfer、interactive rollout。
+  - Importance: high
+  - Notes: 先看 shadow pairing 与 Table 3 消融，再看 z/s 职责分解、可识别性假设和真实世界适用边界。
+
 - [[Video/Cosmos3技术报告|Cosmos 3 技术报告]]
   - Topic: omnimodal world model、AR/DM MoT、action representation、forward/inverse dynamics、video-action policy、Physical AI 数据与跨域 action transfer。
   - Importance: high
@@ -63,6 +68,21 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Topic: WLA, WLA-0, World-Language-Action model, textual subtask reasoning, physical dynamics, World Expert, Action Expert, flow matching, and test-time scaling.
   - Importance: high
   - Notes: Use for a unified model that treats language-level planning and future-image prediction as complementary next-state representations, while retaining fast action-only inference and optional imagined-future ranking.
+
+- [[Robot/VLA/PI/Flex-Pi_论文总结|Flex-π 论文总结]]
+  - Topic: Flex-π, multi-stream world-action model, Wan-2.2 VAE, RGB/pointmap/DINO future prediction, cross-modality forcing, stream dropout, mixture-of-transformers, compute-flexible inference, and dexterous manipulation.
+  - Importance: high
+  - Notes: Start here for multi-stream WAM training, optional 3D deployment inputs, action-only versus full-joint inference, and evidence for geometry/semantic auxiliary supervision.
+
+- [[Robot/WAM/LightWAM_论文总结|Light-WAM 论文总结]]
+  - Topic: Light-WAM, efficient WAM, Wan2.1-T2V-1.3B, latent video co-training, LoRA, sparse WAM adapters, StateFusionActionExpert, learned-query pooling, action-only inference, and training/inference efficiency.
+  - Importance: high
+  - Notes: Start here for separating training-time future-video supervision from inference-time direct action decoding, and for the cost contribution of latent caching, downsampling, and query bottlenecks.
+
+- [[Robot/WAM/ZeroWAM_论文总结|Zero-WAM 论文总结]]
+  - Topic: Zero-WAM, in-context human video task specification, HumanGen, task-diverse video-action pretraining, causal video-action modeling, MoT, in-context future chunk prediction, shortcut suppression, and zero-shot cross-task generalization.
+  - Importance: high
+  - Notes: Start here for human-video-conditioned task generalization, the distinction between task-level zero-shot and no-data claims, and evidence separating ICL, task-balanced data, and IFP contributions.
 
 ## Physical Intelligence PI Series
 
@@ -148,15 +168,10 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
 
 ## Robot Hardware and Imitation Learning
 
-- [[ALOHA硬件与ACT算法|ALOHA 硬件与 ACT 算法]]
-  - Topic: ALOHA low-cost bimanual leader-follower teleoperation hardware, WidowX/ViperX setup, joint-space mapping, ACT, action chunking, Transformer policy, CVAE latent variable imitation learning.
-  - Importance: high
-  - Notes: Start here for low-cost bimanual manipulation, data collection hardware, teleoperation design, ACT policy learning, and comparisons between ACT action chunking and VLA/FAST action tokenization.
-
-- [[ALOHA与ACT完整笔记|ALOHA 与 ACT：从低成本双臂数据采集到闭环稳定性（融合草稿）]]
+- [[ALOHA与ACT完整笔记|ALOHA 与 ACT：从低成本双臂数据采集到闭环稳定性]]
   - Topic: ALOHA, ACT, action chunking, CVAE, temporal ensemble, padding loss, delta-action loss, closed-loop stability, LIBERO evaluation.
   - Importance: high
-  - Notes: Integrated draft connecting the original ALOHA/ACT paper mechanisms with later closed-loop experiment findings and corrected failure hypotheses.
+  - Notes: 唯一主笔记；按“硬件与数据 → ACT 结构 → 训练目标 → 推理闭环 → 实验边界”阅读，实验日志仍保留在 BestPractice/。
 
 - [[BestPractice/2026-07-16-LeRobot-ACT调试与ALOHA数据可视化|2026-07-16 LeRobot ACT 调试与 ALOHA 数据可视化]]
   - Topic: LeRobot 0.4.4, ACT training debug, ALOHA dataset cache, Rerun synchronized cameras, joint signals, nominal bimanual forward kinematics, and frame-by-frame visualization.

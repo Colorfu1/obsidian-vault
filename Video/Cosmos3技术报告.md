@@ -543,6 +543,7 @@ Generator 的 reference PyTorch、vLLM-Omni 和相关优化包括：
 - [[Robot/WAM/DreamZero_Technical_Report|DreamZero 技术报告]]：两者都把视频生成先验接到 video-action flow matching；DreamZero 更聚焦固定 embodiment 的 WAM policy，Cosmos 3 则把 action、audio、transfer 和 reasoner 一起纳入通用 backbone。
 - [[Robot/WAM/DreamerV4_技术报告|Dreamer 4 技术报告]]：Dreamer 4 有显式 reward/value、imagined rollout 和 offline RL；Cosmos 3 有 action-conditioned video/action generation，但尚未提供同等的策略优化闭环。
 - [[Robot/WAM/UniPi_技术总结|UniPi 技术总结]]：UniPi 先生成视频计划，再由 inverse dynamics 恢复 action；Cosmos 3 将 video、action、FD、ID、policy 统一为不同 denoising 配置。
+- [[Robot/WAM/ShadowDancer_论文总结|ShadowDancer]]：以 shadow pair 学习跨外观 dynamics latent，和 Cosmos 3 的全模态 token/MoT 形成对照。
 - [[Robot/WAM/WLA_reading_notes|WLA 论文阅读笔记]]：共同关注 world modeling、language reasoning 和 action synthesis 的组合，但 WLA 的 World Expert/Action Expert 分工与 Cosmos 3 的 AR/DM 双塔不同。
 - [[Robot/WAM/WorldVLA 论文综述(不建议读)|WorldVLA]]：可对照“视频预测是训练辅助目标”与 Cosmos 3 “视频/action 可在推理时共同生成”的差别。
 - [[VQVAE_综述|VQ-VAE 综述]]：补充理解视觉 latent、token 压缩和生成表示瓶颈；Cosmos 3 的视频 VAE 是连续 latent 路线。

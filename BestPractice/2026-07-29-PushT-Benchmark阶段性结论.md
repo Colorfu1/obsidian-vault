@@ -60,7 +60,7 @@ optimizer 和 scheduler。成对初始化清单显示 213 个共享 tensor 一�
 
 两种 loss 的语义不同，不能用绝对值判断谁更好。BCChunk 也是 action chunking
 策略，它与 ACT 类 action chunk 的共同点和闭环限制可对照
-[[Robot/VLA/ACT-补充理解-从Action-Chunking到闭环稳定性|ACT：从 Action Chunking 到闭环稳定性]]。
+[[Robot/VLA/ALOHA与ACT完整笔记|ACT：从 Action Chunking 到闭环稳定性]]。
 
 ## E0：数据能证明什么
 
@@ -209,4 +209,4 @@ BCChunk 三次调用的最大误差同样为 0。E1b 相比 E1a：
 
 - [[BestPractice/2026-07-27-PushT-BCChunk与Diffusion模型规划和训练|PushT BCChunk 与 Diffusion 模型规划和训练]]
 - [[Robot/VLA/Diffusion Policy 概述|Diffusion Policy 概述]]
-- [[Robot/VLA/ACT-补充理解-从Action-Chunking到闭环稳定性|ACT：从 Action Chunking 到闭环稳定性]]
+- [[Robot/VLA/ALOHA与ACT完整笔记|ACT：从 Action Chunking 到闭环稳定性]]

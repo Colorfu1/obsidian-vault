@@ -1300,4 +1300,4 @@ real data
 - [[Diffusion Policy 概述|Diffusion Policy 概述]]
 - [[Pi0_7_technical_report|π0.7 技术报告]]
 - [[RT-2 论文综述|RT-2 论文综述]]
-- [[ALOHA硬件与ACT算法|ALOHA 硬件与 ACT 算法]]
+- [[ALOHA与ACT完整笔记|ALOHA 硬件与 ACT 算法]]

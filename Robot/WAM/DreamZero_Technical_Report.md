@@ -1144,5 +1144,9 @@ DreamZero 的真正价值不在于简单地“给 VLA 增加一个视频预测�
 - [[UniPi_技术总结|UniPi]]：对比“先生成视频计划、再由 inverse dynamics 恢复动作”和端到端 video-action flow matching。
 - [[Video/Wan2.1技术报告|Wan2.1]]：DreamZero 使用 Wan2.1-I2V-14B 初始化，是通用视频生成先验进入机器人 video-action policy 的直接来源。
 - [[Video/Cosmos3技术报告|Cosmos 3]]：更广义的 omnimodal backbone；对照 DreamZero 的 video-action policy 与 Cosmos 3 的 FD/ID/policy 统一接口。
+- [[Robot/WAM/ShadowDancer_论文总结|ShadowDancer]]：同样把视频生成接到 action interface；ShadowDancer 依赖 shadow-paired latent，DreamZero 直接做 video-action flow。
 - [[DreamerV3_技术报告|DreamerV3]]：对比依赖 reward/value 与 latent imagination 的 world-model RL 路线。
 - [[Pi0_7_technical_report|π0.7]]：对比异步 subgoal world model 加 flow-matching action expert 与统一视频—动作生成。
+- [[Robot/VLA/PI/Flex-Pi_论文总结|Flex-π]]：在 RGB video-action WAM 上加入 pointmap 与 DINO future streams，并通过 stream dropout 和 cross-modality forcing 解耦训练监督与部署计算。
+- [[Robot/WAM/LightWAM_论文总结|Light-WAM]]：同样把 future-video prediction 作为训练期 WAM supervision，但用轻量 LoRA/WAM adapters 与 StateFusionActionExpert 在推理时直接解码动作。
+- [[Robot/WAM/ZeroWAM_论文总结|Zero-WAM]]：将 human video 作为部署时 task specification，并用 HumanGen 与 IFP 处理未见任务的 cross-task generalization。
