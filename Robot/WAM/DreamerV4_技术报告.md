@@ -4,7 +4,7 @@ type: paper_note
 topic: model_based_reinforcement_learning
 status: mature
 importance: high
-updated: 2026-08-17
+updated: 2026-09-04
 tags:
   - dreamer4
   - world-model
@@ -2551,6 +2551,7 @@ Dreamer 4 的技术价值不只是“用视频模型玩 Minecraft”，而是给
 - [[Video/Cosmos3技术报告|Cosmos 3]]：有 action-conditioned video/action generation，但尚未像 Dreamer 4 一样提供 reward/value 与 imagined RL 闭环。
 - [[Robot/WAM/ShadowDancer_论文总结|ShadowDancer]]：同样采用 block-causal 视频 world model，但主要解决 demonstration action representation，尚未提供 Dreamer 4 的 reward/value 与 imagined RL 闭环。
 - [[Diffusion Policy 概述|Diffusion Policy]]：对比生成动作轨迹的 diffusion policy 与生成环境未来的 flow-based dynamics。
+- [[Robot/WAM/WALL-SS_论文阅读笔记|WALL-SS]]：同样将可扩展生成式 world model 接入 RL；WALL-SS 优化的是固定 action 条件下的 visual-token policy，并用 bounded time–scale memory 与 sim–real policy ranking 验证长时 simulator，而 Dreamer 4 在 imagined world 中直接训练 agent policy。
 
 ---
 

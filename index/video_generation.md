@@ -10,7 +10,7 @@
   - Notes: 通用视频基础模型主线入口；优先理解数据 recipe、时空 latent、DiT 训练和系统级加速，再阅读 I2V、编辑、个性化和实时生成扩展。
 
 - [[Video/Cosmos3技术报告|Cosmos 3 技术报告]]
-  - Topic: Cosmos 3、omnimodal world model、Mixture-of-Transformers、统一 AR/扩散 token、视频/音频/action 生成、Physical AI、action mid-training。
+  - Topic: Cosmos 3、omnimodal world model、Mixture-of-Transformers、统一 AR/扩散 token、clean/noisy 条件配置、6D rotation、action Flow Matching、视频/音频/action 生成、Physical AI、action mid-training、AR–DM temporal gap。
   - Importance: high
   - Notes: 视频生成 backbone 向全模态 Physical AI 扩展的主线；优先看 MoT、action representation、数据 curriculum 和 action synergy，再与 Wan2.1、DreamZero、Dreamer 4 对照。
 

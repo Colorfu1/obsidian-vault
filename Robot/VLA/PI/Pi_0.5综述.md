@@ -931,6 +931,7 @@ WAM 不是天然没有这个困扰，
 - [[Pi_0.6论文问题解答|pi0.6]]：后续 high-level text 与 action likelihood 结合方式。
 - [[MEM 文章分析|MEM]]：长程任务中的 memory 机制。
 - [[Pi0_7_technical_report|pi0.7]]：rich context 和 steerable generalist VLA 的后续发展。
+- [[RL/SmoothRL_论文阅读笔记|SmoothRL]]：以 task-finetuned π0.5 为 frozen base policy，在异步 action-chunk 执行中学习 raw-action residual correction。
 
 
 

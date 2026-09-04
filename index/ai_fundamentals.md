@@ -26,6 +26,11 @@ Use this index for generative models, reinforcement learning, LLM training, KL o
   - Importance: high
   - Notes: Use when comparing algorithm design choices between PPO and SAC.
 
+- [[RL/SmoothRL_论文阅读笔记|SmoothRL：异步执行中的在线机器人强化学习]]
+  - Topic: SmoothRL, online robot reinforcement learning, asynchronous inference, action chunking, concurrent control, execution-only value gradient, TD3, REDQ, residual policy, and human intervention.
+  - Importance: high
+  - Notes: 用于理解异步 action-chunk 部署如何改变 critic conditioning 与 actor gradient 的时间跨度；重点审计 committed/execution/discarded partition、固定 latency budget，以及缺失的机制消融。
+
 - [[RL/opd_on_policy_distillation_知识笔记|OPD / On-Policy Distillation]]
   - Topic: OPD, on-policy distillation, teacher/student rollout, KL, forward KL, reverse KL, sampled-token reverse KL, PG-style loss.
   - Importance: high

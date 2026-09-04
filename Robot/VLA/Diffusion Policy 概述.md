@@ -542,3 +542,4 @@ Diffusion Policy 的本质是：**给定当前观测，用 diffusion model 生�
 - [[RT-2 论文综述|RT-2 论文综述]]
 - [[GR00T N1 综述|GR00T N1 综述]]
 - [[MolmoAct2论文框架分析|MolmoAct2 论文框架分析]]
+- [[Robot/WAM/WM-DAgger_论文阅读笔记|WM-DAgger 论文阅读笔记]]：对照 DMD 与 world-model-driven DAgger 数据聚合。

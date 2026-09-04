@@ -1150,3 +1150,4 @@ DreamZero 的真正价值不在于简单地“给 VLA 增加一个视频预测�
 - [[Robot/VLA/PI/Flex-Pi_论文总结|Flex-π]]：在 RGB video-action WAM 上加入 pointmap 与 DINO future streams，并通过 stream dropout 和 cross-modality forcing 解耦训练监督与部署计算。
 - [[Robot/WAM/LightWAM_论文总结|Light-WAM]]：同样把 future-video prediction 作为训练期 WAM supervision，但用轻量 LoRA/WAM adapters 与 StateFusionActionExpert 在推理时直接解码动作。
 - [[Robot/WAM/ZeroWAM_论文总结|Zero-WAM]]：将 human video 作为部署时 task specification，并用 HumanGen 与 IFP 处理未见任务的 cross-task generalization。
+- [[Robot/WAM/WM-DAgger_论文阅读笔记|WM-DAgger]]：同样使用 action-conditioned world model，但主要把生成结果转成 OOD recovery supervision，而不是将 video-action model 直接作为部署策略。

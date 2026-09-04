@@ -4,7 +4,7 @@ type: paper_note
 topic: video_generation
 status: mature
 importance: high
-updated: 2026-08-25
+updated: 2026-09-01
 tags:
   - video-generation
   - video-foundation-model
@@ -26,6 +26,10 @@ tags:
 > 原始文件：`/home/mi/Downloads/cosmos3.pdf`
 >
 > 阅读日期：2026-08-25
+>
+> 补充材料：`/home/mi/Downloads/Cosmos3_补充笔记_Action_Flow_MoT.md`
+>
+> 补充日期：2026-09-01
 
 ## 精简版
 
@@ -179,7 +183,15 @@ $$
 \Delta T_t = T_{t-1}^{-1}T_t.
 $$
 
-旋转部分采用 6D over-parameterized representation，最后用 SVD 投影回 $SO(3)$。Grasp state 不做时间差分，而是直接表示时刻 $t$ 的操作状态。
+旋转部分采用 6D over-parameterized representation，最后用 SVD 投影回 $SO(3)$。这里的 6D 不是说旋转有 6 个自由度：旋转流形仍满足 $\dim SO(3)=3$，只是把旋转矩阵的前两列拼成
+
+$$
+x_{6D}=[r_1,r_2]\in\mathbb{R}^6,
+$$
+
+再由 $r_3=r_1\times r_2$ 恢复第三列，并投影回合法的 $SO(3)$。这种冗余表示用更高维的连续欧氏坐标换取对 Euler angle / axis-angle 全局不连续、奇异点和角度边界的规避；例如物理上相近的 $179^\circ$ 与 $-179^\circ$，直接相减会得到 $358^\circ$ 的错误距离。
+
+Grasp state 不做时间差分，而是直接表示时刻 $t$ 的操作状态。一个 pose component 因而包含 $3$D translation 和 $6$D rotation，共 $9$D。
 
 不同 embodiment 的 action 由三个可能组件构成：
 
@@ -187,15 +199,25 @@ $$
 - **Effector pose：** 手腕、末端执行器等 effectors 的相对位姿。
 - **Grasp state：** 手指位置或 gripper open/close 状态。
 
+论文中的示例维度如下；它们体现的是统一的几何语义模板，而不是统一的底层控制器：
+
+| Embodiment | Action components | 原始维度 |
+|---|---|---:|
+| Vehicle / camera | ego pose | 9D |
+| Single-arm | ego pose + effector pose + grasp | 10D |
+| Dual-arm | ego pose + 两个 effector pose + 两个 grasp | 20D |
+| Humanoid | ego pose + 两个 effector pose + 两个 grasp | 29D |
+| Egocentric human | ego pose + effector / hand pose + 手指状态 | 57D |
+
 车辆、相机、egocentric hand、single-arm、dual-arm、humanoid 的原始维度不同，因此使用 domain-specific projection：
 
 $$
 z=W_{in}^{(k)}x+b_{in}^{(k)},
 \qquad
-x=W_{out}^{(k)}z+b_{out}^{(k)}.
+\hat{x}=W_{out}^{(k)}z+b_{out}^{(k)}.
 $$
 
-其中共享的是 backbone 中的 action semantic latent，不是输入输出层本身。
+其中共享的是 backbone 中的 action semantic latent，不是输入输出层本身。因此“统一 action”更准确地说是统一成“谁动了、平移多少、旋转多少、抓取状态是什么”的接口；不同 embodiment 仍保留各自的 action coordinate space 和 adapter。
 
 ### Token arrangement and generation modes
 
@@ -217,7 +239,21 @@ $$
 S_{V2V}=[S_{AR},v_{1:P},\tilde v_{P+1:N}].
 $$
 
-当 $P=1$ 时是 I2V，$P>1$ 时是 V2V。Video transfer 则把 control video 的 clean tokens 放在 RGB target 的 noisy tokens 之前。
+对应的 clean/noisy 配置可以明确写成：
+
+$$
+S_{T2V}=[S_{AR},\tilde v_{1:N}],
+\qquad
+S_{I2V}=[S_{AR},v_1,\tilde v_{2:N}],
+$$
+
+$$
+S_{V2V}=[S_{AR},v_{1:P},\tilde v_{P+1:N}],
+\qquad
+S_{Transfer}=[S_{AR},v^{ctrl}_{1:N},\tilde v^{RGB}_{1:N}].
+$$
+
+其中 clean condition 是已知、未加噪且不作为 flow target 的输入；noisy target 是需要预测 velocity / denoise direction 的对象。$P=1$ 时 V2V 退化为 I2V，$P>1$ 时是带有 clean history 的 V2V。Video transfer 则不是“过去 RGB 延续到未来 RGB”，而是用同时间段的 control video 生成 RGB video，属于 control/modality translation。
 
 #### Action modes
 
@@ -227,9 +263,11 @@ $$
 - **Inverse dynamics（ID）：** clean video transition $\rightarrow$ noisy action；回答“观察到这个变化，需要什么 action”。
 - **Policy：** noisy video + noisy action 一起预测；回答“生成一个 action 及其预期视觉后果”。
 
-这三种模式共享 backbone 和 action representation，但 loss mask、clean/noisy 配置和评测目标不同。**分析推断：** 这种设计比单独挂一个 action head 更能提供视频—动作一致性监督，但仍然没有把生成的视觉未来交给一个显式 planner 进行候选比较。
+Policy 可以写成 $(\tilde v,\tilde a)\rightarrow(v,a)$：视频和 action 都是 noisy target，在 DM 的 full attention 中共同去噪。三种模式共享 backbone 和 action representation，但 loss mask、clean/noisy 配置和评测目标不同。**分析推断：** 这种设计比单独挂一个 action head 更能提供视频—动作一致性监督，但仍然没有把生成的视觉未来交给一个显式 planner 进行候选比较；它不是 reward-based planning、MPC、candidate search 或 value-guided rollout。
 
 ### Mixture-of-Transformers（MoT）
+
+这里的 MoT 不是传统的 Mixture-of-Experts：没有 learned router，也不是根据 token 内容动态选择若干专家，而是按 token 所属子序列进行确定性路由：AR token 进入 Reasoner，DM token 进入 Generator。
 
 每个 decoder layer 含两套 transformer 参数：
 
@@ -272,6 +310,14 @@ $$
 视频以 24 FPS 为 base，经过 4× temporal compression 后 $TPS_{base}=6$。音频约为 `25 TPS`，action 使用各自采样频率。
 
 **论文事实（Table 29，p.108）：** FPS Control 与 MRoPE 同时使用时，Composite 从无控制的 `8.51` 提升到 `9.81`，而平均视频质量维持在约 `12.8–13.0` 的窄区间。这个消融支持“物理时间轴本身有用”，而不仅是把 FPS 写进文字 prompt。
+
+**补充解释（论文观察与作者假设）：** 若最后一个 AR token 的时间坐标为 `100`，DM 首帧直接从 `101` 开始，那么 BOG 与首个视觉 latent 在位置编码中只相差一个单位，但语义上已经从 language/reasoning 切换到 continuous generation；论文将这种边界过近与首帧的 over-saturation、checkerboard artifact 联系起来，且在 Super 上更明显。加入 gap 后变为 `100→15100`，所有 DM 坐标整体平移 `15000`，因此 DM 内部的时间差保持不变：
+
+$$
+(t_i+15000)-(t_j+15000)=t_i-t_j.
+$$
+
+所以 `15000` 是 MRoPE 的 positional boundary cue，不是 `15000` 帧、秒或物理时间，也不会切断 DM 对 AR 的 full attention。
 
 ### Model variants
 
@@ -367,6 +413,43 @@ $$
 
 模型 $v_\theta(x_\sigma,\sigma,c)$ 通过 masked MSE 预测 velocity；clean conditioning token 不计入 loss。不同模态独立采样 noise level：image/audio/action 使用 logit-normal，video 使用 mode sampling，并通过 rectified-flow shift 把采样分布偏向更高噪声。
 
+**补充解释（action 分支的坐标边界）：** 对 action 而言，更清晰的计算链是先在归一化的原生 action coordinate $x$ 中定义 flow，再把带噪 action 通过 domain-specific adapter 送入 MoT：
+
+$$
+x_0\in\mathbb{R}^{D_k},\quad
+\epsilon\sim\mathcal{N}(0,I),\quad
+x_\sigma=\sigma\epsilon+(1-\sigma)x_0,
+$$
+
+$$
+v^*=\epsilon-x_0,
+\qquad
+x_\sigma\xrightarrow{W_{in}^{(k)}}z_\sigma
+\xrightarrow{\mathrm{MoT}}h
+\xrightarrow{W_{out}^{(k)}}\hat v,
+$$
+
+$$
+L_{action}=\|\hat v-(\epsilon-x_0)\|^2.
+$$
+
+这里 $x_0,x_\sigma,\epsilon,v^*,\hat v$ 属于 action coordinate space，$z_\sigma,h$ 只是 Transformer hidden。若把可训练的 $W_{in}x$ 直接当作 flow target，target 会随 adapter 更新而漂移；因此不能把 learned hidden 与论文意义上的 normalized action vector loss 混为一谈。
+
+对于固定的 $(x_0,\epsilon)$，有
+
+$$
+\frac{dx_\sigma}{d\sigma}=\epsilon-x_0,
+$$
+
+所以单条 rectified-flow trajectory 的 target velocity 是常数。但模型看到的是 $x_\sigma,\sigma,c$，学习的是条件期望
+
+$$
+v_\theta(x_\sigma,\sigma,c)\approx
+\mathbb{E}[\epsilon-x_0\mid x_\sigma,\sigma,c],
+$$
+
+因此单条 trajectory 的常数 target 不等于整个 learned velocity field 在所有位置都为常数。
+
 视频预训练支持 256p、480p、720p：
 
 - 256p/480p 最多 400 frames，720p 最多 300 frames；
@@ -375,6 +458,8 @@ $$
 - T2I/T2V/I2V/V2V 采样比例为 `20%/56%/16%/8%`；
 - Generator 预训练时只更新生成专用参数，Reasoner tower 保持冻结；
 - Cosmos3-Nano 训练了 `31.05T` tokens，Cosmos3-Super 训练了 `17.86T` tokens。
+
+这说明统一架构不等于每个 batch 都 joint update：Generator 预训练时 Reasoner 仍参与 forward，为 DM 提供 conditioning，但参数被冻结；“activated” 不等于 “updated”。
 
 #### Mid-training and post-training
 
@@ -385,6 +470,8 @@ Mid-training 保留原有视觉生成模式，同时加入：
 3. **高质量/合成 Physical AI 视频：** 机器人、驾驶、人类活动、物理和仓储。
 
 Action loss 乘以 `10×`，用于补偿 normalized action vector 的单元素 MSE 较小问题。
+
+每个 mid-training sample 同时决定 modality token 是否出现、哪些 token 是 clean condition、哪些是 noisy target，以及哪些模态有 direct flow loss。例如 FD 只有 video loss、action 是 clean condition；ID 只有 action loss、video transition 是 condition；policy 同时有 video 和 action loss。某个模态没有 direct loss，并不意味着相关参数没有梯度：clean action 在 FD 中仍可通过 attention 影响 video prediction，并经共享 Generator 路径获得间接梯度。
 
 之后从 mid-trained Nano/Super 分别 post-train：
 

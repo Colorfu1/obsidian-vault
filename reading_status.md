@@ -1,6 +1,6 @@
 # Reading Status
 
-Updated: 2026-08-27
+Updated: 2026-09-04
 
 ## Finished
 
@@ -46,6 +46,8 @@ Updated: 2026-08-27
   - [[DreamerV3_技术报告|DreamerV3 技术报告]]
 - Dreamer 4
   - [[DreamerV4_技术报告|Dreamer 4 技术报告]]
+- WALL-SS
+  - [[Robot/WAM/WALL-SS_论文阅读笔记|WALL-SS 论文阅读笔记]]
 - Wan2.1 / Video Generation
   - [[Video/Wan2.1技术报告|Wan2.1 技术报告]]
 - Cosmos 3
@@ -68,12 +70,16 @@ Updated: 2026-08-27
   - [[Robot/WAM/LightWAM_论文总结|Light-WAM 论文总结]]
 - Zero-WAM
   - [[Robot/WAM/ZeroWAM_论文总结|Zero-WAM 论文总结]]
+- WM-DAgger
+  - [[Robot/WAM/WM-DAgger_论文阅读笔记|WM-DAgger 论文阅读笔记]]
 - VQ-VAE
   - [[VQVAE_综述|VQ-VAE 综述]]
 - PPO
   - [[PPO_逻辑重构版|PPO]]
 - SAC vs PPO
   - [[SAC_PPO_compare|SAC vs PPO]]
+- SmoothRL
+  - [[RL/SmoothRL_论文阅读笔记|SmoothRL：异步执行中的在线机器人强化学习]]
 - OPD / On-Policy Distillation
   - [[RL/opd_on_policy_distillation_知识笔记|OPD / On-Policy Distillation]]
 - PushT BCChunk / Diffusion 实验

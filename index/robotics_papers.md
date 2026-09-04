@@ -24,6 +24,11 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Importance: high
   - Notes: 先看 DreamerV2 相比 Dreamer 的改进，再理解其如何通过 DayDreamer 进入真实机器人在线学习。
 
+- [[RL/SmoothRL_论文阅读笔记|SmoothRL：异步执行中的在线机器人强化学习]]
+  - Topic: SmoothRL, asynchronous robot policy execution, action chunks, committed/execution/discarded regions, value-gradient truncation, concurrent control, residual online RL, TD3/REDQ, and human intervention.
+  - Importance: high
+  - Notes: Start here for the training/deployment mismatch created by partial action-chunk execution; distinguish the full action span needed by the critic from the execution-only span that may receive actor gradients.
+
 - [[DreamerV3_技术报告|DreamerV3 技术报告]]
   - Topic: DreamerV3, general world-model RL, discrete RSSM, KL balancing, symlog, twohot critic, return normalization, REINFORCE.
   - Importance: high
@@ -33,6 +38,11 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Topic: Dreamer 4, scalable generative world model, causal tokenizer, continuous video latent, Shortcut Forcing, Diffusion Forcing, task-conditioned Agent Tokens, MTP, imagined rollouts, lambda-return, PMPO, frozen BC prior, and offline RL.
   - Importance: high
   - Notes: Start with the global computation graph and train/freeze table; then read the local Shortcut, x-prediction, Agent Token, MTP, and PMPO sections for implementation-level details.
+
+- [[Robot/WAM/WALL-SS_论文阅读笔记|WALL-SS 论文阅读笔记]]
+  - Topic: WALL-SS, next-scale autoregression, action-conditioned video, time-scale KV memory, scale-wise dream forcing, visual-dynamics RL, intervention/recovery data, sim-real calibration, and robot policy evaluation.
+  - Importance: high
+  - Notes: Start here for long-horizon streaming world models that separate bounded memory, self-generated-history training, and on-policy visual alignment; pay special attention to the full-history trade-off and contact-stage optimistic false positives.
 
 - [[UniPi_技术总结|UniPi 技术总结]]
   - Topic: UniPi, video-as-policy, text-guided video diffusion, UPDP, hierarchical video planning, inverse dynamics, generative imitation.
@@ -83,6 +93,11 @@ Use this index for robotics foundation models, Vision-Language-Action models, Ph
   - Topic: Zero-WAM, in-context human video task specification, HumanGen, task-diverse video-action pretraining, causal video-action modeling, MoT, in-context future chunk prediction, shortcut suppression, and zero-shot cross-task generalization.
   - Importance: high
   - Notes: Start here for human-video-conditioned task generalization, the distinction between task-level zero-shot and no-data claims, and evidence separating ICL, task-balanced data, and IFP contributions.
+
+- [[Robot/WAM/WM-DAgger_论文阅读笔记|WM-DAgger 论文阅读笔记]]
+  - Topic: WM-DAgger, DAgger, OOD recovery data, action-conditioned world model, EAC-WM, Action2Image, corrective action synthesis, consistency-guided filtering, and few-shot imitation learning.
+  - Importance: high
+  - Notes: Start here for using a world model as an offline DAgger data generator, especially the deviation/recovery construction, terminal-frame hallucination filtering, DMD comparison, and the boundary between synthetic data scaling and genuine physical understanding.
 
 ## Physical Intelligence PI Series
 

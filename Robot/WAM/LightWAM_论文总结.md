@@ -445,6 +445,7 @@ Light-WAM 在清理纸球任务上为 93% 对 67%，但在 handoff water bottle 
 - [[Robot/WAM/OA_WAM|OA-WAM]]：对照 object slot/address routing 的结构化世界状态；Light-WAM 使用 dense video tokens 加 learned-query bottleneck，不显式建模对象地址。
 - [[Robot/WAM/WLA_reading_notes|WLA]]：同样区分世界建模与 action-only inference，但 WLA 还加入语言子任务；Light-WAM 的辅助监督仅是 future video。
 - [[Video/Wan2.1技术报告|Wan2.1]]：Light-WAM 冻结并适配 Wan2.1-T2V-1.3B，将通用视频先验用作 WAM 的视觉 backbone。
+- [[Robot/WAM/WM-DAgger_论文阅读笔记|WM-DAgger]]：对照将 action-conditioned world model 用作离线 OOD recovery data 生成器的路线；Light-WAM 则主要把 future-video prediction 作为训练期监督。
 
 ## 开放问题
 

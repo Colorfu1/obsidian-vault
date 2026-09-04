@@ -1356,6 +1356,7 @@ SAC 的 critic 是动作评分器，用来直接指导 actor 改动作。
 
 - [[PPO_逻辑重构版|PPO]]：policy gradient、advantage、clipped surrogate 的详细解释。
 - [[Pi_star0.6论文问题解答|pi*0.6 / RECAP]]：advantage-conditioned robot policy 的对照。
+- [[RL/SmoothRL_论文阅读笔记|SmoothRL]]：TD3/REDQ 风格的 off-policy value-gradient 实例，并进一步处理异步 action chunk 只有部分被真实执行的问题。
 
 
 

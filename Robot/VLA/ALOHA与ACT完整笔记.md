@@ -1879,3 +1879,5 @@ $$
   Delta-action loss 与同条件 closed-loop 比较。
 - [[BestPractice/2026-07-27-ACT末尾样本等权与VAE实验结论|ACT 末尾样本等权与 VAE 实验结论]]：
   ObsEqual、CVAE、闭环指标和证据边界。
+- [[Robot/WAM/WM-DAgger_论文阅读笔记|WM-DAgger 论文阅读笔记]]：
+  用 action-conditioned world model 合成 OOD recovery data，补足普通 action-chunk BC 的闭环分布偏移。
